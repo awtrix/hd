@@ -6,7 +6,7 @@ import os from 'os'
 import path from 'path'
 
 class IotameConfig {
-  homeDir: string = path.join(os.homedir(), '.iotame')
+  homeDir: string = path.join(os.homedir(), '.awtrix')
   package: JSONSchemaForNPMPackageJsonFiles
 
   constructor () {

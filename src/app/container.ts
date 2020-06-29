@@ -1,11 +1,8 @@
 import fs from 'fs'
 import path from 'path'
-import { createServer } from 'net'
-import aedes from 'aedes'
-import chalk from 'chalk'
 import replaceTemplate from '../utils/TemplateParser'
-import logger from '../utils/logger'
 import Config from '../config'
+import MqttBroker from '../awtrix/communication/channels/MqttBroker'
 
 export default class Container {
   config: typeof Config
@@ -57,7 +54,7 @@ export default class Container {
       process.kill(Number(pid), 0)
 
       // Now we know that the process does indeed exist
-      throw new Error(`iotame is already running with pid ${pid}.`)
+      throw new Error(`awtrix is already running with pid ${pid}.`)
     } catch (err) {
       // ENOENT: Pidfile was not present
       // ESRCH: Not a running process
@@ -90,17 +87,7 @@ export default class Container {
    * Starts the MQTT and web server
    */
   private async startServer (): Promise<void> {
-    // @TODO: Make built-in mqtt server configurable
-    const broker = aedes()
-    const server = createServer(broker.handle)
-
-    server.listen(7001, '0.0.0.0', () => {
-      logger.info(chalk`MQTT runnning at {bold \*:7001}.`)
-    })
-
-    broker.on('client', (client) => {
-      // @ts-ignore
-      logger.info(chalk`Client ${client.id} connected from ${client.conn.remoteAddress}`)
-    })
+    let channel = new MqttBroker(7001)
+    await channel.open()
   }
 }
