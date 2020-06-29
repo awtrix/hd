@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import replaceTemplate from '../utils/TemplateParser'
 import Config from '../config'
-import MqttBroker from '../awtrix/communication/channels/MqttBroker'
+import MqttClient from '../awtrix/communication/channels/MqttClient'
 
 export default class Container {
   config: typeof Config
@@ -87,7 +87,7 @@ export default class Container {
    * Starts the MQTT and web server
    */
   private async startServer (): Promise<void> {
-    let channel = new MqttBroker(7001)
+    let channel = new MqttClient(7001)
     await channel.open()
   }
 }
