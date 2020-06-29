@@ -1,11 +1,11 @@
-import Config from '../config'
 import fs from 'fs'
 import path from 'path'
-import replaceTemplate from '../utils/TemplateParser'
-import logger from '../utils/logger'
 import { createServer } from 'net'
 import aedes from 'aedes'
 import chalk from 'chalk'
+import replaceTemplate from '../utils/TemplateParser'
+import logger from '../utils/logger'
+import Config from '../config'
 
 export default class Container {
   config: typeof Config
@@ -50,6 +50,8 @@ export default class Container {
       // If this raises, no pidfile was present
       const pid = fs.readFileSync(pidfile, 'utf8')
 
+      // @TODO: Check if this works on Windows.
+
       // If this raises, the pidfile didn't link to a running process
       // @see https://nodejs.org/api/process.html#process_process_kill_pid_signal
       process.kill(Number(pid), 0)
@@ -89,10 +91,16 @@ export default class Container {
    */
   private async startServer (): Promise<void> {
     // @TODO: Make built-in mqtt server configurable
-    const mqtt = aedes()
-    const server = createServer(mqtt.handle)
+    const broker = aedes()
+    const server = createServer(broker.handle)
 
-    server.listen(7001)
-    logger.info(chalk`MQTT runnning at {bold \*:7001}.`)
+    server.listen(7001, '0.0.0.0', () => {
+      logger.info(chalk`MQTT runnning at {bold \*:7001}.`)
+    })
+
+    broker.on('client', (client) => {
+      // @ts-ignore
+      logger.info(chalk`Client ${client.id} connected from ${client.conn.remoteAddress}`)
+    })
   }
 }

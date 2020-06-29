@@ -2,23 +2,23 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true,
-    jest: true,
+    node: true
   },
-  parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
-    'chai-friendly',
   ],
+  parserOptions: {
+    parser: '@typescript-eslint/parser'
+  },
   extends: [
     '@nuxtjs/eslint-config-typescript',
     'plugin:nuxt/recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:chai-friendly/recommended',
+    'plugin:vue/vue3-recommended'
   ],
   rules: {
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-var-requires': 'off',
-  },
+    '@typescript-eslint/no-var-requires': 'off'
+  }
 }
