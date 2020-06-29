@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "strict": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDirs": [
+      "./src"
+    ],
+    "types": [
+      "node",
+      "@types/node",
+      "@nuxt/types"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "tests",
+    "dist"
+  ]
+}

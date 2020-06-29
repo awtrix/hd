@@ -1,0 +1,27 @@
+name: Lint sources
+on: push
+
+jobs:
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 11
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Run ESLint
+        uses: samuelmeuli/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          eslint: true
+          eslint_extensions: js,ts
+          eslint_args: "--ignore-pattern dist"

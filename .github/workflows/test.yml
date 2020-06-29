@@ -1,0 +1,28 @@
+name: Run tests
+on: push
+
+jobs:
+  lint:
+    name: Run tests and upload coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 11
+
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Compile Typescript
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test:coverage
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v1

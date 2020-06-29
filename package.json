@@ -1,0 +1,127 @@
+{
+  "name": "awtrix",
+  "version": "3.0.0-dev",
+  "description": "awtrix",
+  "main": "dist/index.js",
+  "bin": {
+    "awtrix": "bin/run"
+  },
+  "scripts": {
+    "test": "jest --verbose",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint --ext ts,js --ignore-pattern dist .",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awtrix/awtrix3-host.git"
+  },
+  "contributors": [
+    "Christopher Mühl <christopher@padarom.xyz>",
+    "Stephan Mühl <admin@blueforcer.de>"
+  ],
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/awtrix/awtrix3-host/issues"
+  },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.ts"
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/jest.setup.ts"
+    ],
+    "moduleNameMapper": {
+      "^@lib/(.*)$": "<rootDir>/src/$1",
+      "^@config$": "<rootDir>/src/config"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tests/tsconfig.json"
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "!src/server/*"
+    ]
+  },
+  "homepage": "https://blueforcer.de/2019/01/04/awtrix-2-0/",
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^0.4.10",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "@schemastore/package": "0.0.5",
+    "aedes": "^0.42.4",
+    "chalk": "^4.1.0",
+    "consola": "^2.11.3",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.8",
+    "mkdirp": "^1.0.3",
+    "nuxt": "^2.13.0",
+    "oclif": "^1.15.2",
+    "pify": "^5.0.0",
+    "rmfr": "^2.0.0",
+    "shortid": "^2.2.15",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@nuxt/typescript-build": "^1.0.3",
+    "@nuxtjs/eslint-config": "^3.0.0",
+    "@nuxtjs/eslint-config-typescript": "^2.0.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/tailwindcss": "^2.0.0",
+    "@vue/test-utils": "^1.0.3",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
+    "eslint": "^7.2.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "vue-jest": "^3.0.4",
+    "@nuxt/types": "^0.6.4",
+    "@types/chai": "^4.2.11",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/jest": "^25.1.4",
+    "@types/koa": "^2.11.2",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-json": "^2.0.18",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.0",
+    "@types/mkdirp": "^1.0.0",
+    "@types/node": "^13.9.1",
+    "@types/pify": "^3.0.2",
+    "@types/rmfr": "^2.0.0",
+    "@types/shortid": "0.0.29",
+    "@types/sinon": "^7.5.2",
+    "@types/sinon-chai": "^3.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
+    "eslint-plugin-chai-friendly": "^0.5.0",
+    "sinon": "^9.0.1",
+    "sinon-chai": "^3.5.0",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "next"
+  }
+}
