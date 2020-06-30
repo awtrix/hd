@@ -9,7 +9,7 @@ function sleep (milliseconds: number): Promise<void> {
   })
 }
 
-export default class MQTT implements Channel {
+export default class MqttClient implements Channel {
   protected mosq?: mqtt.Client
 
   constructor (protected port: number) {

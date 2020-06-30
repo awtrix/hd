@@ -30,8 +30,7 @@ class OclifExampleSingleTs extends Command {
     Config.initializeFromOclif(flags)
 
     // Boot up the application container
-    const container = new Container()
-    container.boot()
+    Container.getInstance().boot()
   }
 }
 

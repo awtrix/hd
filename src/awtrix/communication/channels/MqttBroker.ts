@@ -13,7 +13,7 @@ function sleep (milliseconds: number): Promise<void> {
   })
 }
 
-export default class MQTT implements Channel {
+export default class MqttBroker implements Channel {
   protected broker: aedes.Aedes
   protected server: Server
 

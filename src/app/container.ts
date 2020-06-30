@@ -3,11 +3,24 @@ import path from 'path'
 import replaceTemplate from '../utils/TemplateParser'
 import Config from '../config'
 import MqttClient from '../awtrix/communication/channels/MqttClient'
+import Webserver from '../web'
+import Channel from '../awtrix/communication/channels/Channel'
 
 export default class Container {
-  config: typeof Config
+  private static instance: Container
 
-  constructor () {
+  config: typeof Config
+  channel?: Channel
+
+  static getInstance(): Container {
+    if (!Container.instance) {
+      Container.instance = new Container()
+    }
+
+    return Container.instance
+  }
+
+  private constructor () {
     this.config = Config
   }
 
@@ -15,22 +28,9 @@ export default class Container {
    * Boot up the application container.
    */
   async boot (): Promise<void> {
-    await this.setWorkingDirectory()
     await this.verifyPidfile()
     await this.copyConfig()
     await this.startServer()
-  }
-
-  /**
-   * Make sure the configured home directory exists by recursively
-   * creating it, before switching the process's working directory
-   * to it.
-   */
-  private async setWorkingDirectory (): Promise<void> {
-    const workingDir = this.config.homeDir
-    fs.mkdirSync(workingDir, { recursive: true })
-
-    process.chdir(workingDir)
   }
 
   /**
@@ -87,7 +87,12 @@ export default class Container {
    * Starts the MQTT and web server
    */
   private async startServer (): Promise<void> {
-    let channel = new MqttClient(7001)
-    await channel.open()
+    // Start our web interface
+    let web = new Webserver()
+    await web.start()
+
+    // Open our MQTT connection
+    this.channel = new MqttClient(7001)
+    await this.channel.open()
   }
 }

@@ -60,9 +60,11 @@
   "homepage": "https://blueforcer.de/2019/01/04/awtrix-2-0/",
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.4.10",
+    "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@schemastore/package": "0.0.5",
     "aedes": "^0.42.4",
+    "axios": "^0.19.2",
     "chalk": "^4.1.0",
     "consola": "^2.11.3",
     "koa": "^2.11.0",
