@@ -1,6 +1,7 @@
 import { Command, flags } from '@oclif/command'
-import Config from './config'
 import Container from './app/container'
+import os from 'os'
+import path from 'path'
 
 /**
  * oclif does not currently work with mock-fs, so we want to keep
@@ -9,7 +10,7 @@ import Container from './app/container'
  * tested under mock-fs.
  * @see https://github.com/oclif/oclif/issues/182
  */
-class OclifExampleSingleTs extends Command {
+class AwtrixOclifApplication extends Command {
   static description = 'Performs'
 
   static flags = {
@@ -20,18 +21,19 @@ class OclifExampleSingleTs extends Command {
     help: flags.help({ char: 'h' }),
 
     // --home "..."
-    home: flags.string({ description: '' }),
+    home: flags.string({
+      description: '',
+      default: path.join(os.homedir(), '.awtrix')
+    }),
   }
 
   async run (): Promise<void> {
-    const { flags } = this.parse(OclifExampleSingleTs)
-
-    // Set up the configuration straight from our CLI flags
-    Config.initializeFromOclif(flags)
+    const { flags } = this.parse(AwtrixOclifApplication)
 
     // Boot up the application container
-    Container.getInstance().boot()
+    const container = new Container(flags.home)
+    container.boot()
   }
 }
 
-export default OclifExampleSingleTs
+export default AwtrixOclifApplication

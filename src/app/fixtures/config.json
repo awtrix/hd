@@ -1,1 +1,12 @@
-{}
+{
+  "name": "awtrix3",
+  "version": ":version:",
+  "dependencies": {
+    "@awtrix/time-app": "^1.0"
+  },
+  "awtrix": {
+    "web": {
+      "port": "8081"
+    }
+  }
+}

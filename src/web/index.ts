@@ -12,12 +12,18 @@ function sleep (milliseconds: number): Promise<void> {
   })
 }
 
-export default class WebServer {
-  protected app: Koa
-  protected router: Router
+interface KoaContext {
+  container: Container
+}
 
-  constructor () {
+export default class WebServer {
+  protected app: Koa<any, KoaContext>
+  protected router: Router<any, KoaContext>
+
+  constructor (container: Container) {
     this.app = new Koa()
+    this.app.context.container = container
+
     this.router = new Router({
       prefix: '/api',
     })
@@ -49,7 +55,7 @@ export default class WebServer {
 
   configureRoutes () {
     this.router.get('/write', async (ctx, next) => {
-      const channel = Container.getInstance().channel
+      const channel = ctx.container.channel
       if (!channel) return ctx.body = { sent: false }
 
       const { text } = ctx.request.query

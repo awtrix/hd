@@ -1,7 +1,7 @@
 import * as Koa from 'koa'
 import { Nuxt, Builder } from 'nuxt'
 
-export default async function createMiddleware (app: Koa, config: any) {
+export default async function createMiddleware (app: Koa<any, any>, config: any) {
   config.dev = app.env !== 'production'
 
   // Instantiate nuxt.js
