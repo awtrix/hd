@@ -7,6 +7,7 @@ import replaceTemplate from '../utils/TemplateParser'
 import MqttClient from '../awtrix/communication/channels/MqttClient'
 import Webserver from '../web'
 import Channel from '../awtrix/communication/channels/Channel'
+import Matrix from '../awtrix/matrix'
 
 export default class Container {
   /**
@@ -47,31 +48,19 @@ export default class Container {
     //    create the home directory (+ config) if it doesn't already exist.
     await this.createWorkingDirectory()
     await this.verifyPidfile()
-    await this.copyConfig()
+    await this.copyFixtures()
 
-    // TODO: In order for Nuxt to compile the sources (only relevant in development mode),
-    //       the working directory needs to match our development directory. Therefore we
-    //       need to wait until that and only set the working directory afterwards.
+    // 2. Install the user's configured dependencies (e.g. apps)
+    await this.installDependencies()
 
-    // 2. Start the webserver and change the working directory to the configured
+    // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
     await this.startWebserver()
-    await this.setWorkingDirectory()
-
-    // 3. Install the user's configured dependencies (e.g. apps)
-    await this.installDependencies()
 
     // 4. Finally, we can initialize all configured matrixes.
     await this.initializeMatrix()
 
     this.booted = true
-  }
-
-  /**
-   * Switch the working directory to the configured home directory.
-   */
-  private async setWorkingDirectory (): Promise<void> {
-    process.chdir(this.homeDirectory)
   }
 
   /**
@@ -116,12 +105,14 @@ export default class Container {
     // TODO: Make sure to clean up the pidfile when the process exits!
   }
 
-  /**
-   * Copies the package.json fixture to the home directory if it does not
-   * already exist.
+   /**
+   * Copies the awtrix user configuration fixtures to the home directory
+   * if it does not already exist.
+   *
+   * TODO: Streamline this.
    */
-  private async copyConfig (): Promise<boolean> {
-    const target = path.join(this.homeDirectory, 'package.json')
+  private async copyFixtures (): Promise<boolean> {
+    let target = path.join(this.homeDirectory, 'package.json')
     if (fs.existsSync(target)) return false
 
     logger.info('Copying default package.json to awtrix directory.')
@@ -129,6 +120,10 @@ export default class Container {
     await replaceTemplate(target, {
       version: this.package.version as string,
     })
+
+    logger.info('Copying index file to awtrix directory.')
+    target = path.join(this.homeDirectory, 'index.js')
+    fs.copyFileSync(path.join(__dirname, 'fixtures', 'index.js'), target)
 
     return true
   }
@@ -140,17 +135,13 @@ export default class Container {
     // Start our web interface
     let web = new Webserver(this)
     await web.start()
-
-    // Open our MQTT connection
-    this.channel = new MqttClient(7001)
-    await this.channel.open()
   }
 
   private async installDependencies (): Promise<void> {
     logger.info('Installing configured dependencies.')
 
     return new Promise((resolve, reject) => {
-      exec('npm install', (error, stdout, stderr) => {
+      exec('npm install', { cwd: this.homeDirectory }, (error, stdout, stderr) => {
         if (error) {
           return reject(error)
         }
@@ -161,5 +152,9 @@ export default class Container {
   }
 
   private async initializeMatrix (): Promise<void> {
+    const matrix = new Matrix(new MqttClient(7001), this.homeDirectory)
+    await matrix.connect()
+    await matrix.loadApps()
+    matrix.startWorking()
   }
 }

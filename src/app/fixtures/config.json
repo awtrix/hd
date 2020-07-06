@@ -1,8 +1,10 @@
 {
   "name": "awtrix3",
   "version": ":version:",
+  "main": "index.js",
   "dependencies": {
-    "@awtrix/time-app": "^1.0"
+    "@awtrix/app": "^1.0",
+    "@awtrix/time-app": "^0.1.0"
   },
   "awtrix": {
     "web": {
