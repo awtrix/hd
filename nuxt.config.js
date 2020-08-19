@@ -9,7 +9,7 @@ module.exports = {
      ** Nuxt target
      ** See https://nuxtjs.org/api/configuration-target
      */
-    target: 'server',
+    target: 'static',
 
     /*
      ** Disable Nuxt telemetry
