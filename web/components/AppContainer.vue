@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="full">
     <Application
       v-for="app in applications" :key="app.id"
       :app="app"
@@ -28,7 +28,7 @@ export default Vue.extend({
 
       let newIndex = (activeIndex + 1) % this.applications.length
       this.activeApplication = this.applications[newIndex].id
-    }, 2000)
+    }, 10000)
   }
 })
 </script>

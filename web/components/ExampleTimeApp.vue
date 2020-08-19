@@ -1,18 +1,21 @@
 <template>
-  <div>
+  <div :style="{ backgroundColor: isLocked ? 'red' : 'transparent' }">
     {{ app.id }}
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Scaffolding from './Scaffolding.vue'
 
-export default Vue.extend({
-  props: {
-    app: {
-      type: Object,
-      required: true,
-    },
-  },
+export default Scaffolding.extend({
+  methods: {
+    becameVisible () {
+      // TODO: Figure out how to get rid of this (happens because of `immediate: true`)
+      if (process.server) return
+
+      window.setTimeout(() => this.lock(), 1000)
+      window.setTimeout(() => this.unlock(), 3000)
+    }
+  }
 })
 </script>

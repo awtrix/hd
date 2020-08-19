@@ -1,6 +1,6 @@
 <template>
-  <div v-show="visible">
-    <component :is="appComponent" :app="app" />
+  <div v-show="visible" class="application">
+    <component :is="appComponent" :app="app" :visible="visible" />
   </div>
 </template>
 
@@ -28,3 +28,18 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style>
+.application {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.application > div {
+  flex: 1;
+}
+</style>

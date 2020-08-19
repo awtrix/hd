@@ -21,9 +21,7 @@ export default Vue.extend({
     }
   },
 
-  created () {
-    if (process.server) return
-
+  mounted () {
     window.addEventListener('resize', debounce(() => {
       this.displayWidth = window.outerWidth
     }, 200))
@@ -62,6 +60,11 @@ html, body {
   width: 1920px;
   height: 480px;
   background: gray;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
 }
 
 .hint {
