@@ -4,10 +4,7 @@ import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 import { exec } from 'child_process'
 import logger from '../utils/logger'
 import replaceTemplate from '../utils/TemplateParser'
-import MqttClient from '../awtrix/communication/channels/MqttClient'
 import Webserver from '../web'
-import Channel from '../awtrix/communication/channels/Channel'
-import Matrix from '../awtrix/matrix'
 
 export default class Container {
   /**
@@ -16,15 +13,14 @@ export default class Container {
   package: JSONSchemaForNPMPackageJsonFiles
 
   /**
-   * The (temporary) channel that our matrix is connected to.
-   * Will be replaced once support for multiple matrixes is available.
-   */
-  channel?: Channel
-
-  /**
    * A flag indicating whether the container has completed its booting process.
    */
   booted = false
+
+  /**
+   * The resolution used by AWTRIX HD.
+   */
+  resolution = [1920, 480]
 
   constructor (public readonly homeDirectory: string) {
     this.package = this.readPackageJson()
@@ -56,9 +52,6 @@ export default class Container {
     // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
     await this.startWebserver()
-
-    // 4. Finally, we can initialize all configured matrixes.
-    await this.initializeMatrix()
 
     this.booted = true
   }
@@ -149,12 +142,5 @@ export default class Container {
         resolve()
       })
     })
-  }
-
-  private async initializeMatrix (): Promise<void> {
-    const matrix = new Matrix(new MqttClient(7001), this.homeDirectory)
-    await matrix.connect()
-    await matrix.loadApps()
-    matrix.startWorking()
   }
 }

@@ -3,8 +3,6 @@ import Router from 'koa-router'
 import logger from '../utils/logger'
 import createNuxtMiddleware from './nuxtMiddleware'
 import Container from '../app/container'
-import Command from '../awtrix/communication/command'
-import textLength from '../utils/text'
 
 function sleep (milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -55,21 +53,7 @@ export default class WebServer {
 
   configureRoutes () {
     this.router.get('/write', async (ctx, next) => {
-      const channel = ctx.container.channel
-      if (!channel) return ctx.body = { sent: false }
-
-      const { text } = ctx.request.query
-      let length = textLength(text)
-
-      for (let i = 31; i >= -length; i--) {
-        channel.send(Command.clear())
-        channel.send(Command.text(text, [i, 1], '#ff00ef'))
-        channel.send(Command.draw())
-
-        await sleep(63)
-      }
-
-      ctx.body = { sent: true }
+      // ...
     })
   }
 }
