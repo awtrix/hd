@@ -1,112 +1,111 @@
 {
-    "name": "awtrix",
-    "version": "3.0.0-dev",
-    "description": "awtrix",
-    "main": "dist/index.js",
-    "bin": {
-        "awtrix": "bin/run"
-    },
-    "scripts": {
-        "lint": "eslint --ext ts,js --ignore-pattern dist .",
-        "build": "tsc",
-        "build:watch": "tsc --watch"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/awtrix/awtrix3-host.git"
-    },
-    "contributors": [
-        "Christopher Mühl <christopher@padarom.xyz>",
-        "Stephan Mühl <admin@blueforcer.de>"
+  "name": "awtrix",
+  "version": "3.0.0-dev",
+  "description": "awtrix",
+  "main": "dist/index.js",
+  "bin": {
+    "awtrix": "bin/run"
+  },
+  "scripts": {
+    "lint": "eslint --ext ts,js --ignore-pattern dist .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "node ./bin/run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awtrix/awtrix3-host.git"
+  },
+  "contributors": [
+    "Christopher Mühl <christopher@padarom.xyz>",
+    "Stephan Mühl <admin@blueforcer.de>"
+  ],
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/awtrix/awtrix3-host/issues"
+  },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.ts"
     ],
-    "license": "CC-BY-4.0",
-    "bugs": {
-        "url": "https://github.com/awtrix/awtrix3-host/issues"
-    },
-    "files": [
-        "/bin",
-        "/dist"
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
     ],
-    "jest": {
-        "preset": "ts-jest",
-        "testEnvironment": "node",
-        "testMatch": [
-            "<rootDir>/tests/**/*.test.ts"
-        ],
-        "watchPathIgnorePatterns": [
-            "<rootDir>/node_modules/"
-        ],
-        "setupFilesAfterEnv": [
-            "./tests/jest.setup.ts"
-        ],
-        "moduleNameMapper": {
-            "^@lib/(.*)$": "<rootDir>/src/$1",
-            "^@config$": "<rootDir>/src/config"
-        },
-        "globals": {
-            "ts-jest": {
-                "tsConfig": "tests/tsconfig.json"
-            }
-        },
-        "coverageReporters": [
-            "text",
-            "lcov"
-        ],
-        "collectCoverageFrom": [
-            "src/**/*.{js,ts}",
-            "!src/server/*"
-        ]
+    "setupFilesAfterEnv": [
+      "./tests/jest.setup.ts"
+    ],
+    "moduleNameMapper": {
+      "^@lib/(.*)$": "<rootDir>/src/$1",
+      "^@config$": "<rootDir>/src/config"
     },
-    "homepage": "https://blueforcer.de/2019/01/04/awtrix-2-0/",
-    "dependencies": {
-        "@awtrix/app": "^1.0.3",
-        "@nuxt/typescript-runtime": "^0.4.10",
-        "@nuxtjs/axios": "^5.11.0",
-        "@nuxtjs/pwa": "^3.0.0-beta.20",
-        "@schemastore/package": "0.0.5",
-        "axios": "^0.19.2",
-        "chalk": "^4.1.0",
-        "consola": "^2.11.3",
-        "koa": "^2.11.0",
-        "koa-bodyparser": "^4.2.1",
-        "koa-json": "^2.0.2",
-        "koa-logger": "^3.2.1",
-        "koa-router": "^8.0.8",
-        "lodash": "^4.17.20",
-        "mkdirp": "^1.0.3",
-        "moment": "^2.27.0",
-        "mqtt": "^4.2.0",
-        "nuxt": "^2.13.0",
-        "oclif": "^1.15.2",
-        "pify": "^5.0.0",
-        "shortid": "^2.2.15",
-        "stylus": "^0.54.8",
-        "stylus-loader": "^3.0.2",
-        "winston": "^3.3.3"
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tests/tsconfig.json"
+      }
     },
-    "devDependencies": {
-        "@nuxt/types": "^2.14.3",
-        "@nuxt/typescript-build": "^1.0.3",
-        "@nuxtjs/eslint-config": "^3.0.0",
-        "@nuxtjs/eslint-config-typescript": "^2.0.0",
-        "@nuxtjs/eslint-module": "^2.0.0",
-        "@nuxtjs/tailwindcss": "^2.0.0",
-        "@types/jest": "^25.1.4",
-        "@types/koa": "^2.11.2",
-        "@types/koa-bodyparser": "^4.3.0",
-        "@types/koa-json": "^2.0.18",
-        "@types/koa-logger": "^3.1.1",
-        "@types/koa-router": "^7.4.0",
-        "@types/lodash": "^4.14.159",
-        "@types/mkdirp": "^1.0.0",
-        "@types/moment": "^2.13.0",
-        "@types/node": "^13.9.1",
-        "@types/shortid": "0.0.29",
-        "@typescript-eslint/eslint-plugin": "^2.23.0",
-        "@typescript-eslint/parser": "^2.23.0",
-        "cross-env": "^7.0.2",
-        "ts-node": "^8.6.2",
-        "tsconfig-paths": "^3.9.0",
-        "typescript": "next"
-    }
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "!src/server/*"
+    ]
+  },
+  "homepage": "https://blueforcer.de/2019/01/04/awtrix-2-0/",
+  "dependencies": {
+    "@awtrix/app": "^1.0.3",
+    "@nuxt/typescript-runtime": "^0.4.10",
+    "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "@schemastore/package": "0.0.5",
+    "axios": "^0.19.2",
+    "chalk": "^4.1.0",
+    "consola": "^2.11.3",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.8",
+    "lodash": "^4.17.20",
+    "mkdirp": "^1.0.3",
+    "mqtt": "^4.2.0",
+    "nuxt": "^2.13.0",
+    "oclif": "^1.15.2",
+    "pify": "^5.0.0",
+    "shortid": "^2.2.15",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^3.0.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.3",
+    "@nuxt/typescript-build": "^1.0.3",
+    "@nuxtjs/eslint-config": "^3.0.0",
+    "@nuxtjs/eslint-config-typescript": "^2.0.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/tailwindcss": "^2.0.0",
+    "@types/jest": "^25.1.4",
+    "@types/koa": "^2.11.2",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-json": "^2.0.18",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.0",
+    "@types/lodash": "^4.14.159",
+    "@types/mkdirp": "^1.0.0",
+    "@types/node": "^13.9.1",
+    "@types/shortid": "0.0.29",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "cross-env": "^7.0.2",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "next"
+  }
 }
