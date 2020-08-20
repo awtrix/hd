@@ -59,7 +59,7 @@ html, body {
 
   width: 1920px;
   height: 480px;
-  background: gray;
+  background: black;
 }
 
 .full {
