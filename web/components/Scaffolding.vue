@@ -24,7 +24,6 @@ export default Vue.extend({
     visible: {
       immediate: true,
       handler (nowVisible, previouslyVisible) {
-        console.log('CHANGED', nowVisible, previouslyVisible)
         if (nowVisible == previouslyVisible) return
 
         nowVisible ? this.becameVisible() : this.becameHidden()
@@ -87,11 +86,15 @@ export default Vue.extend({
      * The app is requesting to be immediately displayed. This implicitly
      * also calls `ready()`.
      */
-    requestDisplay (keepInLoop: boolean = true, immediately: boolean = false) {
+    requestDisplay (keepInLoop = true, immediately = false) {
       if (keepInLoop) this.ready()
 
       this.$emit('requestDisplay', immediately)
-    }
+    },
+
+    requestHidden () {
+
+    },
   },
 })
 </script>

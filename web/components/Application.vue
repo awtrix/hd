@@ -1,6 +1,8 @@
 <template>
   <div v-show="visible" class="application">
-    <component :is="appComponent" :app="app" :visible="visible" />
+    <component :is="appComponent" :app="app" :visible="visible"
+      v-on="$listeners"
+    />
   </div>
 </template>
 
