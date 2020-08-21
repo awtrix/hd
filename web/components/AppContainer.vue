@@ -76,7 +76,7 @@ export default Vue.extend({
         },
       }
 
-      let apps = [app, app]
+      let apps = [app]
       return apps.map(app => ({ ...app, id: shortid.generate() }))
     },
 

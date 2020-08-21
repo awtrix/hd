@@ -25,7 +25,7 @@ export default Vue.extend({
     appComponent () {
       // TODO: Replace with network call
       // @see https://markus.oberlehner.net/blog/distributed-vue-applications-loading-components-via-http/
-      return () => import('./PeopleInSpace/PeopleInSpace.vue')
+      return () => import('./Weather/Weather.vue')
     }
   }
 })
