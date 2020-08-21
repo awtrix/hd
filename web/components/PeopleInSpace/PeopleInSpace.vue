@@ -2,7 +2,10 @@
   <div class="space">
     <div class="stars">
       <div class="twinkling">
-        <div class="rocket">
+        <div
+          class="rocket"
+          @click.prevent="playSound('https://www.nasa.gov/mp3/590318main_ringtone_135_launch.mp3')"
+        >
           <div class="rocket-body">
             <div class="body"></div>
             <div class="fin fin-left"></div>
@@ -63,6 +66,12 @@ export default Scaffolding.extend({
         .then((response) => response.json())
         .then((data) => (this.people = data.number));
     },
+    playSound(sound: string) {
+      if (sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
+    },
   },
 });
 </script>
@@ -89,6 +98,14 @@ export default Scaffolding.extend({
 }
 
 .space {
+  moz-user-select: none;
+  webkit-user-select: none;
+  ms-user-select: none;
+  user-select: none;
+  o-user-select: none;
+  unselectable = 'on';
+  onselectstart = 'return false;';
+  onmousedown = 'return false;';
   background: linear-gradient(to bottom, #0e2f44 0%, #406078 70%, #6897bb 100%);
   overflow: hidden;
 }
@@ -250,112 +267,6 @@ export default Scaffolding.extend({
   }
 }
 
-@keyframes move-twink-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: -10000px 5000px;
-  }
-}
-
-@keyframes move-twink-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: -10000px 5000px;
-  }
-}
-
-@keyframes move-twink-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: -10000px 5000px;
-  }
-}
-
-@keyframes move-twink-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: -10000px 5000px;
-  }
-}
-
-@keyframes move-clouds-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 10000px 0;
-  }
-}
-
-@keyframes move-clouds-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 10000px 0;
-  }
-}
-
-@keyframes move-clouds-back {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 10000px 0;
-  }
-}
-
-@keyframes move-clouds-back {
-  from {
-    background-position: 0;
-  }
-
-  to {
-    background-position: 10000px 0;
-  }
-}
-
-.stars, .twinkling, .clouds {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.stars {
-  background: #000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center; // www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
-  z-index: 0;
-}
-
-.twinkling {
-  background: transparent url('http://www.script-tutorials.com/demos/360/images/twinkling.png') repeat top center; // www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
-  z-index: 1;
-  -moz-animation: move-twink-back 200s linear infinite;
-  -ms-animation: move-twink-back 200s linear infinite;
-  -o-animation: move-twink-back 200s linear infinite;
-  -webkit-animation: move-twink-back 200s linear infinite;
-  animation: move-twink-back 200s linear infinite;
-}
-
 @keyframes fumes {
   50% {
     transform: scale(1.5);
@@ -403,6 +314,42 @@ export default Scaffolding.extend({
 @keyframes fumes2 {
   50% {
     transform: scale(1.1);
+  }
+}
+
+.stars, .twinkling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stars {
+  background: #000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center; // www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+  z-index: 0;
+}
+
+.twinkling {
+  background: transparent url('http://www.script-tutorials.com/demos/360/images/twinkling.png') repeat top center; // www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  z-index: 1;
+  -moz-animation: move-twink-back 200s linear infinite;
+  -ms-animation: move-twink-back 200s linear infinite;
+  -o-animation: move-twink-back 200s linear infinite;
+  -webkit-animation: move-twink-back 200s linear infinite;
+  animation: move-twink-back 200s linear infinite;
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
   }
 }
 
