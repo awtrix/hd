@@ -1,88 +1,91 @@
 <template>
   <div class="space">
-<div class="rocket">
-    <div class="rocket-body">
-      <div class="body"></div>
-      <div class="fin fin-left"></div>
-      <div class="fin fin-right"></div>
-      <div class="window"></div>
+    <div class="stars">
+      <div class="twinkling">
+        <div class="rocket">
+          <div class="rocket-body">
+            <div class="body"></div>
+            <div class="fin fin-left"></div>
+            <div class="fin fin-right"></div>
+            <div class="window"></div>
+          </div>
+          <div class="exhaust-flame"></div>
+          <ul class="exhaust-fumes">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <ul class="star">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+        <div class="content">
+          <div class="people">{{people}}</div>
+          <div class="PiS">People in Space</div>
+        </div>
+      </div>
     </div>
-    <div class="exhaust-flame"></div>
-    <ul class="exhaust-fumes">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-    <ul class="star">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
-  <div class="content">
-  <div class="people">
-    {{people}}
-    
-  </div>
-  <div class="PiS">People in Space</div>
-  </div>
   </div>
 </template>
 
 <script lang="ts">
-import Scaffolding from '../Scaffolding.vue'
+import Scaffolding from "../Scaffolding.vue";
 export default Scaffolding.extend({
-   data () {
+  data() {
     return {
-      people :0,
-    }
+      people: 0,
+    };
   },
 
   mounted() {
-       window.setTimeout(this.downloadData, 20*1000); 
-       this.downloadData();    
+    window.setTimeout(this.downloadData, 20 * 1000);
+    this.downloadData();
   },
 
   methods: {
     downloadData() {
-            fetch('https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json', {mode: 'cors'})
-            .then(response => response.json())
-            .then(data => (this.people = data.number));
-    }
-  }
-})
+      fetch(
+        "https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json",
+        { mode: "cors" }
+      )
+        .then((response) => response.json())
+        .then((data) => (this.people = data.number));
+    },
+  },
+});
 </script>
 
 <style lang="stylus">
-
-.content{
-    color:white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.5s;
+.content {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
 }
 
-.people{
-    margin-top: 70px;
-    margin-left: 200px;
-    font-size: 200px;
+.people {
+  margin-top: 70px;
+  margin-left: 200px;
+  font-size: 200px;
 }
 
-.PiS{
-    margin-top: 70px;
-    margin-left: 100px;
-    font-size: 100px;
+.PiS {
+  margin-top: 70px;
+  margin-left: 100px;
+  font-size: 100px;
 }
 
 .space {
@@ -95,10 +98,12 @@ export default Scaffolding.extend({
   top: 20%;
   width: 80px;
   left: calc(200px);
+
   .rocket-body {
     width: 80px;
     left: calc(50% - 50px);
     animation: bounce 0.5s infinite;
+
     .body {
       background-color: #dadada;
       height: 180px;
@@ -109,6 +114,7 @@ export default Scaffolding.extend({
       border-bottom-right-radius: 50%;
       border-top: 5px solid #f5f5f5;
     }
+
     &:before {
       content: '';
       position: absolute;
@@ -121,6 +127,7 @@ export default Scaffolding.extend({
       border-bottom-left-radius: 60%;
     }
   }
+
   .window {
     position: absolute;
     width: 40px;
@@ -131,6 +138,7 @@ export default Scaffolding.extend({
     top: 40px;
     border: 5px solid #b4b2b2;
   }
+
   .fin {
     position: absolute;
     z-index: -100;
@@ -138,18 +146,21 @@ export default Scaffolding.extend({
     width: 50px;
     background-color: #a75248;
   }
+
   .fin-left {
     left: -30px;
     top: calc(100% - 55px);
     border-top-left-radius: 80%;
     border-bottom-left-radius: 20%;
   }
+
   .fin-right {
     right: -30px;
     top: calc(100% - 55px);
     border-top-right-radius: 80%;
     border-bottom-right-radius: 20%;
   }
+
   .exhaust-flame {
     position: absolute;
     top: 90%;
@@ -159,6 +170,7 @@ export default Scaffolding.extend({
     left: calc(50% - 14px);
     animation: exhaust 0.2s infinite;
   }
+
   .exhaust-fumes li {
     width: 60px;
     height: 60px;
@@ -166,12 +178,14 @@ export default Scaffolding.extend({
     list-style: none;
     position: absolute;
     border-radius: 100%;
+
     &:first-child {
       width: 200px;
       height: 200px;
       bottom: -300px;
       animation: fumes 5s infinite;
     }
+
     &:nth-child(2) {
       width: 150px;
       height: 150px;
@@ -179,6 +193,7 @@ export default Scaffolding.extend({
       top: 260px;
       animation: fumes 3.2s infinite;
     }
+
     &:nth-child(3) {
       width: 120px;
       height: 120px;
@@ -186,6 +201,7 @@ export default Scaffolding.extend({
       top: 330px;
       animation: fumes 3s 1s infinite;
     }
+
     &:nth-child(4) {
       width: 100px;
       height: 100px;
@@ -193,6 +209,7 @@ export default Scaffolding.extend({
       animation: fumes 4s 2s infinite;
       top: 380px;
     }
+
     &:nth-child(5) {
       width: 130px;
       height: 130px;
@@ -200,6 +217,7 @@ export default Scaffolding.extend({
       top: 350px;
       animation: fumes 5s infinite;
     }
+
     &:nth-child(6) {
       width: 200px;
       height: 200px;
@@ -207,18 +225,21 @@ export default Scaffolding.extend({
       top: 280px;
       animation: fumes2 10s infinite;
     }
+
     &:nth-child(7) {
       width: 100px;
       height: 100px;
       left: -100px;
       top: 320px;
     }
+
     &:nth-child(8) {
       width: 110px;
       height: 110px;
       left: 70px;
       top: 340px;
     }
+
     &:nth-child(9) {
       width: 90px;
       height: 90px;
@@ -228,17 +249,126 @@ export default Scaffolding.extend({
     }
   }
 }
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 10000px 0;
+  }
+}
+
+@keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 10000px 0;
+  }
+}
+
+@keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 10000px 0;
+  }
+}
+
+@keyframes move-clouds-back {
+  from {
+    background-position: 0;
+  }
+
+  to {
+    background-position: 10000px 0;
+  }
+}
+
+.stars, .twinkling, .clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stars {
+  background: #000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center; // www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+  z-index: 0;
+}
+
+.twinkling {
+  background: transparent url('http://www.script-tutorials.com/demos/360/images/twinkling.png') repeat top center; // www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  z-index: 1;
+  -moz-animation: move-twink-back 200s linear infinite;
+  -ms-animation: move-twink-back 200s linear infinite;
+  -o-animation: move-twink-back 200s linear infinite;
+  -webkit-animation: move-twink-back 200s linear infinite;
+  animation: move-twink-back 200s linear infinite;
+}
+
 @keyframes fumes {
   50% {
     transform: scale(1.5);
     background-color: transparent;
   }
+
   51% {
     transform: scale(0.8);
   }
+
   100% {
-    background-color: $white;
-    transform: scale(1)
+    background-color: white;
+    transform: scale(1);
   }
 }
 
@@ -246,9 +376,11 @@ export default Scaffolding.extend({
   0% {
     transform: translate3d(0px, 0px, 0);
   }
+
   50% {
     transform: translate3d(0px, -4px, 0);
   }
+
   100% {
     transform: translate3d(0px, 0px, 0);
   }
@@ -256,13 +388,15 @@ export default Scaffolding.extend({
 
 @keyframes exhaust {
   0% {
-    background: linear-gradient(to bottom, transparent 10%, $white 100%);
+    background: linear-gradient(to bottom, transparent 10%, white 100%);
   }
+
   50% {
-    background: linear-gradient(to bottom, transparent 8%, $white 100%);
+    background: linear-gradient(to bottom, transparent 8%, white 100%);
   }
+
   75% {
-    background: linear-gradient(to bottom, transparent 12%, $white 100%);
+    background: linear-gradient(to bottom, transparent 12%, white 100%);
   }
 }
 
