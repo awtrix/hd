@@ -25,7 +25,7 @@ export default Vue.extend({
     appComponent () {
       // TODO: Replace with network call
       // @see https://markus.oberlehner.net/blog/distributed-vue-applications-loading-components-via-http/
-      return () => import('./TimeApp/ExampleTimeApp.vue')
+      return () => import('./PeopleInSpace/PeopleInSpace.vue')
     }
   }
 })
@@ -35,13 +35,14 @@ export default Vue.extend({
 .application {
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: stretch;
   justify-content: stretch;
+  overflow: hidden;
 }
 
 .application > div {
+  
   flex: 1;
 }
 </style>
