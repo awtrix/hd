@@ -1,22 +1,20 @@
 <template>
   <main>
-    <img class="image" v-bind:src="this.currentImage" />
     <div class="fade"></div>
 
     <ul>
       <li v-for="article in news.articles" :key="article.author">
-        <section class="news">
+        <section>
           <div :class="{'crawl': becameVisible}">
-            {{ currentImage=article.urlToImage }}
-            <div class="title">
-              <h2>{{article.title}}</h2>
+            <img class="image" v-bind:src="article.urlToImage" />
+            <div class="news">
+              <h1 class="title">{{article.title}}</h1>
+              <br />
+              <p class="content">{{article.content}}</p>
+              <br />
+              <br />
+              <br />
             </div>
-            <br />
-            <h4>{{article.author}}</h4>
-            <br />
-            <p>{{article.content}}</p>
-            <br />
-            <br />
           </div>
         </section>
       </li>
@@ -32,7 +30,7 @@ export default Scaffolding.extend({
       url_base: "https://newsapi.org/v2/top-headlines?",
       Country: "de",
       APIkey: "39a3df4f7bb640ba8ae0c974ee5cd25c",
-      maxNews: 2,
+      maxNews: 25,
       news: {},
       start: true,
       currentImage: "",
@@ -59,11 +57,16 @@ export default Scaffolding.extend({
 <style lang="stylus">
 .image {
   float: left;
-  margin-left: 0px 0px 0px 30px;
+  margin: 0px 30px 30px 30px;
   width: 35%;
   height: 100%;
   z-index: 0;
   object-fit: cover;
+
+}
+
+.title {
+  color: blue;
 }
 
 .fade {
@@ -75,26 +78,21 @@ export default Scaffolding.extend({
 }
 
 .news {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  position: relative;
+  background-color: black;
   height: 480px;
   color: white;
   font-size: 200%;
   font-weight: 600;
   letter-spacing: 6px;
   line-height: 150%;
-  perspective: 400px;
-  text-align: justify;
-  padding-left: 750px;
+  padding-left: 50px;
 }
 
 .crawl {
   position: relative;
   top: 99999px;
   transform-origin: 50% 100%;
-  animation: crawl 120s linear;
+  animation: crawl 100s linear;
 }
 
 @keyframes crawl {
