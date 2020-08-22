@@ -16,6 +16,7 @@ export default Scaffolding.extend({
     return {
       videoIDs: ["GS48Apr5jwI", "_6GZvTCvxBQ"],
       index: 0,
+      mute: false,
     };
   },
 
