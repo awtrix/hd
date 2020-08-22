@@ -1,11 +1,11 @@
 <template>
   <main>
     <div class="fade"></div>
-
     <ul>
-      <li v-for="article in news.articles" :key="article.author">
+      <li v-for="article in news.articles" :key="article.title">
         <section>
           <div :class="{'crawl': becameVisible}">
+
             <img class="image" v-bind:src="article.urlToImage" />
             <div class="news">
               <h1 class="title">{{article.title}}</h1>
@@ -72,6 +72,7 @@ export default Scaffolding.extend({
 .fade {
   position: relative;
   width: 100%;
+  color: white;
   min-height: 110%;
   top: -25px;
   z-index: 1;
@@ -101,7 +102,7 @@ export default Scaffolding.extend({
   }
 
   100% {
-    top: -6000px;
+    top: -9999px;
   }
 }
 </style>
