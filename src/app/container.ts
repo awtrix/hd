@@ -5,6 +5,7 @@ import { exec } from 'child_process'
 import logger from '../utils/logger'
 import replaceTemplate from '../utils/TemplateParser'
 import Webserver from '../web'
+import mqtt from 'mqtt'
 
 export default class Container {
   /**
@@ -52,6 +53,8 @@ export default class Container {
     // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
     await this.startWebserver()
+
+    await this.startMQTTClient()
 
     this.booted = true
   }
@@ -128,6 +131,27 @@ export default class Container {
     // Start our web interface
     let web = new Webserver(this)
     await web.start()
+  }
+
+    /**
+   * Starts the MQTT client.
+   */
+  private async startMQTTClient (): Promise<void> {
+    // TODO: Make host configurable
+    var client  = mqtt.connect('mqtt://blueforcer.de')
+
+    client.on('connect', function () {
+      client.subscribe('awtrixHD', function (err) {
+        if (!err) {
+          client.publish('awtrixHD', 'Hello from AwtrixHD')
+        }
+      })
+    })
+    client.on('message', function (topic, message) {
+      // message is Buffer
+      console.log(message.toString())
+      client.end()
+    })
   }
 
   private async installDependencies (): Promise<void> {
