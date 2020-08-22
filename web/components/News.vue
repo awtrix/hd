@@ -1,27 +1,27 @@
 <template>
-<main>
-<img class="image" v-bind:src="this.currentImage">
-<div class="fade">  </div>
-    <section class="news">
-      <div :class="{'crawl': becameVisible}">
-        <ul>
-          <li v-for="article in news.articles" :key="article.author">
-              {{currentImage=article.urlToImage}}
+  <main>
+    <img class="image" v-bind:src="this.currentImage" />
+    <div class="fade"></div>
+
+    <ul>
+      <li v-for="article in news.articles" :key="article.author">
+        <section class="news">
+          <div :class="{'crawl': becameVisible}">
+            {{ currentImage=article.urlToImage }}
             <div class="title">
               <h2>{{article.title}}</h2>
-               </div>
-              <br>
-              <h4>{{article.author}}</h4>
-              <br>
-
+            </div>
+            <br />
+            <h4>{{article.author}}</h4>
+            <br />
             <p>{{article.content}}</p>
-            <br>
-            <br>
-          </li>
-        </ul>
-      </div>
-    </section>
-   </main>
+            <br />
+            <br />
+          </div>
+        </section>
+      </li>
+    </ul>
+  </main>
 </template>
 
 <script lang="ts">
@@ -42,7 +42,6 @@ export default Scaffolding.extend({
   mounted() {
     this.fetchNews();
     window.setTimeout(this.fetchNews, 5 * 60000);
-
   },
 
   methods: {
@@ -53,20 +52,18 @@ export default Scaffolding.extend({
         .then((response) => response.json())
         .then((data) => (this.news = data));
     },
-
-
   },
 });
 </script>
 
 <style lang="stylus">
-
 .image {
   float: left;
   margin-left: 0px 0px 0px 30px;
   width: 35%;
   height: 100%;
-  z-index: -0;
+  z-index: 0;
+  object-fit: cover;
 }
 
 .fade {
@@ -74,7 +71,6 @@ export default Scaffolding.extend({
   width: 100%;
   min-height: 110%;
   top: -25px;
-
   z-index: 1;
 }
 
@@ -99,16 +95,6 @@ export default Scaffolding.extend({
   top: 99999px;
   transform-origin: 50% 100%;
   animation: crawl 120s linear;
-}
-
-.crawl > .title {
-  font-size: 90%;
-  text-align: center;
-}
-
-.crawl > .title h1 {
-  margin: 0 0 100px;
-  text-transform: uppercase;
 }
 
 @keyframes crawl {
