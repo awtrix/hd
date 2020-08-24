@@ -1,7 +1,7 @@
 <template>
   <main>
     <iframe
-      :src="'https://www.youtube.com/embed/'+ videoIDs[index] + '?start=8&autoplay=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&controls=0&disablekb=1'"
+      :src="'https://www.youtube.com/embed/'+ videoIDs[index] + '?start=8&enablejsapi=1&autoplay=1&showinfo=0&rel=0&iv_load_policy=3&fs=0&controls=0&disablekb=1'"
       width="1920"
       height="480"
       frameborder="0"
@@ -22,11 +22,20 @@ export default Scaffolding.extend({
 
   mounted() {},
 
-  beforeUpdate() {},
-
   methods: {
     becameVisible() {
       this.index = (this.index + 1) % this.videoIDs.length;
+    },
+    becameHidden() {
+      var iframe = document.querySelector("iframe");
+      var video = document.querySelector("video");
+      if (iframe) {
+        var iframeSrc = iframe.src;
+        iframe.src = iframeSrc;
+      }
+      if (video) {
+        video.pause();
+      }
     },
   },
 });
