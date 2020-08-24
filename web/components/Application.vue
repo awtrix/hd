@@ -23,9 +23,34 @@ export default Vue.extend({
 
   computed: {
     appComponent () {
-      // TODO: Replace with network call
-      // @see https://markus.oberlehner.net/blog/distributed-vue-applications-loading-components-via-http/
-      return () => import('./Crypto.vue')
+      if (process.server) return null
+      return () => this.importComponent('Awtrix')
+    }
+  },
+
+  methods: {
+    async importComponent (name: string): Promise<any> {
+      const componentKey = `AwtrixComponent.${name}`
+
+      // This is to get around index errors when accessing unknown keys on
+      // the global window object
+      const castedWindow = window as any
+      if (castedWindow[componentKey]) return castedWindow[componentKey]
+
+      return new Promise(async (resolve, reject) => {
+        const url = 'https://pastebin.com/raw/HAtdZ8Wq'
+        const script = document.createElement('script')
+        script.async = true
+        script.addEventListener('load', () => {
+          resolve(castedWindow[componentKey])
+        })
+        script.addEventListener('error', () => {
+          reject(new Error(`Error loading ${url}`))
+        })
+        script.src = `/api/script?url=${encodeURIComponent(url)}`
+
+        document.head.appendChild(script)
+      })
     }
   }
 })
@@ -44,5 +69,6 @@ export default Vue.extend({
 .application > div {
 
   flex: 1;
+  color: white;
 }
 </style>
