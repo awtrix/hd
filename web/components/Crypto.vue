@@ -2,19 +2,18 @@
   <div class="app">
     <div class="content"></div>
     <div class="flex mb-4">
-      <div class="w-1/4 bg-orange-400">
+      <div class="w-1/4" v-bind:style="{ 'background-color': getCoinColor()}">
         <div class="icon">
           <img :src="getCoinIcon()" alt="Coin" width="400px" height="400px" />
         </div>
       </div>
-      <div class="w-3/4 bg-gray-500">
-        <div class="flex flex-wrap">
-          <div class="w-full bg-gray-500">{{coindata.ticker.base}}</div>
-
+      <div class="w-3/4 bg-gray-500" v-if="coindata" >
+        <div class="flex flex-wrap content">
+          <div class="w-full bg-gray-500 base">{{coindata.ticker.base}}</div>
           <div class="w-1/2 bg-gray-400">Price</div>
-          <div class="w-1/2 bg-gray-500">{{coindata.ticker.price}}</div>
+          <div class="w-1/2 bg-gray-500">{{NumberFormat(coindata.ticker.price)}}</div>
           <div class="w-1/2 bg-gray-400">Volume</div>
-          <div class="w-1/2 bg-gray-500">{{coindata.ticker.volume}}</div>
+          <div class="w-1/2 bg-gray-500">{{NumberFormat(coindata.ticker.volume)}}</div>
         </div>
       </div>
     </div>
@@ -24,14 +23,13 @@
 <script lang="ts">
 import Scaffolding from "./Scaffolding.vue";
 import { blue, green, grey, rgb } from "chalk";
+import { parseTwoDigitYear } from 'moment';
 export default Scaffolding.extend({
   data() {
     return {
-      symbol: "xrp",
+      symbol: "XRP",
       currency: "eur",
-      coindata: {},
-      volume: 0,
-      price: 0,
+      coindata: undefined,
     };
   },
 
@@ -46,10 +44,13 @@ export default Scaffolding.extend({
         `https://api.cryptonator.com/api/ticker/${this.symbol}-${this.currency}`
       )
         .then((response) => response.json())
-        .then((data) => (this.coindata = data));
+        .then((data) => (this.coindata=data))
     },
     getCoinIcon() {
       return `https://s3-us-west-2.amazonaws.com/s.cdpn.io/1468070/${this.symbol.toLowerCase()}.svg`;
+    },
+    NumberFormat(num: number): string {
+      return new Intl.NumberFormat('de-DE', { style: 'currency', currency: this.currency }).format(num)
     },
     getCoinColor() {
       switch (this.symbol.toUpperCase()) {
@@ -60,19 +61,19 @@ export default Scaffolding.extend({
         case "XEM":
         case "LSK":
         case "DASH":
-          return rgb(0, 0, 255);
+          return 'rgba(0, 0, 255, 0.7';
         case "BCH":
         case "USDT":
         case "NEO":
-          return rgb(0, 255, 0);
+          return 'green';
         case "BTC":
         case "XMR":
-          return rgb(255, 125, 0);
+          return 'orange';
         case "TRX":
         case "EOS":
         case "LTC":
         default:
-          return rgb(125, 125, 125);
+        return 'grey';
       }
     },
   },
@@ -80,11 +81,7 @@ export default Scaffolding.extend({
 </script>
 
 <style lang="stylus">
-.app {
-  animation: fade-in-up 1s ease-in-out;
-  font-size: 50px;
-  background-color: white;
-}
+
 
 .icon {
   display: block;
@@ -97,7 +94,16 @@ export default Scaffolding.extend({
   left: 40px;
 }
 
+
+
 .content {
+  margin-left: 50px;
   color: black;
+  font-size: 50px;
+
+}
+
+.content .base{
+  font-size: 80px;
 }
 </style>
