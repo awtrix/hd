@@ -47,14 +47,11 @@ export default class Container {
     await this.verifyPidfile()
     await this.copyFixtures()
 
-    // 2. Install the user's configured dependencies (e.g. apps)
-    await this.installDependencies()
-
-    // 3. Start the webserver and change the working directory to the configured
+    // 2. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
     await this.startWebserver()
 
-    await this.startMQTTClient()
+    // 3. Start Chrome via Puppeteer
 
     this.booted = true
   }
@@ -108,18 +105,14 @@ export default class Container {
    * TODO: Streamline this.
    */
   private async copyFixtures (): Promise<boolean> {
-    let target = path.join(this.homeDirectory, 'package.json')
+    let target = path.join(this.homeDirectory, 'config.json')
     if (fs.existsSync(target)) return false
 
-    logger.info('Copying default package.json to awtrix directory.')
+    logger.info('Copying default config.json to awtrix directory.')
     fs.copyFileSync(path.join(__dirname, 'fixtures', 'config.json'), target)
     await replaceTemplate(target, {
       version: this.package.version as string,
     })
-
-    logger.info('Copying index file to awtrix directory.')
-    target = path.join(this.homeDirectory, 'index.js')
-    fs.copyFileSync(path.join(__dirname, 'fixtures', 'index.js'), target)
 
     return true
   }
@@ -131,40 +124,5 @@ export default class Container {
     // Start our web interface
     let web = new Webserver(this)
     await web.start()
-  }
-
-    /**
-   * Starts the MQTT client.
-   */
-  private async startMQTTClient (): Promise<void> {
-    // TODO: Make host configurable
-    var client  = mqtt.connect('mqtt://blueforcer.de')
-
-    client.on('connect', function () {
-      client.subscribe('awtrixHD', function (err) {
-        if (!err) {
-          client.publish('awtrixHD', 'Hello from AwtrixHD')
-        }
-      })
-    })
-    client.on('message', function (topic, message) {
-      // message is Buffer
-      console.log(message.toString())
-      client.end()
-    })
-  }
-
-  private async installDependencies (): Promise<void> {
-    logger.info('Installing configured dependencies.')
-
-    return new Promise((resolve, reject) => {
-      exec('npm install', { cwd: this.homeDirectory }, (error, stdout, stderr) => {
-        if (error) {
-          return reject(error)
-        }
-
-        resolve()
-      })
-    })
   }
 }

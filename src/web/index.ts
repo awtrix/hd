@@ -3,6 +3,7 @@ import Router from 'koa-router'
 import logger from '../utils/logger'
 import createNuxtMiddleware from './nuxtMiddleware'
 import Container from '../app/container'
+import fetch from 'node-fetch'
 
 function sleep (milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -52,8 +53,13 @@ export default class WebServer {
   }
 
   configureRoutes () {
-    this.router.get('/write', async (ctx, next) => {
-      // ...
+    this.router.get('/script', async (ctx, next) => {
+      const url = decodeURIComponent(ctx.request.query['url'])
+      console.log(url)
+
+      const response = await fetch(url)
+      ctx.set('Content-Type', 'application/javascript')
+      ctx.body = await response.text()
     })
   }
 }

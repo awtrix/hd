@@ -52,6 +52,12 @@ module.exports = {
     components: true,
 
     /*
+     ** Whether to enable browser ES modules
+     ** See https://nuxtjs.org/api/configuration-modern/
+     */
+    // modern: 'client',
+
+    /*
      ** Nuxt.js dev-modules
      */
     buildModules: [
