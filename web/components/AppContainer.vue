@@ -59,25 +59,16 @@ export default Vue.extend({
 
   methods: {
     async loadApplications (): Promise<LifecycleApplication[]> {
-      // TODO: Fetch all applications from API
+      // TODO: Fetch background apps too.
+      const response = await fetch('/api/apps/rotation')
+      let apps = await response.json()
 
-      let app = {
-        name: 'time',
-        meta: {
-          between: ['15:00', '16:00'],
-          displayLength: 15000, // ms
-        },
-        config: {
-          displayFormat: 'hh:mm',
-        },
-        lifecycle: {
-          ready: false,
-          locked: false,
-        },
-      }
-
-      let apps = [app,app]
-      return apps.map(app => ({ ...app, id: shortid.generate() }))
+      const defaultLifecycle = { ready: false, locked: false }
+      return apps.map((app: any) => ({
+        ...app,
+        meta: { displayLength: 15000 }, // TODO: Can be removed later on.
+        lifecycle: defaultLifecycle
+      }))
     },
 
     startApplication (id: string, interrupt = false): void {

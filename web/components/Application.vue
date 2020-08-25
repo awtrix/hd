@@ -24,7 +24,15 @@ export default Vue.extend({
   computed: {
     appComponent () {
       if (process.server) return null
-      return () => this.importComponent('Awtrix')
+
+      return [
+        () => import('./Crypto.vue'),
+        () => import('./Time.vue'),
+        () => import('./News.vue'),
+        () => import('./Weather/Weather.vue'),
+      ][this.app.index % 4]
+
+      // return () => this.importComponent('Awtrix')
     }
   },
 

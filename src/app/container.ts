@@ -1,11 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
-import { exec } from 'child_process'
 import logger from '../utils/logger'
 import replaceTemplate from '../utils/TemplateParser'
 import Webserver from '../web'
-import mqtt from 'mqtt'
+import createDatabase, { Database } from '../utils/database'
 
 export default class Container {
   /**
@@ -14,14 +13,14 @@ export default class Container {
   package: JSONSchemaForNPMPackageJsonFiles
 
   /**
+   * The lowdb database from the user's home directory.
+   */
+  database?: Database
+
+  /**
    * A flag indicating whether the container has completed its booting process.
    */
   booted = false
-
-  /**
-   * The resolution used by AWTRIX HD.
-   */
-  resolution = [1920, 480]
 
   constructor (public readonly homeDirectory: string) {
     this.package = this.readPackageJson()
@@ -47,11 +46,14 @@ export default class Container {
     await this.verifyPidfile()
     await this.copyFixtures()
 
-    // 2. Start the webserver and change the working directory to the configured
+    // 2. Initialize the lowdb database
+    await this.initDatabase()
+
+    // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
     await this.startWebserver()
 
-    // 3. Start Chrome via Puppeteer
+    // 4. Start Chrome via Puppeteer
 
     this.booted = true
   }
@@ -78,7 +80,7 @@ export default class Container {
       // If this raises, no pidfile was present
       const pid = fs.readFileSync(pidfile, 'utf8')
 
-      // TODO: Check if this works on Windows.
+      // TODO: Check why this doesn't work on Windows.
 
       // If this raises, the pidfile didn't link to a running process
       // @see https://nodejs.org/api/process.html#process_process_kill_pid_signal
@@ -102,7 +104,7 @@ export default class Container {
    * Copies the awtrix user configuration fixtures to the home directory
    * if it does not already exist.
    *
-   * TODO: Streamline this.
+   * TODO: Recursively merge the fixture config and the user config
    */
   private async copyFixtures (): Promise<boolean> {
     let target = path.join(this.homeDirectory, 'config.json')
@@ -124,5 +126,13 @@ export default class Container {
     // Start our web interface
     let web = new Webserver(this)
     await web.start()
+  }
+
+  /**
+   * Loads the asynchronous lowdb database.
+   */
+  private async initDatabase (): Promise<void> {
+    let configPath = path.join(this.homeDirectory, 'config.json')
+    this.database = await createDatabase(configPath)
   }
 }

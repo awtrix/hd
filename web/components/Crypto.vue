@@ -7,9 +7,10 @@
           <img :src="getCoinIcon()" alt="Coin" width="400px" height="400px" />
         </div>
       </div>
-      <div class="w-3/4 bg-gray-500" v-if="coindata" >
-        <div class="flex flex-wrap content">
-          <div class="w-full bg-gray-500 base">{{coindata.ticker.base}}</div>
+      <div class="w-3/4 bg-gray-500" v-if="coindata">
+        <div class="flex flex-wrap">
+          <div class="w-full bg-gray-500">{{coindata.ticker.base}}</div>
+
           <div class="w-1/2 bg-gray-400">Price</div>
           <div class="w-1/2 bg-gray-500">{{NumberFormat(coindata.ticker.price)}}</div>
           <div class="w-1/2 bg-gray-400">Volume</div>
@@ -27,7 +28,7 @@ import { parseTwoDigitYear } from 'moment';
 export default Scaffolding.extend({
   data() {
     return {
-      symbol: "XRP",
+      symbol: "ETH",
       currency: "eur",
       coindata: undefined,
     };
@@ -81,29 +82,21 @@ export default Scaffolding.extend({
 </script>
 
 <style lang="stylus">
+.icon
+  display: block
+  margin-left: auto
+  margin-right: auto
+  width: 480px
+  height: 480px
+  position: relative
+  top: 60px
+  left: 60px
 
+.content
+  margin-left: 50px
+  color: black
+  font-size: 50px
 
-.icon {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 480px;
-  height: 480px;
-  position: relative;
-  top: 40px;
-  left: 40px;
-}
-
-
-
-.content {
-  margin-left: 50px;
-  color: black;
-  font-size: 50px;
-
-}
-
-.content .base{
-  font-size: 80px;
-}
+.content .base
+  font-size: 80px
 </style>

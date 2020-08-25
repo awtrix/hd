@@ -3,7 +3,7 @@ import Router from 'koa-router'
 import logger from '../utils/logger'
 import createNuxtMiddleware from './nuxtMiddleware'
 import Container from '../app/container'
-import fetch from 'node-fetch'
+import controllers from './api'
 
 function sleep (milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -11,21 +11,19 @@ function sleep (milliseconds: number): Promise<void> {
   })
 }
 
-interface KoaContext {
-  container: Container
+export interface KoaContext {
+  container: Container,
+  database: NonNullable<typeof Container.prototype.database>,
 }
 
 export default class WebServer {
-  protected app: Koa<any, KoaContext>
-  protected router: Router<any, KoaContext>
+  app: Koa<any, KoaContext>
 
   constructor (container: Container) {
     this.app = new Koa()
-    this.app.context.container = container
 
-    this.router = new Router({
-      prefix: '/api',
-    })
+    this.app.context.container = container
+    this.app.context.database = container.database!
   }
 
   async start (): Promise<void> {
@@ -33,9 +31,9 @@ export default class WebServer {
     const config = require('../../nuxt.config.js')
 
     // First configure our own router for API requests
-    this.configureRoutes()
-    this.app.use(this.router.routes())
-            .use(this.router.allowedMethods())
+    controllers.forEach((bindController) => {
+      bindController(this.app)
+    })
 
     // Then instantiate Nuxt so that we can also serve our frontend
     // through the same port
@@ -53,13 +51,5 @@ export default class WebServer {
   }
 
   configureRoutes () {
-    this.router.get('/script', async (ctx, next) => {
-      const url = decodeURIComponent(ctx.request.query['url'])
-      console.log(url)
-
-      const response = await fetch(url)
-      ctx.set('Content-Type', 'application/javascript')
-      ctx.body = await response.text()
-    })
   }
 }
