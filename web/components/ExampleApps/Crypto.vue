@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import Scaffolding from "./Scaffolding.vue";
+import Scaffolding from "../Scaffolding.vue";
 import { blue, green, grey, rgb } from "chalk";
 import { parseTwoDigitYear } from 'moment';
 export default Scaffolding.extend({

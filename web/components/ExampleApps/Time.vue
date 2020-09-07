@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import Scaffolding from "./Scaffolding.vue";
+import Scaffolding from "../Scaffolding.vue";
 
 import moment from "moment";
 
@@ -53,9 +53,6 @@ export default Scaffolding.extend({
 </script>
 
 <style scoped>
-html,body {
-    height: 100%;
-}
 body {
     background: radial-gradient(ellipse at center,  #0a2e38  0%, #000000 70%);
     background-size: 100%;

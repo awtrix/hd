@@ -8,6 +8,9 @@ import AppContainer from '../components/AppContainer.vue'
 import { Context } from '@nuxt/types'
 
 export default Vue.extend({
-  layout: 'development'
+  layout (): string {
+    if (navigator.userAgent === 'AWTRIX HD') return 'default'
+    return 'development'
+  }
 })
 </script>

@@ -5,6 +5,7 @@ import logger from '../utils/logger'
 import replaceTemplate from '../utils/TemplateParser'
 import Webserver from '../web'
 import createDatabase, { Database } from '../utils/database'
+import puppeteer from 'puppeteer'
 
 export default class Container {
   /**
@@ -22,7 +23,7 @@ export default class Container {
    */
   booted = false
 
-  constructor (public readonly homeDirectory: string) {
+  constructor (public readonly homeDirectory: string, public readonly headless: boolean) {
     this.package = this.readPackageJson()
   }
 
@@ -54,6 +55,9 @@ export default class Container {
     await this.startWebserver()
 
     // 4. Start Chrome via Puppeteer
+    if (!this.headless) {
+      await this.startBrowser()
+    }
 
     this.booted = true
   }
@@ -134,5 +138,23 @@ export default class Container {
   private async initDatabase (): Promise<void> {
     let configPath = path.join(this.homeDirectory, 'config.json')
     this.database = await createDatabase(configPath)
+  }
+
+  private async startBrowser (): Promise<void> {
+    const browser = await puppeteer.launch({
+      headless: false,
+      defaultViewport: null,
+      args: [
+        // '--kiosk',
+        '--window-size=1920,480',
+        '--disable-web-security',
+        `--user-data-dir=${path.join(this.homeDirectory, 'chrome')}`
+      ],
+      ignoreDefaultArgs: ['--enable-automation'],
+    })
+    const page = await browser.newPage()
+    await page.setViewport({ width: 1920, height: 480 })
+    await page.setUserAgent('AWTRIX HD')
+    await page.goto('http://localhost:3000')
   }
 }

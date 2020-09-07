@@ -25,13 +25,16 @@ class AwtrixOclifApplication extends Command {
       description: '',
       default: path.join(os.homedir(), '.awtrix')
     }),
+
+    // --browser or -b
+    browser: flags.boolean({ char: 'b', default: false }),
   }
 
   async run (): Promise<void> {
     const { flags } = this.parse(AwtrixOclifApplication)
 
     // Boot up the application container
-    const container = new Container(flags.home)
+    const container = new Container(flags.home, !flags.browser)
     container.boot()
   }
 }

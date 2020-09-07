@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import Scaffolding from "./Scaffolding.vue";
+import Scaffolding from "../Scaffolding.vue";
 export default Scaffolding.extend({
   data() {
     return {
