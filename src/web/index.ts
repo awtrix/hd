@@ -28,7 +28,7 @@ export default class WebServer {
 
   async start (): Promise<void> {
     // Import and Set Nuxt.js options
-    const config = require('../../nuxt.config.js')
+    const config = require('../../nuxt.config')
 
     // First configure our own router for API requests
     controllers.forEach((bindController) => {
