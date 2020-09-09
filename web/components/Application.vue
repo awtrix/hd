@@ -1,5 +1,5 @@
 <template>
-  <div v-show="visible" class="application">
+  <div v-show="visible" class="w-full h-full">
     <component :is="appComponent" :app="app" :visible="visible"
       v-on="$listeners"
     />
@@ -7,12 +7,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { LifecycleApplication } from './AppContainer.vue'
 
 export default Vue.extend({
   props: {
     app: {
-      type: Object,
+      type: Object as PropType<LifecycleApplication>,
       required: true,
     },
     visible: {
@@ -23,6 +24,8 @@ export default Vue.extend({
 
   computed: {
     appComponent () {
+      if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
+
       return [
         () => import('./ExampleApps/PeopleInSpace.vue'),
         () => import('./ExampleApps/Crypto.vue'),

@@ -27,7 +27,7 @@ export default Vue.extend({
 
   methods: {
     updateScaleFactor () {
-      let factor = [window.innerWidth / 1280, window.innerHeight / 400]
+      let factor = [window.innerWidth / 1920, window.innerHeight / 400]
       this.scaleFactor = Math.min(1, ...factor)
     },
   },

@@ -93,7 +93,7 @@ export default Vue.extend({
     },
 
     requestHidden () {
-
+      this.$emit('requestHidden')
     },
   },
 })
