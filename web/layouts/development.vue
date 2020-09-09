@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout--development">
     <div class="nuxt-container" :style="{ transform: `scale(${scaleFactor})` }">
       <Nuxt />
     </div>
@@ -33,45 +33,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style lang="stylus">
-html, body
-  height 100%
-  font-family 'Ubuntu', sans-serif
-  overflow hidden
-  checkered-pattern 25px
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.nuxt-container, .ruler {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  overflow: hidden;
-  margin-left: -960px;
-  margin-top: -240px;
-
-  width: 1920px;
-  height: 480px;
-  background: black;
-}
-
-.full {
-  width: 100%;
-  height: 100%;
-}
-
-.hint {
-  position: absolute;
-  color: black;
-  left: 20px;
-  top: calc(50% + 240px + 12px);
-  font-size: 24px;
-  font-weight: 600;
-}
-</style>

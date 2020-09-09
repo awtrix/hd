@@ -1,5 +1,5 @@
 <template>
-  <div class="full">
+  <div class="w-full h-full">
     <Application
       v-for="(app, index) in applications" :key="app.id"
       :app="app"

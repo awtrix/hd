@@ -61,20 +61,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-.application {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  overflow: hidden;
-}
-
-.application > div {
-
-  flex: 1;
-  color: white;
-}
-</style>
