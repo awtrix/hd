@@ -2,21 +2,19 @@ import lowdb, { LowdbAsync } from 'lowdb'
 import FileAsync from 'lowdb/adapters/FileAsync'
 
 export interface App {
+  id?: string,
   name: string,
   version: string,
-  config: any,
-}
-
-export interface RotationApp extends App {
-  index: number,
+  config?: any,
 }
 
 export interface Schema {
   version: string,
   repository: string,
   apps: {
-    rotation: { [key: string]: RotationApp },
-    background: { [key: string]: App }
+    rotation: App[],
+    background: App[],
+    available?: App[],
   }
 }
 

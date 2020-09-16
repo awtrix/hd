@@ -59,12 +59,12 @@ export default Scaffolding.extend({
 
   methods: {
     downloadData() {
-      fetch(
-        "https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json",
-        { mode: "cors" }
-      )
+      fetch('https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json', { mode: 'cors' })
         .then((response) => response.json())
-        .then((data) => (this.people = data.number));
+        .then((data) => {
+          this.people = data.number
+          this.ready()
+        })
     },
     playSound(sound: string) {
       if (sound) {
@@ -76,7 +76,7 @@ export default Scaffolding.extend({
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .content {
   color: white;
   display: flex;
@@ -87,14 +87,14 @@ export default Scaffolding.extend({
 
 .people {
   margin-top: 70px;
-  margin-left: 200px;
-  font-size: 200px;
+  margin-left: 250px;
+  font-size: 150px;
 }
 
 .PiS {
   margin-top: 70px;
-  margin-left: 100px;
-  font-size: 100px;
+  margin-left: 50px;
+  font-size: 80px;
 }
 
 .space {
@@ -114,7 +114,7 @@ export default Scaffolding.extend({
   position: absolute;
   top: 20%;
   width: 80px;
-  left: calc(200px);
+  left: calc(150px);
 
   .rocket-body {
     width: 80px;

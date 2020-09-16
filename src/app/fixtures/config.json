@@ -1,18 +1,26 @@
 {
-  "version": ":version:",
-  "repository": "https://github.com/awtrix/awtrix-hd-apps/blob/dist/repository.json",
-  "web": {
-    "port": 8081
-  },
-  "apps": {
-    "rotation": {
-      "fn08_54": {
-        "name": "people-in-space",
-        "version": "0.1",
-        "index": 0,
-        "config": {}
-      }
+    "version": ":version:",
+    "repository": "https://github.com/awtrix/awtrix-hd-apps/blob/dist/repository.json",
+    "web": {
+        "port": 8081
     },
-    "background": {}
-  }
+    "apps": {
+        "rotation": [{
+            "id": "fn08_54",
+            "name": "people-in-space",
+            "version": "0.1",
+            "config": {}
+        }],
+        "background": [],
+        "available": [{
+            "name": "people-in-space",
+            "version": "0.1"
+        }, {
+          "name": "time",
+          "version": "0.1"
+      }, {
+        "name": "crypto",
+        "version": "0.1"
+    }]
+    }
 }

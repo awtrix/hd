@@ -5,12 +5,21 @@ import storeNewApp from './storeNewApp'
 const { router, bind } = createRouter()
 
 /**
+ * Allows the user to get a list of all apps that have been downloaded
+ * from the app store.
+ */
+router.get('/api/apps/available', (ctx) => {
+  let apps = ctx.database.get(['apps', 'available'], [])
+  ctx.body = apps.value()
+})
+
+/**
  * Allows the user to get a list of all apps that are currently configured
  * to run in the app rotation.
  */
 router.get('/api/apps/rotation', (ctx) => {
   let apps = ctx.database.get(['apps', 'rotation']).map(aggregateApp)
-  ctx.body = apps.sortBy('index').value()
+  ctx.body = apps.value()
 })
 
 /**
@@ -27,9 +36,8 @@ router.get('/api/apps/background', (ctx) => {
  * is already in use, all current apps from that index on will be moved.
  */
 router.post('/api/apps/rotation', async (ctx) => {
-  const body = { name: 'people-in-space', version: '1.0', index: 1 }
-
-  let app = await storeNewApp(ctx.database, 'rotation', body)
+  // TODO: Perform body validation
+  let app = await storeNewApp(ctx.database, 'rotation', ctx.request.body)
   ctx.body = app
 })
 

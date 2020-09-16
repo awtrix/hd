@@ -2,16 +2,16 @@
   <div class="w-full h-full relative">
     <div class="application loop" ref="applicationLoopContainer">
       <Application
-        v-for="(app, index) in applications" :key="app.id"
+        v-for="app in applications" :key="app.id"
         :app="app"
-        :visible="index == activeApplicationIndex"
+        :visible="app.id == activeApplicationID"
         @ready="setReady(app, true)" @finished="setReady(app, false)"
         @lock="setLocked(app, true)" @unlock="setLocked(app, false)"
-        @requestHidden="switchToNextApplication()"
+        @requestHidden="switchToNextApplication()" @destroy="destroy(app)"
       />
     </div>
 
-    <Settings
+    <Menu
       class="w-full h-full absolute"
       :style="{ top: `${settings.offset}px` }"
     />
@@ -21,28 +21,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import Application from './Application.vue'
-import Settings from './Settings.vue'
+import Menu from './Settings/Menu.vue'
 import shortid from 'shortid'
 import Hammer from 'hammerjs'
 import { debounce } from 'lodash'
-
-type RawApplication = {
-  name: string,
-  id: string,
-  meta: {
-    between: string[],
-    displayLength: number,
-  },
-  config: any,
-  index: number,
-}
-
-export type LifecycleApplication = RawApplication & {
-  lifecycle: {
-    ready: boolean,
-    locked: boolean,
-  },
-}
+import { LifecycleApplication } from '@/types/Application'
 
 enum SwitchingReason {
   Loop,
@@ -51,12 +34,12 @@ enum SwitchingReason {
 }
 
 export default Vue.extend({
-  components: { Application, Settings },
+  components: { Application, Menu },
 
   data () {
     return {
       applications: [] as LifecycleApplication[],
-      activeApplicationIndex: 0,
+      activeApplicationID: undefined as string | undefined,
       interruptedApplicationIndex: undefined as number | undefined,
       loopTimeout: undefined as number | undefined,
       settings: {
@@ -110,14 +93,13 @@ export default Vue.extend({
     bootAnimation (): LifecycleApplication {
       return { name: 'boot', id: 'boot', index: -1, meta: {
         between: ['1', '2'],
-        displayLength: 1000,
-      }, config: {}, lifecycle: { ready: true, locked: false }}
+        displayLength: 100000,
+      }, config: {}, lifecycle: { ready: true, locked: true }}
     },
 
     async loadApplications (): Promise<LifecycleApplication[]> {
       // TODO: Fetch background apps too.
-      const response = await fetch('/api/apps/rotation')
-      let apps = await response.json()
+      const apps = await fetch('/api/apps/rotation').then(response => response.json())
 
       const defaultLifecycle = { ready: false, locked: false }
       return apps.map((app: any) => ({
@@ -130,14 +112,12 @@ export default Vue.extend({
     startApplication (id: string, interrupt = false): void {
       if (interrupt) this.interruptedApplicationIndex = this.activeApplicationIndex
 
-      let index = this.applications.findIndex(app => app.id == id)
-      this.activeApplicationIndex = index
-
-      window.setTimeout(() => this.switchToNextApplication(), this.activeApplication.meta.displayLength)
+      this.activeApplicationID = id
+      window.setTimeout(() => this.switchToNextApplication(), this.activeApplication!.meta.displayLength)
     },
 
-    switchToNextApplication () {
-      this.switchApplication(this.nextAvailableApplication(), SwitchingReason.Loop)
+    switchToNextApplication (reason: SwitchingReason = SwitchingReason.Loop) {
+      this.switchApplication(this.nextAvailableApplication(), reason)
     },
 
     nextAvailableApplication (): string {
@@ -164,7 +144,7 @@ export default Vue.extend({
           return this.scheduleSwitch(id, true)
 
         case SwitchingReason.Loop:
-          if (this.activeApplication.lifecycle.locked) {
+          if (this.activeApplication?.lifecycle.locked) {
             return this.scheduleSwitch(id)
           }
 
@@ -195,10 +175,25 @@ export default Vue.extend({
       let index = this.applications.findIndex(a => a.id == app.id)
       this.applications[index].lifecycle.ready = newState
     },
+
+    destroy (app: LifecycleApplication) {
+      this.setLocked(app, false)
+
+      let index = this.applications.findIndex(a => a.id == app.id)
+      this.applications.splice(index, 1)
+
+      if (this.activeApplicationID == app.id) {
+        this.switchToNextApplication()
+      }
+    },
   },
 
   computed: {
-    activeApplication (): LifecycleApplication {
+    activeApplicationIndex (): number {
+      return this.applications.findIndex(app => app.id == this.activeApplicationID)
+    },
+
+    activeApplication (): LifecycleApplication | null {
       return this.applications[this.activeApplicationIndex]
     },
   }

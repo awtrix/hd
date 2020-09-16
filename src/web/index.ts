@@ -1,5 +1,5 @@
 import Koa from 'koa'
-import Router from 'koa-router'
+import bodyParser from 'koa-bodyparser'
 import logger from '../utils/logger'
 import createNuxtMiddleware from './nuxtMiddleware'
 import Container from '../app/container'
@@ -21,6 +21,7 @@ export default class WebServer {
 
   constructor (container: Container) {
     this.app = new Koa()
+    this.app.use(bodyParser({ strict: true }))
 
     this.app.context.container = container
     this.app.context.database = container.database!

@@ -1,6 +1,6 @@
-import { Database, App, RotationApp } from 'src/utils/database'
+import { Database, App } from 'src/utils/database'
 
-export default function (app: App | RotationApp, id: string): any {
+export default function (app: App): any {
   // TODO: Add meta-info from app configuration
-  return  { id, ...app }
+  return  { ...app }
 }

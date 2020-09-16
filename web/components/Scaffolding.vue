@@ -95,6 +95,10 @@ export default Vue.extend({
     requestHidden () {
       this.$emit('requestHidden')
     },
+
+    destroy () {
+      this.$emit('destroy')
+    },
   },
 })
 </script>

@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { LifecycleApplication } from './AppContainer.vue'
+import { LifecycleApplication } from '@/types/Application'
 
 export default Vue.extend({
   props: {
@@ -26,12 +26,12 @@ export default Vue.extend({
     appComponent () {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
-      return [
-        () => import('./ExampleApps/PeopleInSpace.vue'),
-        () => import('./ExampleApps/Crypto.vue'),
-        () => import('./ExampleApps/News.vue'),
-        () => import('./ExampleApps/Weather.vue'),
-      ][this.app.index % 4]
+      // @ts-ignore
+      return {
+        'people-in-space': () => import('./ExampleApps/PeopleInSpace.vue'),
+        'time': () => import('./ExampleApps/Time.vue'),
+        'crypto': () => import('./ExampleApps/Crypto.vue'),
+      }[this.app.name]
 
       // return () => this.importComponent('Awtrix')
     }

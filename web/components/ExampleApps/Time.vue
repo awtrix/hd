@@ -8,8 +8,6 @@
 <script lang="ts">
 import Scaffolding from "../Scaffolding.vue";
 
-import moment from "moment";
-
 export default Scaffolding.extend({
   data() {
     return {

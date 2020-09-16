@@ -12,14 +12,14 @@
 <script lang="ts">
 import Scaffolding from '../../Scaffolding.vue'
 import Cube from './Cube.vue'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 export default Scaffolding.extend({
   components: { Cube },
 
   data () {
     return {
-      time: moment().format('HHmmss'),
+      time: dayjs().format('HHmmss'),
     }
   },
 
@@ -29,7 +29,7 @@ export default Scaffolding.extend({
 
   methods: {
     getTime() {
-      this.time = moment().format('HHmmss')
+      this.time = dayjs().format('HHmmss')
     }
   }
 })

@@ -71,7 +71,6 @@
 <script lang="ts">
 import Scaffolding from "../Scaffolding.vue";
 import { blue, green, grey, rgb } from "chalk";
-import { parseTwoDigitYear } from 'moment';
 export default Scaffolding.extend({
   data() {
     return {
@@ -139,7 +138,7 @@ export default Scaffolding.extend({
 });
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .icon {
   display: block;
   margin-left: auto;

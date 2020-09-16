@@ -15,6 +15,10 @@
     "strict": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "paths": {
+      "~/*": ["./web/*"],
+      "@/*": ["./src/*"],
+    },
     "rootDirs": [
       "./src"
     ],

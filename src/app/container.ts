@@ -146,14 +146,14 @@ export default class Container {
       defaultViewport: null,
       args: [
         // '--kiosk',
-        '--window-size=1920,480',
+        '--window-size=1280,400',
         '--disable-web-security',
         `--user-data-dir=${path.join(this.homeDirectory, 'chrome')}`
       ],
       ignoreDefaultArgs: ['--enable-automation'],
     })
     const page = await browser.newPage()
-    await page.setViewport({ width: 1920, height: 480 })
+    await page.setViewport({ width: 1280, height: 400 })
     await page.setUserAgent('AWTRIX HD')
     await page.goto('http://localhost:3000')
   }

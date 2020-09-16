@@ -11,7 +11,7 @@ export default Scaffolding.extend({
   mounted () {
     const StaggeredShapes = mojs.stagger(mojs.Shape)
 
-    const width = 1920 / 32
+    const width = 1280 / 32
     const shapes = new StaggeredShapes({
       parent: this.$refs.application,
       quantifier: 32,
@@ -24,7 +24,7 @@ export default Scaffolding.extend({
       scale: { 0: 1 },
     }).play()
 
-    // setTimeout(() => this.requestHidden(), 1000)
+    setTimeout(() => this.destroy(), 2000)
   },
 })
 </script>
