@@ -1,8 +1,8 @@
 {
   "name": "awtrix-hd",
-  "version": "0.1.1-dev",
+  "version": "0.1.4-dev",
   "description": "awtrix",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "bin": {
     "awtrix": "bin/run"
   },
@@ -10,7 +10,8 @@
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "start": "node ./bin/run"
+    "start": "node ./bin/run",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,6 @@
   "bugs": {
     "url": "https://github.com/awtrix/awtrix3-host/issues"
   },
-  "files": [
-    "/bin",
-    "/src",
-    "/web"
-  ],
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
