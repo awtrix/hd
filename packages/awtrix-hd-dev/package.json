@@ -1,0 +1,23 @@
+{
+  "name": "@awtrix/dev",
+  "version": "0.1.0",
+  "bin": {
+    "awtrix-dev": "dist/cli.js"
+  },
+  "description": "The development utils used for Awtrix HD apps",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/awtrix/awtrix-hd-dev.git"
+  },
+  "author": "Christopher Mühl <christopher@padarom.xyz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
+  },
+  "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme"
+}
