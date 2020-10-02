@@ -1,8 +1,8 @@
 {
   "name": "awtrix-hd",
-  "version": "0.1.0-dev",
+  "version": "0.1.1-dev",
   "description": "awtrix",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "bin": {
     "awtrix": "bin/run"
   },
@@ -26,7 +26,8 @@
   },
   "files": [
     "/bin",
-    "/dist"
+    "/src",
+    "/web"
   ],
   "jest": {
     "preset": "ts-jest",
