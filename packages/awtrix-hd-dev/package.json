@@ -2,10 +2,10 @@
   "name": "@awtrix/dev",
   "version": "0.1.0",
   "bin": {
-    "awtrix-dev": "dist/cli.js"
+    "awtrix-dev": "bin/run"
   },
   "description": "The development utils used for Awtrix HD apps",
-  "main": "dist/index.js",
+  "main": "cli",
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc"
@@ -19,5 +19,33 @@
   "bugs": {
     "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
   },
-  "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme"
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "awtrix-dev",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
+  "dependencies": {
+    "@oclif/command": "^1.8.0",
+    "@oclif/plugin-help": "^3.2.0",
+    "awtrix-hd": "^0.1.4-dev",
+    "copy-template-dir": "^1.4.0",
+    "inquirer": "^7.3.3",
+    "install": "^0.13.0",
+    "node-gzip": "^1.1.2",
+    "npm": "^6.14.8",
+    "oclif": "^1.16.1",
+    "tar": "^6.0.5",
+    "ts-node": "^9.0.0",
+    "yeoman-environment": "^2.10.3",
+    "yeoman-generator": "^3.1.4"
+  },
+  "devDependencies": {
+    "@types/node-gzip": "^1.1.0",
+    "@types/tar": "^4.0.3",
+    "@types/yeoman-environment": "^2.10.1",
+    "@types/yeoman-generator": "^3.1.4"
+  }
 }
