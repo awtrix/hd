@@ -3,6 +3,8 @@ import aggregateApp from './aggregateApp'
 import storeNewApp from './storeNewApp'
 
 const { router, bind } = createRouter()
+const childProcess = require("child_process");
+
 
 /**
  * Allows the user to get a list of all apps that have been downloaded
@@ -73,5 +75,16 @@ router.delete('/api/apps/:id', async (ctx) => {
 
   ctx.body = ''
 })
+
+/**
+ * Changes the brightness of the LCD
+ */
+router.post('/api/system/brightness/:brightness', async (ctx) => {
+  const { spawn } = require('child_process')
+  const child = spawn('gpio', ['-g', 'pwm', '18', ctx.params.brightness]);
+  ctx.body = ''
+})
+
+
 
 export default bind

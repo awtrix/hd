@@ -87,6 +87,7 @@
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2",
     "vue-flip-toolkit": "^1.6.0",
+    "vue-slider-component": "^3.2.5",
     "vuedraggable": "^2.24.1",
     "winston": "^3.3.3"
   },
