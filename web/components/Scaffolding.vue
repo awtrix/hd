@@ -1,10 +1,11 @@
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { LifecycleApplication } from '@/types/Application'
 
 export default Vue.extend({
   props: {
     app: {
-      type: Object,
+      type: Object as PropType<LifecycleApplication>,
       required: true,
     },
     visible: {
@@ -32,6 +33,10 @@ export default Vue.extend({
   },
 
   methods: {
+    asset (path: string): string {
+      return `/static/apps/${this.app.name}/${this.app.version}/${path}`
+    },
+
     /**
      * TODO: Figure out how to make this a lifecycle-like method.
      */

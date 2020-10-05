@@ -8,10 +8,10 @@
   },
   "scripts": {
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
-    "build": "tsc",
+    "build": "tsc && nuxt build",
     "build:watch": "tsc --watch",
     "start": "node ./bin/run",
-    "prepublish": "tsc"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
   "bugs": {
     "url": "https://github.com/awtrix/awtrix3-host/issues"
   },
-  "files": ["*"],
+  "files": [
+    "*"
+  ],
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
@@ -93,7 +95,8 @@
     "vue-flip-toolkit": "^1.6.0",
     "vue-slider-component": "^3.2.5",
     "vuedraggable": "^2.24.1",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "cross-env": "^7.0.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.3",
@@ -120,9 +123,8 @@
     "@types/shortid": "0.0.29",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
-    "cross-env": "^7.0.2",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "next"
+    "typescript": "~3.8"
   }
 }

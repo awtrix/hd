@@ -5,6 +5,7 @@ import logger from '../utils/logger'
 import Webserver from '../web'
 import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
+// @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
 
 export default class Container {
@@ -23,7 +24,11 @@ export default class Container {
    */
   booted = false
 
-  constructor (public readonly homeDirectory: string, public readonly headless: boolean) {
+  constructor (
+    public readonly homeDirectory: string,
+    public readonly env: string,
+    public readonly headless: boolean,
+  ) {
     this.package = this.readPackageJson()
   }
 
@@ -109,7 +114,7 @@ export default class Container {
 
       const source = path.join(__dirname, 'template')
       const variables = { version: this.package.version }
-      copyTemplateDir(source, this.homeDirectory, variables, (error, files) => {
+      copyTemplateDir(source, this.homeDirectory, variables, (error: any) => {
         if (error) return reject(error)
         resolve(true)
       })

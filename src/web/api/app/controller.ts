@@ -1,9 +1,9 @@
 import createRouter from '../createRouter'
 import aggregateApp from './aggregateApp'
 import storeNewApp from './storeNewApp'
+import { spawn } from 'child_process'
 
 const { router, bind } = createRouter()
-const childProcess = require("child_process");
 
 
 /**
@@ -80,11 +80,11 @@ router.delete('/api/apps/:id', async (ctx) => {
  * Changes the brightness of the LCD
  */
 router.post('/api/system/brightness/:brightness', async (ctx) => {
-  const { spawn } = require('child_process')
-  const child = spawn('gpio', ['-g', 'pwm', '18', ctx.params.brightness]);
+  try {
+    const child = spawn('gpio', ['-g', 'pwm', '18', ctx.params.brightness])
+  } catch (e) { }
+
   ctx.body = ''
 })
-
-
 
 export default bind

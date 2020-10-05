@@ -28,13 +28,21 @@ class AwtrixOclifApplication extends Command {
 
     // --browser or -b
     browser: flags.boolean({ char: 'b', default: false }),
+
+    // --production or -p
+    production: flags.boolean({ char: 'p', default: process.env['NODE_ENV'] == 'production' }),
   }
 
   async run (): Promise<void> {
     const { flags } = this.parse(AwtrixOclifApplication)
 
     // Boot up the application container
-    const container = new Container(flags.home, !flags.browser)
+    const container = new Container(
+      flags.home,
+      flags.production ? 'production' : 'development',
+      !flags.browser
+    )
+
     container.boot()
   }
 }

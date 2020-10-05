@@ -24,6 +24,7 @@ export default class WebServer {
 
   constructor (protected container: Container) {
     this.app = new Koa()
+    this.app.env = container.env
     this.app.use(bodyParser({ strict: true }))
 
     this.app.context.container = container

@@ -1,9 +1,11 @@
+const path = require('path')
+
 module.exports = {
   /*
     ** Nuxt rendering mode
     ** See https://nuxtjs.org/api/configuration-mode
     */
-  mode: 'spa',
+  ssr: false,
 
   /*
     ** Nuxt target
@@ -32,7 +34,10 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  srcDir: 'web/',
+
+  srcDir: path.join(__dirname, 'web'),
+
+  buildDir: path.join(__dirname, '.nuxt'),
 
   /*
     ** Global CSS
@@ -63,14 +68,14 @@ module.exports = {
   ],
 
   tailwindcss: {
-    cssPath: './assets/stylus/index.styl',
+    cssPath: path.join(__dirname, 'web/assets/stylus/index.styl'),
   },
 
   styleResources: {
     stylus: [
-      './assets/stylus/vars/*.styl',
-      './assets/stylus/abstract/mixins.styl'
-    ]
+      path.join(__dirname, 'web/assets/stylus/vars/*.styl'),
+      path.join(__dirname, 'web/assets/stylus/abstract/mixins.styl'),
+    ],
   },
 
   /*
