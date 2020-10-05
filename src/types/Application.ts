@@ -7,6 +7,7 @@ export type RawApplication = {
   },
   config: any,
   index: number,
+  version?: string
 }
 
 export type LifecycleApplication = RawApplication & {

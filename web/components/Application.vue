@@ -10,6 +10,11 @@
 import Vue, { PropType } from 'vue'
 import { LifecycleApplication } from '@/types/Application'
 
+// TODO: Figure out a better spot for this. Otherwise we need to use
+// "--inline-vue" when building apps
+// @ts-ignore
+window.Vue = Vue
+
 export default Vue.extend({
   props: {
     app: {
@@ -23,23 +28,17 @@ export default Vue.extend({
   },
 
   computed: {
-    appComponent () {
+    appComponent (): () => Promise<any> {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
-      // @ts-ignore
-      return {
-        'people-in-space': () => import('./ExampleApps/PeopleInSpace.vue'),
-        'time': () => import('./ExampleApps/Time.vue'),
-        'crypto': () => import('./ExampleApps/Crypto.vue'),
-      }[this.app.name]
-
-      // return () => this.importComponent('Awtrix')
+      return () => this.importComponent(this.app.name, this.app.version!)
     }
   },
 
   methods: {
-    async importComponent (name: string): Promise<any> {
+    async importComponent (name: string, version: string): Promise<any> {
       const componentKey = `AwtrixComponent.${name}`
+      const url = `/static/apps/${name}/${version}/frontend.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object
@@ -47,7 +46,6 @@ export default Vue.extend({
       if (castedWindow[componentKey]) return castedWindow[componentKey]
 
       return new Promise(async (resolve, reject) => {
-        const url = 'https://pastebin.com/raw/HAtdZ8Wq'
         const script = document.createElement('script')
         script.async = true
         script.addEventListener('load', () => {
@@ -56,7 +54,7 @@ export default Vue.extend({
         script.addEventListener('error', () => {
           reject(new Error(`Error loading ${url}`))
         })
-        script.src = `/api/script?url=${encodeURIComponent(url)}`
+        script.src = url
 
         document.head.appendChild(script)
       })

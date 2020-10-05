@@ -2,10 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 import logger from '../utils/logger'
-import replaceTemplate from '../utils/TemplateParser'
 import Webserver from '../web'
 import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
+import copyTemplateDir from 'copy-template-dir'
 
 export default class Container {
   /**
@@ -43,9 +43,8 @@ export default class Container {
 
     // 1. Make sure that only one instance is running per home directory and
     //    create the home directory (+ config) if it doesn't already exist.
-    await this.createWorkingDirectory()
-    await this.verifyPidfile()
     await this.copyFixtures()
+    await this.verifyPidfile()
 
     // 2. Initialize the lowdb database
     await this.initDatabase()
@@ -60,14 +59,6 @@ export default class Container {
     }
 
     this.booted = true
-  }
-
-  /**
-   * Make sure the configured home directory exists by recursively
-   * creating it.
-   */
-  private async createWorkingDirectory (): Promise<void> {
-    fs.mkdirSync(this.homeDirectory, { recursive: true })
   }
 
   /**
@@ -111,16 +102,18 @@ export default class Container {
    * TODO: Recursively merge the fixture config and the user config
    */
   private async copyFixtures (): Promise<boolean> {
-    let target = path.join(this.homeDirectory, 'config.json')
-    if (fs.existsSync(target)) return false
+    return new Promise((resolve, reject) => {
+      if (fs.existsSync(this.homeDirectory)) return resolve(false)
 
-    logger.info('Copying default config.json to awtrix directory.')
-    fs.copyFileSync(path.join(__dirname, 'fixtures', 'config.json'), target)
-    await replaceTemplate(target, {
-      version: this.package.version as string,
+      logger.info('Copying default template to awtrix home directory.')
+
+      const source = path.join(__dirname, 'template')
+      const variables = { version: this.package.version }
+      copyTemplateDir(source, this.homeDirectory, variables, (error, files) => {
+        if (error) return reject(error)
+        resolve(true)
+      })
     })
-
-    return true
   }
 
   /**

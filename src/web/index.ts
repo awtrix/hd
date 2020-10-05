@@ -1,5 +1,8 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
+import mount from 'koa-mount'
+import serve from 'koa-static'
+import path from 'path'
 import logger from '../utils/logger'
 import createNuxtMiddleware from './nuxtMiddleware'
 import Container from '../app/container'
@@ -19,7 +22,7 @@ export interface KoaContext {
 export default class WebServer {
   app: Koa<any, KoaContext>
 
-  constructor (container: Container) {
+  constructor (protected container: Container) {
     this.app = new Koa()
     this.app.use(bodyParser({ strict: true }))
 
@@ -36,6 +39,12 @@ export default class WebServer {
       bindController(this.app)
     })
 
+    // Then mount our apps' static files (assets + precompiled code) into the
+    // /static/apps path
+    const staticPath = path.join(this.container.homeDirectory, 'apps')
+    const staticMiddleware = serve(staticPath)
+    this.app.use(mount('/static/apps', staticMiddleware))
+
     // Then instantiate Nuxt so that we can also serve our frontend
     // through the same port
     let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
@@ -49,8 +58,5 @@ export default class WebServer {
 
     this.app.listen(port, host)
     logger.info(`Webserver listening on http://${host}:${port}`)
-  }
-
-  configureRoutes () {
   }
 }
