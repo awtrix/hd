@@ -1,0 +1,20 @@
+{
+    "version": "{{version}}",
+    "web": {
+      "port": 8081
+    },
+    "apps": {
+      "rotation": [{
+        "id": "devapp_",
+        "name": "{{name}}",
+        "version": "{{version}}",
+        "config": {}
+      }],
+      "background": [],
+      "available": [{
+        "name": "{{name}}",
+        "version": "{{version}}"
+      }]
+    }
+  }
+  

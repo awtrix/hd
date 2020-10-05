@@ -1,4 +1,5 @@
 import { Command, flags } from '@oclif/command'
+// @ts-ignore
 import Yeoman from 'yeoman-environment'
 import Generator from '../generator'
 

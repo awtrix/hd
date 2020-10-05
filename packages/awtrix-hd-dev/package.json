@@ -19,8 +19,11 @@
   "bugs": {
     "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
   },
+  "files": [
+    "*"
+  ],
   "oclif": {
-    "commands": "./src/commands",
+    "commands": "./dist/commands",
     "bin": "awtrix-dev",
     "plugins": [
       "@oclif/plugin-help"
@@ -30,7 +33,7 @@
   "dependencies": {
     "@oclif/command": "^1.8.0",
     "@oclif/plugin-help": "^3.2.0",
-    "awtrix-hd": "^0.1.4-dev",
+    "awtrix-hd": "file://../awtrix3",
     "copy-template-dir": "^1.4.0",
     "inquirer": "^7.3.3",
     "install": "^0.13.0",
@@ -40,12 +43,13 @@
     "tar": "^6.0.5",
     "ts-node": "^9.0.0",
     "yeoman-environment": "^2.10.3",
-    "yeoman-generator": "^3.1.4"
+    "yeoman-generator": "^4.11.2"
   },
   "devDependencies": {
     "@types/node-gzip": "^1.1.0",
     "@types/tar": "^4.0.3",
     "@types/yeoman-environment": "^2.10.1",
-    "@types/yeoman-generator": "^3.1.4"
+    "@types/yeoman-generator": "^4.11.2",
+    "typescript": "^3.8"
   }
 }

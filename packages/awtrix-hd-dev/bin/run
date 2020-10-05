@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const path = require('path')
-const project = path.join(__dirname, '../tsconfig.json')
+// const project = path.join(__dirname, '../tsconfig.json')
 
 // Always use ts-node in development mode for ease-of-use
-require('ts-node').register({ project })
+// require('ts-node').register({ project })
 
 require('@oclif/command').run()
   .then(require('@oclif/command/flush'))
