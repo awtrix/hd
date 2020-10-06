@@ -1,0 +1,5 @@
+# Since we're working with dev dependencis only locally,
+# we don't need to clutter the repo with its package lock
+/package-lock.json
+
+node_modules
