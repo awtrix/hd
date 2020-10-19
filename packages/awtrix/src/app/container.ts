@@ -7,6 +7,8 @@ import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
+import { BackendApp } from '..'
+import createRouter from '../web/api/createRouter'
 
 export default class Container {
   /**
@@ -18,6 +20,8 @@ export default class Container {
    * The lowdb database from the user's home directory.
    */
   database?: Database
+
+  web?: Webserver
 
   /**
    * A flag indicating whether the container has completed its booting process.
@@ -126,8 +130,10 @@ export default class Container {
    */
   private async startWebserver (): Promise<void> {
     // Start our web interface
-    let web = new Webserver(this)
-    await web.start()
+    this.web = new Webserver(this)
+
+    await this.startController()
+    await this.web.start()
   }
 
   /**
@@ -136,6 +142,22 @@ export default class Container {
   private async initDatabase (): Promise<void> {
     let configPath = path.join(this.homeDirectory, 'config.json')
     this.database = await createDatabase(configPath)
+  }
+
+  private async startController (): Promise<void> {
+    this.database?.get(['apps', 'rotation']).value().forEach((app) => {
+      const backend = path.resolve(this.homeDirectory, 'apps', app.name, app.version, 'backend')
+
+      const generator = require(backend)
+      const klass = generator(BackendApp)
+      const backendApp = new klass() as BackendApp
+
+      const { router, bind } = createRouter({ prefix: `/api/app/${app.name}` })
+      backendApp.register(router)
+
+      bind(this.web!.app)
+      logger.info(`${app.name} backend component registered.`)
+    })
   }
 
   private async startBrowser (): Promise<void> {

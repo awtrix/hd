@@ -4,7 +4,8 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vuepress Docs Boilerplate',
+  title: 'Awtrix HD',
+
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -46,6 +47,7 @@ module.exports = {
         link: 'https://v1.vuepress.vuejs.org'
       }
     ],
+    /*
     sidebar: {
       '/guide/': [
         {
@@ -58,6 +60,7 @@ module.exports = {
         }
       ],
     }
+    */
   },
 
   /**
@@ -66,5 +69,6 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
+    'code-switcher'
   ]
 }

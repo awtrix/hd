@@ -5,7 +5,6 @@ import { spawn } from 'child_process'
 
 const { router, bind } = createRouter()
 
-
 /**
  * Allows the user to get a list of all apps that have been downloaded
  * from the app store.

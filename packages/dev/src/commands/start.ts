@@ -1,5 +1,5 @@
 import { Command, flags } from '@oclif/command'
-import { Command as AwtrixStartCommand } from 'awtrix-hd'
+import { Command as AwtrixStartCommand } from '@awtrix/app'
 import fs from 'fs'
 import path from 'path'
 // @ts-ignore
@@ -24,8 +24,11 @@ export default class Start extends Command {
 
       await this.createAwtrixHome(config)
 
+      await buildFrontend(config, null)
+
       AwtrixStartCommand.run(['--home', './.awtrix', '--production'])
     } catch (error) {
+      console.log(error)
       this.error('Could not find a "package.json" in your current directory.')
     }
 
@@ -37,7 +40,6 @@ export default class Start extends Command {
     // TODO: Find out if hot reloading for backend is possible
     // TODO: Find out how to handle automatic reloading for assets
     // TODO: Find out how to use hot reloading for compiled frontend component
-
   }
 
   async createAwtrixHome (config: any): Promise<void> {

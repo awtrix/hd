@@ -38,7 +38,7 @@ export default Vue.extend({
   methods: {
     async importComponent (name: string, version: string): Promise<any> {
       const componentKey = `AwtrixComponent.${name}`
-      const url = `/static/apps/${name}/${version}/frontend.umd.js`
+      const url = `/static/apps/${name}/${version}/AwtrixComponent.${name}.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object

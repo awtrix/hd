@@ -26,6 +26,8 @@ export default class Pack extends Command {
 
     // Build via vue-cli-service
     // @see https://cli.vuejs.org/guide/build-targets.html#library
+
+    // vue build --target lib --name AwtrixComponent.awtrix .\Awtrix.vue
   }
 
   async buildBackend(config: any) {

@@ -1,8 +1,8 @@
 {
   "name": "@awtrix/app",
-  "version": "0.1.4-dev",
+  "version": "0.1.5",
   "description": "awtrix",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "bin": {
     "awtrix": "bin/run"
   },
@@ -60,7 +60,6 @@
   },
   "homepage": "https://blueforcer.de/2019/01/04/awtrix-2-0/",
   "dependencies": {
-    "@awtrix/app": "^1.0.3",
     "@mojs/core": "^0.288.2",
     "@nuxt/typescript-runtime": "^0.4.10",
     "@nuxtjs/axios": "^5.11.0",

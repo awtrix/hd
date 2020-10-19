@@ -23,7 +23,7 @@
     "*"
   ],
   "oclif": {
-    "commands": "./dist/commands",
+    "commands": "./src/commands",
     "bin": "awtrix-dev",
     "plugins": [
       "@oclif/plugin-help"
@@ -31,9 +31,11 @@
   },
   "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
   "dependencies": {
+    "@awtrix/app": "^0.1.0",
     "@oclif/command": "^1.8.0",
     "@oclif/plugin-help": "^3.2.0",
-    "awtrix-hd": "file://../awtrix3",
+    "@vue/cli": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
     "copy-template-dir": "^1.4.0",
     "inquirer": "^7.3.3",
     "install": "^0.13.0",

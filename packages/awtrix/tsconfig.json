@@ -32,6 +32,7 @@
   "exclude": [
     "node_modules",
     "tests",
-    "dist"
+    "dist",
+    "src/app/template"
   ]
 }
