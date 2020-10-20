@@ -42,14 +42,14 @@ export default class WebServer {
 
     // Then mount our apps' static files (assets + precompiled code) into the
     // /static/apps path
-    // const staticPath = path.join(this.container.homeDirectory, 'apps')
-    // const staticMiddleware = serve(staticPath)
-    // this.app.use(mount('/static/apps', staticMiddleware))
+    const staticPath = path.join(this.container.homeDirectory, 'apps')
+    const staticMiddleware = serve(staticPath)
+    this.app.use(mount('/static/apps', staticMiddleware))
 
     // Then instantiate Nuxt so that we can also serve our frontend
     // through the same port
     let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
-    // this.app.use(middleware)
+    this.app.use(middleware)
 
     // Finally, start listening on the port provided by our nuxt middleware config
     const {

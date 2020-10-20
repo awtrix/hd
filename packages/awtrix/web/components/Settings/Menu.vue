@@ -20,7 +20,7 @@
         </div>
       </Flipped>
 
-      <vue-slider v-model="brightness" />
+      <vue-slider v-if="false" v-model="brightness" />
     </Flipper>
   </div>
 </template>
