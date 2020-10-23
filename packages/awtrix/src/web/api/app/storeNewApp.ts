@@ -1,4 +1,4 @@
-import { Database } from 'src/utils/database'
+import { Database } from '../../../utils/database'
 import shortid from 'shortid'
 import aggregateApp from './aggregateApp'
 

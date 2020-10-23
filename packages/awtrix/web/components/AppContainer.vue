@@ -39,9 +39,6 @@ export default Vue.extend({
   data () {
     return {
       applications: [] as LifecycleApplication[],
-      activeApplicationID: undefined as string | undefined,
-      interruptedApplicationIndex: undefined as number | undefined,
-      loopTimeout: undefined as number | undefined,
       settings: {
         offset: -480,
         panStart: null as number | null,
@@ -51,13 +48,7 @@ export default Vue.extend({
   },
 
   async created () {
-    let apps = await this.loadApplications()
-    let boot = this.bootAnimation()
-
-    this.applications = [boot, ...apps]
-
-    // TODO: What if no applications are available?
-    this.startApplication(this.applications[0].id)
+    // Set up socket.io
   },
 
   mounted () {
@@ -96,106 +87,6 @@ export default Vue.extend({
         displayLength: 100000,
       }, config: {}, lifecycle: { ready: true, locked: true }}
     },
-
-    async loadApplications (): Promise<LifecycleApplication[]> {
-      // TODO: Fetch background apps too.
-      const apps = await fetch('/api/apps/rotation').then(response => response.json())
-
-      const defaultLifecycle = { ready: false, locked: false }
-      return apps.map((app: any) => ({
-        ...app,
-        meta: { displayLength: 15000 }, // TODO: Can be removed later on.
-        lifecycle: defaultLifecycle
-      }))
-    },
-
-    startApplication (id: string, interrupt = false): void {
-      if (interrupt) this.interruptedApplicationIndex = this.activeApplicationIndex
-
-      this.activeApplicationID = id
-      window.setTimeout(() => this.switchToNextApplication(), this.activeApplication!.meta.displayLength)
-    },
-
-    switchToNextApplication (reason: SwitchingReason = SwitchingReason.Loop) {
-      this.switchApplication(this.nextAvailableApplication(), reason)
-    },
-
-    nextAvailableApplication (): string {
-      let index = this.activeApplicationIndex
-      let count = 0
-      do {
-        index = (index + 1) % this.applications.length
-
-        // TODO: Finalize this.
-        if (count++ >= this.applications.length) break
-      } while (!this.applications[index].lifecycle.ready)
-
-      return this.applications[index].id
-    },
-
-    switchApplication (id: string, reason: SwitchingReason) {
-      // TODO: If this.interruptedApplicationIndex is set, switch back to it.
-
-      switch (reason) {
-        case SwitchingReason.UnmaskableInterrupt:
-          return this.startApplication(id, true)
-
-        case SwitchingReason.MaskableInterrupt:
-          return this.scheduleSwitch(id, true)
-
-        case SwitchingReason.Loop:
-          if (this.activeApplication?.lifecycle.locked) {
-            return this.scheduleSwitch(id)
-          }
-
-          this.startApplication(id)
-      }
-    },
-
-    scheduleSwitch (id: string, interrupt = false) {
-      // TODO: By the time the switch takes place, it might not be ready anymore
-
-      let unwatch = this.$watch(() => {
-        let index = this.applications.findIndex(app => app.id == id)
-        return this.applications[index].lifecycle.locked
-      }, (locked) => {
-        if (locked) return
-
-        this.startApplication(id, interrupt)
-        unwatch()
-      })
-    },
-
-    setLocked (app: LifecycleApplication, newState: boolean) {
-      let index = this.applications.findIndex(a => a.id == app.id)
-      this.applications[index].lifecycle.locked = newState
-    },
-
-    setReady (app: LifecycleApplication, newState: boolean) {
-      let index = this.applications.findIndex(a => a.id == app.id)
-      this.applications[index].lifecycle.ready = newState
-    },
-
-    destroy (app: LifecycleApplication) {
-      this.setLocked(app, false)
-
-      let index = this.applications.findIndex(a => a.id == app.id)
-      this.applications.splice(index, 1)
-
-      if (this.activeApplicationID == app.id) {
-        this.switchToNextApplication()
-      }
-    },
   },
-
-  computed: {
-    activeApplicationIndex (): number {
-      return this.applications.findIndex(app => app.id == this.activeApplicationID)
-    },
-
-    activeApplication (): LifecycleApplication | null {
-      return this.applications[this.activeApplicationIndex]
-    },
-  }
 })
 </script>

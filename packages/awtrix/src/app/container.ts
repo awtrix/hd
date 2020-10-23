@@ -9,6 +9,8 @@ import puppeteer from 'puppeteer'
 import copyTemplateDir from 'copy-template-dir'
 import { BackendApp } from '..'
 import createRouter from '../web/api/createRouter'
+import ApplicationManager from './ApplicationManager'
+import ApplicationProcessor from './ApplicationProcessor'
 
 export default class Container {
   /**
@@ -20,6 +22,10 @@ export default class Container {
    * The lowdb database from the user's home directory.
    */
   database?: Database
+
+  manager: ApplicationManager
+
+  processor: ApplicationProcessor
 
   web?: Webserver
 
@@ -33,6 +39,8 @@ export default class Container {
     public readonly env: string,
     public readonly headless: boolean,
   ) {
+    this.manager = new ApplicationManager(homeDirectory)
+    this.processor = new ApplicationProcessor(this)
     this.package = this.readPackageJson()
   }
 
@@ -60,6 +68,8 @@ export default class Container {
 
     // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
+    await this.startProcessor()
+    return
     await this.startWebserver()
 
     // 4. Start Chrome via Puppeteer
@@ -126,6 +136,13 @@ export default class Container {
   }
 
   /**
+   * Starts the application loop processor
+   */
+  private async startProcessor (): Promise<void> {
+    this.processor.start()
+  }
+
+  /**
    * Starts the web server.
    */
   private async startWebserver (): Promise<void> {
@@ -148,15 +165,19 @@ export default class Container {
     this.database?.get(['apps', 'rotation']).value().forEach((app) => {
       const backend = path.resolve(this.homeDirectory, 'apps', app.name, app.version, 'backend')
 
-      const generator = require(backend)
-      const klass = generator(BackendApp)
-      const backendApp = new klass() as BackendApp
+      try {
+        const generator = require(backend)
+        const klass = generator(BackendApp)
+        const backendApp = new klass() as BackendApp
 
-      const { router, bind } = createRouter({ prefix: `/api/app/${app.name}` })
-      backendApp.register(router)
+        const { router, bind } = createRouter({ prefix: `/api/app/${app.name}` })
+        backendApp.register(router)
 
-      bind(this.web!.app)
-      logger.info(`${app.name} backend component registered.`)
+        bind(this.web!.app)
+        logger.info(`${app.name} backend component registered.`)
+      } catch (e) {
+        // TODO: Figure out proper error handling
+      }
     })
   }
 

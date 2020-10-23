@@ -48,6 +48,7 @@ export default Vue.extend({
      * TODO: Figure out how to make this a lifecycle-like method.
      */
     becameHidden () {
+      // -> suspend / suspended
       // no-op
     },
 

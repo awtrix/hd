@@ -1,5 +1,5 @@
 import { Command, flags } from '@oclif/command'
-import Container from './app/container'
+import Container from './app/Container'
 import os from 'os'
 import path from 'path'
 

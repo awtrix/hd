@@ -15,7 +15,9 @@ process.on('unhandledRejection', (reason, promise) => {
 export default class Start extends Command {
   static description = 'starts an Awtrix HD server with only the app in the current folder configured'
 
-  static flags = {}
+  static flags = {
+
+  }
 
   async run() {
     try {
@@ -25,6 +27,7 @@ export default class Start extends Command {
       await this.createAwtrixHome(config)
 
       await buildFrontend(config, null)
+      // await buildBackend(config, null)
 
       AwtrixStartCommand.run(['--home', './.awtrix', '--production'])
     } catch (error) {

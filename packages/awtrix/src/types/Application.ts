@@ -1,6 +1,18 @@
+import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
+
+export type ApplicationIdentifier = { name: string, version: string }
+
+export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
+  awtrix: {
+    backend?: boolean,
+    frontend?: boolean,
+    assets?: boolean,
+    defaultDisplayLength?: number
+  }
+}
+
 export type RawApplication = {
   name: string,
-  id: string,
   meta: {
     between: string[],
     displayLength: number,

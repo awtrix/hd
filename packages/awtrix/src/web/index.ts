@@ -4,8 +4,8 @@ import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
 import logger from '../utils/logger'
-import createNuxtMiddleware from './nuxtMiddleware'
-import Container from '../app/container'
+import createNuxtMiddleware from './createMiddleware'
+import Container from '../app/Container'
 import controllers from './api'
 
 function sleep (milliseconds: number): Promise<void> {
