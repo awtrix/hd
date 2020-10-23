@@ -2,7 +2,7 @@ import lowdb, { LowdbAsync } from 'lowdb'
 import FileAsync from 'lowdb/adapters/FileAsync'
 
 export interface App {
-  id?: string,
+  id: string,
   name: string,
   version: string,
   config?: any,

@@ -2,7 +2,6 @@ import Container from './Container'
 import ApplicationBackend from './ApplicationBackend'
 import { ApplicationIdentifier } from '../types/Application'
 import { join } from 'path'
-import shortid from 'shortid'
 import onChange from 'on-change'
 
 enum SwitchingReason {
@@ -10,6 +9,8 @@ enum SwitchingReason {
   MaskableInterrupt,
   UnmaskableInterrupt,
 }
+
+type ApplicationInstanceIdentifier = ApplicationIdentifier & { id: string }
 
 export default class ApplicationProcessor {
   /**
@@ -36,7 +37,7 @@ export default class ApplicationProcessor {
    *
    * @param identifier
    */
-  instantiateApplication (identifier: ApplicationIdentifier, userConfig: any) {
+  instantiateApplication (identifier: ApplicationInstanceIdentifier, userConfig: any) {
     const config = this.container.manager.config(identifier)
 
     let klass: typeof ApplicationBackend
@@ -47,7 +48,7 @@ export default class ApplicationProcessor {
       klass = ApplicationBackend
     }
 
-    const app = new klass({ ...config, id: shortid.generate() }, userConfig) as ApplicationBackend
+    const app = new klass({ ...config, id: identifier.id }, userConfig) as ApplicationBackend
     this.applications.push(app)
     app.register()
 

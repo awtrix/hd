@@ -12,6 +12,7 @@ export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
 }
 
 export type RawApplication = {
+  id: string,
   name: string,
   meta: {
     between: string[],
