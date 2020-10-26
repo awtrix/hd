@@ -8,12 +8,6 @@ import createNuxtMiddleware from './createMiddleware'
 import Container from '../app/Container'
 import controllers from './api'
 
-function sleep (milliseconds: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds)
-  })
-}
-
 export interface KoaContext {
   container: Container,
   database: NonNullable<typeof Container.prototype.database>,

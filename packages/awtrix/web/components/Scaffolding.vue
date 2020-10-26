@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { LifecycleApplication } from '@/types/Application'
+import { Socket } from 'socket.io-client'
 
 export default Vue.extend({
   props: {
@@ -12,6 +13,10 @@ export default Vue.extend({
       type: Boolean,
       required: true,
     },
+    io: {
+      type: Object as PropType<typeof Socket>,
+      required: true,
+    }
   },
 
   data () {

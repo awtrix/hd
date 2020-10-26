@@ -9,3 +9,8 @@ declare module 'nuxt' {
   const Builder: any
   export { Nuxt, Builder }
 }
+
+declare module "*.vue" {
+  import Vue from 'vue'
+  export default Vue
+}

@@ -1,4 +1,6 @@
-import { ApplicationConfig } from '@/types/Application'
+import { LifecycleApplication, ApplicationConfig } from '@/types/Application'
+import { omit } from 'lodash'
+import { Namespace } from 'socket.io'
 
 type ApplicationConfigWithIdentifier = ApplicationConfig & {
   id: string
@@ -25,7 +27,7 @@ export default class ApplicationBackend {
    *
    * @param config
    */
-  constructor(public config: ApplicationConfigWithIdentifier, public userConfig: any) {
+  constructor(public config: ApplicationConfigWithIdentifier, public userConfig: any, public io: Namespace) {
   }
 
   /**
@@ -36,6 +38,19 @@ export default class ApplicationBackend {
   get displayLength (): number {
     if (this.userConfig.displayLength) return this.userConfig.displayLength
     return this.config.awtrix.defaultDisplayLength || 15000
+  }
+
+  asLifecycleApplication(): LifecycleApplication {
+    return {
+      id: this.config.id,
+      name: this.config.name!,
+      version: this.config.version!,
+      config: omit(this.config, ['name', 'version', 'id']),
+      lifecycle: {
+        ready: this.ready,
+        locked: this.locked,
+      },
+    }
   }
 
   /**

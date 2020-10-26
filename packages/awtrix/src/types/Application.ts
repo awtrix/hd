@@ -14,13 +14,8 @@ export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
 export type RawApplication = {
   id: string,
   name: string,
-  meta: {
-    between: string[],
-    displayLength: number,
-  },
+  version: string,
   config: any,
-  index: number,
-  version?: string
 }
 
 export type LifecycleApplication = RawApplication & {

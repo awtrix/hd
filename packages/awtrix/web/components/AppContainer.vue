@@ -26,6 +26,7 @@ import shortid from 'shortid'
 import Hammer from 'hammerjs'
 import { debounce } from 'lodash'
 import { LifecycleApplication } from '@/types/Application'
+import io, { Socket } from 'socket.io-client'
 
 enum SwitchingReason {
   Loop,
@@ -39,6 +40,8 @@ export default Vue.extend({
   data () {
     return {
       applications: [] as LifecycleApplication[],
+      socket: undefined as typeof Socket | undefined,
+      activeApplicationID: null as string | null,
       settings: {
         offset: -480,
         panStart: null as number | null,
@@ -48,7 +51,15 @@ export default Vue.extend({
   },
 
   async created () {
-    // Set up socket.io
+    this.socket = io('http://localhost:3001')
+
+    this.socket.on('applications', (apps: LifecycleApplication[]) => {
+      this.applications = apps
+    })
+
+    this.socket.on('activeApplicationID', (id: string) => {
+      this.activeApplicationID = id
+    })
   },
 
   mounted () {
@@ -81,12 +92,14 @@ export default Vue.extend({
       this.settings.panStart = null
     },
 
+/*
     bootAnimation (): LifecycleApplication {
       return { name: 'boot', id: 'boot', index: -1, meta: {
         between: ['1', '2'],
         displayLength: 100000,
       }, config: {}, lifecycle: { ready: true, locked: true }}
     },
+    */
   },
 })
 </script>

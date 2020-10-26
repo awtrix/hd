@@ -48,7 +48,9 @@ export default class ApplicationProcessor {
       klass = ApplicationBackend
     }
 
-    const app = new klass({ ...config, id: identifier.id }, userConfig) as ApplicationBackend
+    const ns = this.io.of(`/apps/${identifier.id}`)
+    const app = new klass({ ...config, id: identifier.id }, userConfig, ns)
+
     this.applications.push(app)
     app.register()
 
@@ -76,12 +78,13 @@ export default class ApplicationProcessor {
    * @param interrupt
    */
   enableApplication (id: string, interrupt = false) {
-    console.log('Switching application', id)
     if (interrupt) this.interruptedApplicationID = this.activeApplicationID
     if (this.activeApplication) this.activeApplication.active = false
 
+    this.io.emit('activeApplicationID', id)
     this.activeApplicationID = id
     this.activeApplication!.active = true
+
     setTimeout(() => this.switchToNextApplication(), this.activeApplication!.displayLength)
   }
 
@@ -158,8 +161,17 @@ export default class ApplicationProcessor {
   start () {
     const db = this.container.database!
 
+    this.io.on('connection', (client) => {
+      client.emit('applications', this.applications.map(app => app.asLifecycleApplication()))
+      client.emit('activeApplicationID', this.activeApplicationID)
+    })
+
     db.get(['apps', 'rotation']).value().forEach((app) => this.instantiateApplication(app, app.config))
     this.switchToNextApplication()
+  }
+
+  get io () {
+    return this.container.io!
   }
 }
 

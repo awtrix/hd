@@ -10,7 +10,7 @@ export default class Pack extends Command {
       const packageJson = fs.readFileSync('package.json', 'utf-8')
       const config = JSON.parse(packageJson)
 
-      const buildConfig = config.build
+      const buildConfig = config.awtrix
       if (!buildConfig) throw new Error('abc')
 
       if (buildConfig.frontend) await this.buildFrontend(buildConfig)

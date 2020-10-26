@@ -1,8 +1,9 @@
 import fs from 'fs'
+import io from 'socket.io'
 import path from 'path'
 import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 import logger from '../utils/logger'
-import Webserver from '../web'
+import Webserver from '../web/app'
 import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
 // @ts-ignore
@@ -28,6 +29,8 @@ export default class Container {
   processor: ApplicationProcessor
 
   web?: Webserver
+
+  io?: io.Server
 
   /**
    * A flag indicating whether the container has completed its booting process.
@@ -68,9 +71,8 @@ export default class Container {
 
     // 3. Start the webserver and change the working directory to the configured
     //    home directory. This makes installing and loading dependencies easier.
-    await this.startProcessor()
-    return
     await this.startWebserver()
+    await this.startProcessor()
 
     // 4. Start Chrome via Puppeteer
     if (!this.headless) {
@@ -148,9 +150,10 @@ export default class Container {
   private async startWebserver (): Promise<void> {
     // Start our web interface
     this.web = new Webserver(this)
-
-    await this.startController()
     await this.web.start()
+
+    this.io = io()
+    this.io.listen(3001)
   }
 
   /**
@@ -161,6 +164,7 @@ export default class Container {
     this.database = await createDatabase(configPath)
   }
 
+  /*
   private async startController (): Promise<void> {
     this.database?.get(['apps', 'rotation']).value().forEach((app) => {
       const backend = path.resolve(this.homeDirectory, 'apps', app.name, app.version, 'backend')
@@ -180,6 +184,7 @@ export default class Container {
       }
     })
   }
+  */
 
   private async startBrowser (): Promise<void> {
     const browser = await puppeteer.launch({

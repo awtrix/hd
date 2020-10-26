@@ -1,4 +1,4 @@
-import { KoaContext } from '../web/index'
+import { KoaContext } from '../web/app'
 import KoaRouter from 'koa-router'
 
 export type Router = KoaRouter<any, KoaContext>

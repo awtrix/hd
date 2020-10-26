@@ -1,6 +1,6 @@
 <template>
   <div v-show="visible" class="w-full h-full">
-    <component :is="appComponent" :app="app" :visible="visible"
+    <component :is="appComponent" :app="app" :visible="visible" :io="io"
       v-on="$listeners"
     />
   </div>
@@ -9,6 +9,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { LifecycleApplication } from '@/types/Application'
+import io, { Socket } from 'socket.io-client'
 
 // TODO: Figure out a better spot for this. Otherwise we need to use
 // "--inline-vue" when building apps
@@ -27,12 +28,27 @@ export default Vue.extend({
     },
   },
 
+  data () {
+    return {
+      io: undefined as typeof Socket | undefined,
+    }
+  },
+
   computed: {
     appComponent (): () => Promise<any> {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
       return () => this.importComponent(this.app.name, this.app.version!)
-    }
+    },
+  },
+
+  watch: {
+    app: {
+      immediate: true,
+      handler (app) {
+        this.io = io(`http://localhost:3001/apps/${app.id}`)
+      },
+    },
   },
 
   methods: {
