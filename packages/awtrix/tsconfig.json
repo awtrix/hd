@@ -19,9 +19,6 @@
       "~/*": ["./web/*"],
       "@/*": ["./src/*"],
     },
-    "rootDirs": [
-      "./src"
-    ],
     "types": [
       "node",
       "@types/node",

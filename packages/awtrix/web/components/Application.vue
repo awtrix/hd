@@ -10,6 +10,7 @@
 import Vue, { PropType } from 'vue'
 import { LifecycleApplication } from '@/types/Application'
 import io, { Socket } from 'socket.io-client'
+import { GeneratorType, FrontendApp } from '@awtrix/common'
 
 // TODO: Figure out a better spot for this. Otherwise we need to use
 // "--inline-vue" when building apps
@@ -52,7 +53,7 @@ export default Vue.extend({
   },
 
   methods: {
-    async importComponent (name: string, version: string): Promise<any> {
+    async importComponent (name: string, version: string): Promise<ReturnType<GeneratorType>> {
       const componentKey = `AwtrixComponent.${name}`
       const url = `/static/apps/${name}/${version}/AwtrixComponent.${name}.umd.js`
 
@@ -61,7 +62,7 @@ export default Vue.extend({
       const castedWindow = window as any
       if (castedWindow[componentKey]) return castedWindow[componentKey]
 
-      return new Promise(async (resolve, reject) => {
+      const generate: GeneratorType = await new Promise(async (resolve, reject) => {
         const script = document.createElement('script')
         script.async = true
         script.addEventListener('load', () => {
@@ -74,6 +75,11 @@ export default Vue.extend({
 
         document.head.appendChild(script)
       })
+
+      const generated = generate(FrontendApp)
+      generated.options.render = generate.options.render
+
+      return generated
     }
   }
 })

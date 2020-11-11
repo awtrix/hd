@@ -11,7 +11,7 @@
     "build": "tsc && nuxt build",
     "build:watch": "tsc --watch",
     "start": "node ./bin/run",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/style-resources": "^1.0.0",
     "@schemastore/package": "0.0.5",
+    "@awtrix/common": "file://../common",
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
     "consola": "^2.11.3",

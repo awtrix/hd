@@ -1,5 +1,5 @@
 import Container from './Container'
-import ApplicationBackend from './ApplicationBackend'
+import { BackendApp as ApplicationBackend } from '@awtrix/common'
 import { ApplicationIdentifier } from '../types/Application'
 import { join } from 'path'
 import onChange from 'on-change'

@@ -8,8 +8,6 @@ import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
-import { BackendApp } from '..'
-import createRouter from '../web/api/createRouter'
 import ApplicationManager from './ApplicationManager'
 import ApplicationProcessor from './ApplicationProcessor'
 

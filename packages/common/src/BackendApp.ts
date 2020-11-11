@@ -1,4 +1,4 @@
-import { LifecycleApplication, ApplicationConfig } from '@/types/Application'
+import { LifecycleApplication, ApplicationConfig } from './types/app'
 import { omit } from 'lodash'
 import { Namespace } from 'socket.io'
 
