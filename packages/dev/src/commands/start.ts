@@ -6,6 +6,7 @@ import path from 'path'
 import copyTemplateDir from 'copy-template-dir'
 import buildBackend from '../packer/buildBackend'
 import buildFrontend from '../packer/buildFrontend'
+import copyPackageJson from '../packer/copyPackageJson'
 import createPackage from '../packer/createPackage'
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -26,6 +27,7 @@ export default class Start extends Command {
 
       await this.createAwtrixHome(config)
 
+      await copyPackageJson(config)
       await buildFrontend(config, null)
       await buildBackend(config, null)
 
