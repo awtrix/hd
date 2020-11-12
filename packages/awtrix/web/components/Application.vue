@@ -82,8 +82,13 @@ export default Vue.extend({
       // object, but we're exporting a generator function, rather than the Vue
       // constructor, we need to now override the original render function with
       // the compiled one.
+      // TODO: Object.assign doesn't work here, but find a better way than this!
       // @ts-ignore
       generated.options.render = generate.options.render
+      // @ts-ignore
+      generated.options.staticRenderFns = generate.options.staticRenderFns
+      // @ts-ignore
+      generated.options.__file = generate.options.__file
 
       return generated
     }

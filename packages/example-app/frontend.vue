@@ -2,6 +2,7 @@
     <div class="banana" style="padding: 30px">
         <button @click="toggle" :style="{ backgroundColor: status == 'on' ? 'green' : 'red' }">Toggle Light</button>
         <p>Current Status: {{ status }}</p>
+        <img src="abc.png">
     </div>
 </template>
 
@@ -9,12 +10,6 @@
 import { createFrontend } from '@awtrix/common'
 
 export default createFrontend({
-  props: {
-    custom: {
-      type: String
-    }
-  },
-
   data () {
     return {
       status: 'n/a',
@@ -22,7 +17,7 @@ export default createFrontend({
   },
 
   mounted () {
-    console.log(this.asset('abc.def'));
+    // this.asset('abc.img')
   },
 
   methods: {
