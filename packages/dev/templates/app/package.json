@@ -5,5 +5,8 @@
     "frontend": true,
     "backend": false,
     "assets": true
+  },
+  "dependencies": {
+    "@awtrix/common": "^0.1"
   }
 }

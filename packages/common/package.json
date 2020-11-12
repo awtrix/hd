@@ -1,17 +1,20 @@
 {
   "name": "@awtrix/common",
-  "version": "0.1.5",
+  "version": "0.1.2",
   "description": "awtrix",
   "main": "dist/index.js",
-  "bin": {
-    "awtrix": "bin/run"
+  "scripts": {
+    "prepublishOnly": "tsc"
   },
+  "files": [
+    "dist",
+    "tsconfig.json"
+  ],
   "devDependencies": {
     "@schemastore/package": "0.0.6",
     "@types/lodash": "^4.14.165",
     "@types/socket.io": "^2.1.11",
     "@types/socket.io-client": "^1.4.34",
-    "tsc": "^1.20150623.0",
     "typescript": "^4.0.5",
     "vue": "^2.6.12"
   },

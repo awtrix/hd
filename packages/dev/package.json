@@ -1,57 +1,57 @@
 {
-    "name": "@awtrix/dev",
-    "version": "0.1.0",
-    "bin": {
-        "awtrix-dev": "bin/run"
-    },
-    "description": "The development utils used for Awtrix HD apps",
-    "main": "cli",
-    "scripts": {
-        "prepublish": "npm run build",
-        "build": "tsc"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/awtrix/awtrix-hd-dev.git"
-    },
-    "author": "Christopher Mühl <christopher@padarom.xyz>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
-    },
-    "files": [
-        "*"
-    ],
-    "oclif": {
-        "commands": "./dist/commands",
-        "bin": "awtrix-dev",
-        "plugins": [
-            "@oclif/plugin-help"
-        ]
-    },
-    "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
-    "dependencies": {
-        "@awtrix/app": "^0.1.0",
-        "@oclif/command": "^1.8.0",
-        "@oclif/plugin-help": "^3.2.0",
-        "@vue/cli": "^4.5.8",
-        "@vue/cli-service": "^4.5.8",
-        "copy-template-dir": "^1.4.0",
-        "inquirer": "^7.3.3",
-        "install": "^0.13.0",
-        "node-gzip": "^1.1.2",
-        "npm": "^6.14.8",
-        "oclif": "^1.16.1",
-        "tar": "^6.0.5",
-        "ts-node": "^9.0.0",
-        "yeoman-environment": "^2.10.3",
-        "yeoman-generator": "^4.11.2"
-    },
-    "devDependencies": {
-        "@types/node-gzip": "^1.1.0",
-        "@types/tar": "^4.0.3",
-        "@types/yeoman-environment": "^2.10.1",
-        "@types/yeoman-generator": "^4.11.2",
-        "typescript": "^3.8"
-    }
+  "name": "@awtrix/dev",
+  "version": "0.1.0",
+  "bin": {
+    "awtrix-dev": "bin/run"
+  },
+  "description": "The development utils used for Awtrix HD apps",
+  "main": "cli",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/awtrix/awtrix-hd-dev.git"
+  },
+  "author": "Christopher Mühl <christopher@padarom.xyz>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
+  },
+  "files": [
+    "*"
+  ],
+  "oclif": {
+    "commands": "./dist/commands",
+    "bin": "awtrix-dev",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
+  "dependencies": {
+    "@awtrix/app": "^0.1.0",
+    "@oclif/command": "^1.8.0",
+    "@oclif/plugin-help": "^3.2.0",
+    "@vue/cli": "^4.5.8",
+    "@vue/cli-service": "^4.5.8",
+    "copy-template-dir": "^1.4.0",
+    "inquirer": "^7.3.3",
+    "install": "^0.13.0",
+    "node-gzip": "^1.1.2",
+    "npm": "^6.14.8",
+    "oclif": "^1.16.1",
+    "tar": "^6.0.5",
+    "ts-node": "^9.0.0",
+    "yeoman-environment": "^2.10.3",
+    "yeoman-generator": "^4.11.2"
+  },
+  "devDependencies": {
+    "@types/node-gzip": "^1.1.0",
+    "@types/tar": "^4.0.3",
+    "@types/yeoman-environment": "^2.10.1",
+    "@types/yeoman-generator": "^4.11.2",
+    "typescript": "^3.8"
+  }
 }

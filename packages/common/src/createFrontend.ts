@@ -9,7 +9,7 @@ type VueInstanceType<T> = T extends VueConstructor<infer X> ? X : never
 type ExtendReturnType = ReturnType<typeof FrontendApp.extend>
 type InstanceType = VueInstanceType<ExtendReturnType>
 
-export type GeneratorType = (base: typeof FrontendApp) => ReturnType<typeof FrontendApp.extend>
+export type GeneratorType = ((base: typeof FrontendApp) => ReturnType<typeof FrontendApp.extend>) & { options: any }
 
 // Overload the extend function so that app developers can use both
 // array props and record props
@@ -27,7 +27,7 @@ function extend(options?: any): GeneratorType {
   // `options` property as well. We will then override the actual render function after
   // loading the component in our frontend.
   Object.assign(generatorFunction, { options: {} })
-  return generatorFunction
+  return generatorFunction as GeneratorType
 }
 
 export default extend

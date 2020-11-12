@@ -1,5 +1,10 @@
 name: Lint sources
-on: push
+
+# Disable for now.
+on:
+  push:
+    branches-ignore:
+      - '**'
 
 jobs:
   lint:

@@ -77,6 +77,12 @@ export default Vue.extend({
       })
 
       const generated = generate(FrontendApp)
+
+      // Since `vue-loader` adds a compiled render function to the exported
+      // object, but we're exporting a generator function, rather than the Vue
+      // constructor, we need to now override the original render function with
+      // the compiled one.
+      // @ts-ignore
       generated.options.render = generate.options.render
 
       return generated
