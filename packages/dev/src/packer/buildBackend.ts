@@ -5,9 +5,11 @@ export default (config: any, target: any) => {
   return new Promise((resolve, reject) => {
     const service = spawn('npx tsc', [
       '--module commonjs',
-      '--lib es6',
+      '--lib es6,dom',
+      '--target es6',
       `--outDir ${join(process.cwd(), `.awtrix/apps/${config.name}/${config.version}`)}`,
       '--types',
+      '--skipLibCheck',
       '--watch',
       join(process.cwd(), 'backend.ts')
     ], {
@@ -28,6 +30,7 @@ export default (config: any, target: any) => {
       console.log(err)
     })
 
-    resolve()
+    // TODO: Better solution please
+    setTimeout(resolve, 2000)
   })
 }

@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/app",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "awtrix",
   "main": "dist/index.js",
   "bin": {
@@ -35,6 +35,7 @@
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@nuxtjs/tailwindcss": "^2.0.0",
     "@schemastore/package": "0.0.5",
     "@awtrix/common": "^0.1.2",
     "axios": "^0.21.0",
@@ -76,7 +77,6 @@
     "@nuxtjs/eslint-config": "^3.0.0",
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
-    "@nuxtjs/tailwindcss": "^2.0.0",
     "@types/decompress": "^4.2.3",
     "@types/hammerjs": "^2.0.36",
     "@types/koa": "^2.11.2",

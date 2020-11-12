@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join, resolve } from 'path'
 import { exec } from 'child_process'
 import axios from 'axios'
 import fs from 'fs'
@@ -16,7 +16,7 @@ export default class ApplicationManager {
    * @return String
    */
   path(app: ApplicationIdentifier) {
-    return join(this.homeDir, 'apps', app.name, app.version)
+    return resolve(join(this.homeDir, 'apps', app.name, app.version))
   }
 
   /**

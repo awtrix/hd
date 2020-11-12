@@ -27,7 +27,7 @@ export default class Start extends Command {
       await this.createAwtrixHome(config)
 
       await buildFrontend(config, null)
-      // await buildBackend(config, null)
+      await buildBackend(config, null)
 
       AwtrixStartCommand.run(['--home', './.awtrix', '--production'])
     } catch (error) {

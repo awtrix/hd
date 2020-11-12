@@ -42,7 +42,8 @@ export default class ApplicationProcessor {
 
     let klass: typeof ApplicationBackend
     if (config.awtrix.backend) {
-      const generator = require(join(this.container.manager.path(identifier), 'backend.js'))
+      let generator = require(join(this.container.manager.path(identifier), 'backend.js'))
+      if (generator.default) generator = generator.default
       klass = generator(ApplicationBackend)
     } else {
       klass = ApplicationBackend
