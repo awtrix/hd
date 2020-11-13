@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/dev",
-  "version": "0.1.1",
+  "version": "0.1.13",
   "bin": {
     "awtrix-dev": "bin/run"
   },
@@ -19,7 +19,9 @@
     "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
   },
   "files": [
-    "*"
+    "bin",
+    "dist",
+    "tsconfig.json"
   ],
   "oclif": {
     "commands": "./dist/commands",
@@ -30,7 +32,7 @@
   },
   "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
   "dependencies": {
-    "@awtrix/app": "^0.1.0",
+    "@awtrix/app": "^0.1.8",
     "@oclif/command": "^1.8.0",
     "@oclif/plugin-help": "^3.2.0",
     "@types/node": "^14.14.7",
