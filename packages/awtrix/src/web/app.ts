@@ -1,4 +1,5 @@
 import Koa from 'koa'
+import http from 'http'
 import bodyParser from 'koa-bodyparser'
 import mount from 'koa-mount'
 import serve from 'koa-static'
@@ -45,13 +46,11 @@ export default class WebServer {
     let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
     this.app.use(middleware)
 
-    // Finally, start listening on the port provided by our nuxt middleware config
-    const {
-      host = process.env.HOST || '0.0.0.0',
-      port = process.env.PORT || 3000,
-    } = nuxt.options.server
+    // Finally, start listening
+    const server = http.createServer(this.app.callback())
+    const port = parseInt(process.env.PORT || '3000')
 
-    this.app.listen(port, host)
-    logger.info(`Webserver listening on http://${host}:${port}`)
+    server.listen(port, process.env.HOST || '0.0.0.0')
+    logger.info(`Webserver listening on http://localhost:${port}`)
   }
 }

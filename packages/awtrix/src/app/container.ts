@@ -1,6 +1,7 @@
 import fs from 'fs'
+import http from 'http'
 import io from 'socket.io'
-import path from 'path'
+import path, { resolve } from 'path'
 import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 import logger from '../utils/logger'
 import Webserver from '../web/app'
@@ -146,12 +147,14 @@ export default class Container {
    * Starts the web server.
    */
   private async startWebserver (): Promise<void> {
-    // Start our web interface
-    this.web = new Webserver(this)
-    await this.web.start()
+      // Start our web interface
+      this.web = new Webserver(this)
+      await this.web.start()
 
-    this.io = io()
-    this.io.listen(3001)
+      // Start the socket.io server
+      const server = http.createServer()
+      server.listen(3001, '0.0.0.0')
+      this.io = io.listen(server)
   }
 
   /**
