@@ -51,7 +51,7 @@ export default Vue.extend({
   },
 
   async created () {
-    this.socket = io('http://localhost:3001')
+    this.socket = io(`http://${location.hostname}:3001`)
 
     this.socket.on('applications', (apps: LifecycleApplication[]) => {
       this.applications = apps

@@ -47,7 +47,7 @@ export default Vue.extend({
     app: {
       immediate: true,
       handler (app) {
-        this.io = io(`http://localhost:3001/apps/${app.id}`)
+        this.io = io(`http://${location.hostname}:3001/apps/${app.id}`)
       },
     },
   },
