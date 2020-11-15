@@ -47,7 +47,7 @@ export default class WebServer {
 
     // Finally, start listening on the port provided by our nuxt middleware config
     const {
-      host = process.env.HOST || '127.0.0.1',
+      host = process.env.HOST || '0.0.0.0',
       port = process.env.PORT || 3000,
     } = nuxt.options.server
 
