@@ -1,12 +1,12 @@
 <template>
   <div class="app grid grid-cols-4 gap-4">
     <div class="p-4 col-span-1" v-if="weather.main">
-      <div class="text-white text-2xl">
+      <div class="text-white text-center text-2xl">
         {{ weather.name }}, {{ weather.sys.country }}
         <div class="text-xl">{{ dateBuilder() }}</div>
       </div>
 
-      <div class="">
+      <div class="flex pl-4">
         <div class="icon thunder-storm">
           <div class="cloud"></div>
           <div class="lightning">
@@ -14,11 +14,11 @@
             <div class="bolt"></div>
           </div>
         </div>
-        <div class="ml-6">
+        <div class="pl-4 pt-4">
           <div class="text-white text-6xl">
             {{ Math.round(weather.main.temp) }}°C
           </div>
-          <div class="text-gray-300 text-xl">
+          <div class="text-gray-300 ml-3 text-l">
             {{ weather.weather[0].description }}
           </div>
         </div>
@@ -120,7 +120,7 @@ export default createFrontend({
 
 <style>
 .app {
-  color: #161616;
+  color: #1d1d1d;
   font-family: "Roboto", sans-serif;
   background-color: currentColor;
   height: 100%;
