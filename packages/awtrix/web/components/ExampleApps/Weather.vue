@@ -70,7 +70,7 @@ export default Scaffolding.extend({
 });
 </script>
 
-<style lang="stylus">
+<style>
 body {
   font-family: 'montserrat', sans-serif;
 }
