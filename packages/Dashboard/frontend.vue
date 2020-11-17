@@ -43,8 +43,8 @@ export default createFrontend({
             query: "",
             location: "Maintal",
             weather: {},
-            time: "",
-            seconds: 0,
+            time: '',
+            seconds: '0',
         };
     },
 
@@ -104,7 +104,8 @@ export default createFrontend({
                 this.zeroPadding(cd.getHours(), 2) +
                 ":" +
                 this.zeroPadding(cd.getMinutes(), 2);
-            this.seconds = Math.floor(Math.random() * 60);
+            this.seconds = this.zeroPadding(cd.getSeconds(), 2);
+            this.$forceUpdate();
         },
         zeroPadding(num, digit) {
             var zero = "";
