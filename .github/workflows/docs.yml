@@ -1,0 +1,27 @@
+name: Build and deploy the documentation
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'docs/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v2
+
+      - name: Build and Deploy
+        uses: jenkey2011/vuepress-deploy@master
+        env:
+          # See https://github.com/marketplace/actions/vuepress-deploy#create-a-personal-access-token
+          # on how to create and store an access token in case a new one is
+          # ever needed
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          CNAME: docs.awtrix.io
+          TARGET_BRANCH: docs
+          BUILD_SCRIPT: npm install && npm run docs:build
+          BUILD_DIR: docs/.vuepress/dist
