@@ -15,25 +15,28 @@ export default (App: typeof BackendApp) => {
         this.io.emit('quickdeck', data.toString());
       });
 
-
       this.io.on('connection', (socket) => {
         socket.on('quickdeck1', (data) => {
           TCPclient.write(data)
         });
+        socket.on('quickdeckGetData', (data) => {
+          TCPclient.write(data)
+        });
       });
-    
+
+
 
       TCPclient.connect(8888, 'localhost', function () {
         console.log('Connected');
       });
 
-      TCPclient.on('error', function() {}); // need this line so it wont throw exception
+      TCPclient.on('error', function () { }); // need this line so it wont throw exception
 
-    // Add a 'close' event handler for the client socket
-    TCPclient.on('close', function() {
-      TCPclient.connect(8888, 'localhost')
-    });
- 
+      // Add a 'close' event handler for the client socket
+      TCPclient.on('close', function () {
+        TCPclient.connect(8888, 'localhost')
+      });
+
     };
 
   }

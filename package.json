@@ -11,5 +11,8 @@
     "lerna": "^3.22.1",
     "vuepress": "^1.6.0",
     "vuepress-plugin-code-switcher": "^1.0.3"
+  },
+  "dependencies": {
+    "tailwindcss": "^1.9.6"
   }
 }
