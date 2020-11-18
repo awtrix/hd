@@ -10,6 +10,6 @@ features:
 - title: Feature 2 Title
   details: Feature 2 Description
 - title: Feature 3 Title
-  details: Feature 3 Description
+  details: Feature 3 Description 
 footer: Made by Christopher Mühl with ❤️
 ---
