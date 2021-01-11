@@ -31,7 +31,7 @@ export default class Start extends Command {
       await buildFrontend(config, null)
       await buildBackend(config, null)
 
-      AwtrixStartCommand.run(['--home', './.awtrix', '--production'])
+      AwtrixStartCommand.run(['--home', './.awtrix', '--production', '--live-reload'])
     } catch (error) {
       console.log(error)
       this.error('Could not find a "package.json" in your current directory.')

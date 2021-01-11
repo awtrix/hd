@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/dev",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "bin": {
     "awtrix-dev": "bin/run"
   },
@@ -20,12 +20,13 @@
   },
   "files": [
     "bin",
+    "src",
     "dist",
     "templates",
     "tsconfig.json"
   ],
   "oclif": {
-    "commands": "./dist/commands",
+    "commands": "./src/commands",
     "bin": "awtrix-dev",
     "plugins": [
       "@oclif/plugin-help"

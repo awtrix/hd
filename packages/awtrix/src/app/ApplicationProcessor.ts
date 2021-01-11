@@ -1,7 +1,10 @@
 import Container from './Container'
 import { BackendApp as ApplicationBackend } from '@awtrix/common'
 import { ApplicationIdentifier } from '../types/Application'
-import { join } from 'path'
+import { join, resolve } from 'path'
+import { debounce } from 'lodash'
+import chokidar from 'chokidar'
+import logger from '../utils/logger'
 import onChange from 'on-change'
 
 enum SwitchingReason {
@@ -22,6 +25,11 @@ export default class ApplicationProcessor {
    * TODO
    */
   interruptedApplicationID?: string
+
+  /**
+   * @type [SocketIO.Socket]
+   */
+  clients: SocketIO.Socket[] = []
 
   /**
    * TODO
@@ -162,13 +170,29 @@ export default class ApplicationProcessor {
   start () {
     const db = this.container.database!
 
+    if (this.container.liveReload) this.enableLiveReload()
+
     this.io.on('connection', (client) => {
+      // this.clients.push(client)
+
       client.emit('applications', this.applications.map(app => app.asLifecycleApplication()))
       client.emit('activeApplicationID', this.activeApplicationID)
     })
 
     db.get(['apps', 'rotation']).value().forEach((app) => this.instantiateApplication(app, app.config))
     this.switchToNextApplication()
+  }
+
+  /**
+   * TODO
+   */
+  enableLiveReload () {
+    let watched = resolve(join(this.container.homeDirectory, 'apps'))
+    logger.info(`Enabling live reload for ${watched}`)
+
+    chokidar.watch(watched).on('all', debounce(() => {
+      this.io.sockets.emit('reload')
+    }, 500))
   }
 
   get io () {

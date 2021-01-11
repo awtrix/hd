@@ -31,6 +31,9 @@ class AwtrixOclifApplication extends Command {
 
     // --production or -p
     production: flags.boolean({ char: 'p', default: process.env['NODE_ENV'] == 'production' }),
+
+    // --live-reload
+    'live-reload': flags.boolean({ default: false }),
   }
 
   async run (): Promise<void> {
@@ -40,7 +43,8 @@ class AwtrixOclifApplication extends Command {
     const container = new Container(
       flags.home,
       flags.production ? 'production' : 'development',
-      !flags.browser
+      !flags.browser,
+      flags['live-reload'],
     )
 
     container.boot()

@@ -40,6 +40,7 @@ export default class Container {
     public readonly homeDirectory: string,
     public readonly env: string,
     public readonly headless: boolean,
+    public readonly liveReload: boolean,
   ) {
     this.manager = new ApplicationManager(homeDirectory)
     this.processor = new ApplicationProcessor(this)

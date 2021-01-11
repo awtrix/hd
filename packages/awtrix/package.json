@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/app",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "awtrix",
   "main": "dist/index.js",
   "bin": {
@@ -30,14 +30,15 @@
     "*"
   ],
   "dependencies": {
+    "@awtrix/common": "^0.1.2",
     "@mojs/core": "^0.288.2",
     "@nuxt/typescript-runtime": "^0.4.10",
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/tailwindcss": "^2.0.0",
-    "@awtrix/common": "^0.1.2",
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
+    "chokidar": "^3.5.0",
     "copy-template-dir": "^1.3",
     "dayjs": "^1.8.35",
     "decompress": "^4.2.1",

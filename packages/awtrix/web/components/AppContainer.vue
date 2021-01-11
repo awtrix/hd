@@ -53,6 +53,8 @@ export default Vue.extend({
   async created () {
     this.socket = io(`http://${location.hostname}:3001`)
 
+    this.socket.on('reload', () => { window.location.reload() })
+
     this.socket.on('applications', (apps: LifecycleApplication[]) => {
       this.applications = apps
     })
