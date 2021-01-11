@@ -1,13 +1,12 @@
 import { Command, flags } from '@oclif/command'
-import { Command as AwtrixStartCommand } from '@awtrix/app'
 import fs from 'fs'
+import { ChildProcess, fork } from 'child_process'
 import path from 'path'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
 import buildBackend from '../packer/buildBackend'
 import buildFrontend from '../packer/buildFrontend'
 import copyPackageJson from '../packer/copyPackageJson'
-import createPackage from '../packer/createPackage'
 
 process.on('unhandledRejection', (reason, promise) => {
   console.log(promise)
@@ -20,6 +19,8 @@ export default class Start extends Command {
 
   }
 
+  childProcess?: ChildProcess
+
   async run() {
     try {
       const packageJson = fs.readFileSync('package.json', 'utf-8')
@@ -31,7 +32,7 @@ export default class Start extends Command {
       await buildFrontend(config, null)
       await buildBackend(config, null)
 
-      AwtrixStartCommand.run(['--home', './.awtrix', '--production', '--live-reload'])
+      this.startReloadingAwtrix(config)
     } catch (error) {
       console.log(error)
       this.error('Could not find a "package.json" in your current directory.')
@@ -45,6 +46,28 @@ export default class Start extends Command {
     // TODO: Find out if hot reloading for backend is possible
     // TODO: Find out how to handle automatic reloading for assets
     // TODO: Find out how to use hot reloading for compiled frontend component
+  }
+
+  startReloadingAwtrix (config: any) {
+    this.restartAwtrixServer()
+
+    fs.watchFile(`.awtrix/apps/${config.name}/${config.version}/backend.js`, () => {
+      this.restartAwtrixServer()
+    })
+  }
+
+  restartAwtrixServer () {
+    if (this.childProcess) {
+      this.childProcess.on('exit', () => {
+        this.childProcess = undefined
+        this.restartAwtrixServer()
+      })
+
+      this.childProcess.kill('SIGTERM')
+      return
+    }
+
+    this.childProcess = fork(path.join(__dirname, '../thread/awtrix.js'))
   }
 
   async createAwtrixHome (config: any): Promise<void> {
