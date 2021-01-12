@@ -9,7 +9,10 @@
       "id": "fn08_54",
       "name": "awtrix",
       "version": "0.0.1",
-      "config": {}
+      "config": {
+        "heightInMeters": 1.65,
+        "region": "us"
+      }
     }],
     "background": [],
     "available": [{

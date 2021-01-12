@@ -6,6 +6,7 @@ import path from 'path'
 import copyTemplateDir from 'copy-template-dir'
 import buildBackend from '../packer/buildBackend'
 import buildFrontend from '../packer/buildFrontend'
+import copyAssets from '../packer/copyAssets'
 import copyPackageJson from '../packer/copyPackageJson'
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -22,20 +23,25 @@ export default class Start extends Command {
   childProcess?: ChildProcess
 
   async run() {
+    if (!fs.existsSync('package.json')) {
+      return this.error('Could not find a "package.json" in your current directory.')
+    }
+
+    const packageJson = fs.readFileSync('package.json', 'utf-8')
+    let config = JSON.parse(packageJson)
+
     try {
-      const packageJson = fs.readFileSync('package.json', 'utf-8')
-      let config = JSON.parse(packageJson)
-
       await this.createAwtrixHome(config)
-
       await copyPackageJson(config)
-      await buildFrontend(config, null)
-      await buildBackend(config, null)
+      await copyAssets(config, 'translations')
+
+      if (config.awtrix.frontend) await buildFrontend(config, null)
+      if (config.awtrix.backend) await buildBackend(config, null)
+      if (config.awtrix.assets) await copyAssets(config, 'assets')
 
       this.startReloadingAwtrix(config)
     } catch (error) {
-      console.log(error)
-      this.error('Could not find a "package.json" in your current directory.')
+      this.error(error)
     }
 
     // 1. Start watcher that compiles sources (extract from pack.ts)
@@ -56,6 +62,18 @@ export default class Start extends Command {
     })
   }
 
+  async createAwtrixHome (config: any): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const source = path.join(__dirname, '../../templates', 'development')
+      const variables = { name: config.name, version: config.version }
+
+      copyTemplateDir(source, '.awtrix', variables, (error: Error | null) => {
+        if (error) return reject(error)
+        resolve()
+      })
+    })
+  }
+
   restartAwtrixServer () {
     if (this.childProcess) {
       this.childProcess.on('exit', () => {
@@ -68,17 +86,5 @@ export default class Start extends Command {
     }
 
     this.childProcess = fork(path.join(__dirname, '../thread/awtrix.js'))
-  }
-
-  async createAwtrixHome (config: any): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const source = path.join(__dirname, '../../templates', 'development')
-      const variables = { name: config.name, version: config.version }
-
-      copyTemplateDir(source, '.awtrix', variables, (error: Error | null) => {
-        if (error) return reject(error)
-        resolve()
-      })
-    })
   }
 }
