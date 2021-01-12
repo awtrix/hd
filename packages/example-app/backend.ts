@@ -1,9 +1,11 @@
 import { BackendApp } from '@awtrix/common'
 
 export default (App: typeof BackendApp) => {
-  return class ExampleApp extends App {
+  return class extends App {
     register () {
-      console.log('My app was successfully registered.')
+      setInterval(() => {
+        this.io.emit('schnitzel', Math.random())
+      }, 1000)
     }
   }
 }

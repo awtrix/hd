@@ -1,25 +1,21 @@
 <template>
-    <div class="app">
-        
-    </div>
+  <div class="myclass">
+    Test 22 {{ stat }}
+  </div>
 </template>
 
-<script lang="ts">
+<script>
 import { createFrontend } from '@awtrix/common'
 
 export default createFrontend({
   data () {
     return {
-     
+      stat: 'n/a',
     }
   },
 
   mounted () {
-
-  },
-
-  methods: {
-   
+    this.io.on('schnitzel', (value) => { this.stat = value })
   },
 })
 </script>
