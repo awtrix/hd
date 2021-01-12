@@ -12,7 +12,7 @@ export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
     frontend?: boolean,
     assets?: boolean,
     defaultDisplayLength?: number,
-    config: any, // TODO: Properly type the config hash
+    settings: any, // TODO: Properly type the settings hash
   }
 }
 
@@ -24,6 +24,7 @@ export type RawApplication = {
 }
 
 export type LifecycleApplication = RawApplication & {
+  userConfig: any,
   lifecycle: {
     ready: boolean,
     locked: boolean,

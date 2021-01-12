@@ -59,12 +59,23 @@ export default class ApplicationProcessor {
     }
 
     const ns = this.io.of(`/apps/${identifier.id}`)
-    const app = new klass({ ...config, id: identifier.id, translations }, userConfig, ns)
+    const augmentedUserConfig = this.fillConfig(userConfig, config.awtrix.settings)
+    const app = new klass({ ...config, id: identifier.id, translations }, augmentedUserConfig, ns)
 
     this.applications.push(app)
     app.register()
 
     return app
+  }
+
+  fillConfig(userConfig: any, settings: any): any {
+    return Object.keys(settings).reduce((augmented, key) => {
+      if (settings[key].hasOwnProperty('default') && !augmented.hasOwnProperty(key)) {
+        augmented[key] = settings[key].default
+      }
+
+      return augmented
+    }, userConfig)
   }
 
   /**

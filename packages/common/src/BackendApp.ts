@@ -54,6 +54,7 @@ export default class ApplicationBackend {
       name: this.config.name!,
       version: this.config.version!,
       config: omit(this.config, ['name', 'version', 'id']),
+      userConfig: this.userConfig,
       lifecycle: {
         ready: this.ready,
         locked: this.locked,

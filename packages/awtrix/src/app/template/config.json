@@ -10,7 +10,6 @@
       "name": "awtrix",
       "version": "0.0.1",
       "config": {
-        "heightInMeters": 1.65,
         "region": "us"
       }
     }],
