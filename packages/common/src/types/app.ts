@@ -2,12 +2,17 @@ import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 
 export type ApplicationIdentifier = { name: string, version: string }
 
+export type ApplicationTranslations = {
+  [key: string]: { [key: string]: string }
+}
+
 export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
   awtrix: {
     backend?: boolean,
     frontend?: boolean,
     assets?: boolean,
-    defaultDisplayLength?: number
+    defaultDisplayLength?: number,
+    config: any, // TODO: Properly type the config hash
   }
 }
 

@@ -141,7 +141,7 @@ export default class Container {
    * Starts the application loop processor
    */
   private async startProcessor (): Promise<void> {
-    this.processor.start()
+    await this.processor.start()
   }
 
   /**

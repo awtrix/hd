@@ -4,7 +4,8 @@
   "description": "awtrix",
   "main": "dist/index.js",
   "scripts": {
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "npm run build",
+    "build": "tsc"
   },
   "files": [
     "dist",

@@ -45,8 +45,9 @@ export default class ApplicationProcessor {
    *
    * @param identifier
    */
-  instantiateApplication (identifier: ApplicationInstanceIdentifier, userConfig: any) {
-    const config = this.container.manager.config(identifier)
+  async instantiateApplication (identifier: ApplicationInstanceIdentifier, userConfig: any) {
+    const config = await this.container.manager.config(identifier)
+    const translations = await this.container.manager.translations(identifier)
 
     let klass: typeof ApplicationBackend
     if (config.awtrix.backend) {
@@ -58,7 +59,7 @@ export default class ApplicationProcessor {
     }
 
     const ns = this.io.of(`/apps/${identifier.id}`)
-    const app = new klass({ ...config, id: identifier.id }, userConfig, ns)
+    const app = new klass({ ...config, id: identifier.id, translations }, userConfig, ns)
 
     this.applications.push(app)
     app.register()
@@ -167,7 +168,7 @@ export default class ApplicationProcessor {
   /**
    * TODO
    */
-  start () {
+  async start () {
     const db = this.container.database!
 
     if (this.container.liveReload) this.enableLiveReload()
@@ -179,7 +180,10 @@ export default class ApplicationProcessor {
       client.emit('activeApplicationID', this.activeApplicationID)
     })
 
-    db.get(['apps', 'rotation']).value().forEach((app) => this.instantiateApplication(app, app.config))
+    const apps = db.get(['apps', 'rotation']).value()
+    for (let app of apps) {
+      await this.instantiateApplication(app, app.config)
+    }
     this.switchToNextApplication()
   }
 
@@ -191,6 +195,9 @@ export default class ApplicationProcessor {
     logger.info(`Enabling live reload for ${watched}`)
 
     chokidar.watch(watched).on('all', debounce(() => {
+      // TODO: Figure out if the file change happened to be a translation.
+      // If so, we need to refresh the relevant app translations list
+
       this.io.sockets.emit('reload')
     }, 500))
   }

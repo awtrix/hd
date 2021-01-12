@@ -1,10 +1,14 @@
 import { join, resolve } from 'path'
 import { exec } from 'child_process'
 import axios from 'axios'
-import fs from 'fs'
+import fs from 'fs-extra'
 import decompress from 'decompress'
 import mkdirp from 'mkdirp'
-import { ApplicationIdentifier, ApplicationConfig } from '../types/Application'
+import {
+  ApplicationIdentifier,
+  ApplicationConfig,
+  ApplicationTranslations
+} from '@awtrix/common/dist/types/app'
 
 export default class ApplicationManager {
   constructor (protected homeDir: string) {}
@@ -74,13 +78,37 @@ export default class ApplicationManager {
   }
 
   /**
-   * TODO
+   * Loads the package.json for the provided app.
    *
    * @param app
    */
-  config(app: ApplicationIdentifier): ApplicationConfig {
+  async config(app: ApplicationIdentifier): Promise<ApplicationConfig> {
     const path = join(this.path(app), 'package.json')
-    return JSON.parse(fs.readFileSync(path, 'utf-8')) as ApplicationConfig
+    const data = await fs.readFile(path, 'utf-8')
+
+    return JSON.parse(data) as ApplicationConfig
+  }
+
+  /**
+   * Loads all translations for the provided app.
+   *
+   * @param app
+   */
+  async translations(app: ApplicationIdentifier): Promise<ApplicationTranslations> {
+    const translationPath = join(this.path(app), 'translations')
+    const files = await fs.readdir(translationPath)
+    let relevantFiles = files.filter((name) => name.match(/^[a-z]{2}\.json$/))
+
+    let translations: ApplicationTranslations = {}
+    for (let file of relevantFiles) {
+      let path = join(translationPath, file)
+      let locale = file.split('.')[0] as string
+
+      const data = await fs.readFile(path, 'utf-8')
+      translations[locale] = JSON.parse(data)
+    }
+
+    return translations
   }
 
   /**

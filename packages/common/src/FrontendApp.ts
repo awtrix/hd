@@ -46,6 +46,14 @@ export default Vue.extend({
       return `/static/apps/${this.app.name}/${this.app.version}/${path}`
     },
 
+    t (key: string): string {
+      let currentLanguage = 'en'
+
+      let values = this.app.config.translations[currentLanguage]
+      if (!values) return key
+      return values[key] || key
+    },
+
     /**
      * TODO: Figure out how to make this a lifecycle-like method.
      */

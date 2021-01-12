@@ -1,9 +1,10 @@
-import { LifecycleApplication, ApplicationConfig } from './types/app'
+import { LifecycleApplication, ApplicationConfig, ApplicationTranslations } from './types/app'
 import { omit } from 'lodash'
 import { Namespace } from 'socket.io'
 
 type ApplicationConfigWithIdentifier = ApplicationConfig & {
-  id: string
+  id: string,
+  translations: ApplicationTranslations
 }
 
 export default class ApplicationBackend {
@@ -38,6 +39,13 @@ export default class ApplicationBackend {
   get displayLength (): number {
     if (this.userConfig.displayLength) return this.userConfig.displayLength
     return this.config.awtrix.defaultDisplayLength || 15000
+  }
+
+  /**
+   * The languages that are supported by this app.
+   */
+  get supportedLanguages (): string[] {
+    return Object.keys(this.config.translations)
   }
 
   asLifecycleApplication(): LifecycleApplication {
