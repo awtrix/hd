@@ -26,15 +26,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import AppStore from "./AppStore.vue";
-import Loop from "./Loop.vue";
-import Awtrix from "./Awtrix.vue";
-import Connectivity from "./Connectivity.vue";
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
+import Vue from 'vue'
+import AppStore from './AppStore.vue'
+import Loop from './Loop.vue'
+import Awtrix from './Awtrix.vue'
+import Connectivity from './Connectivity.vue'
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
 // @ts-ignore
-import { Flipper, Flipped } from "vue-flip-toolkit";
+import { Flipper, Flipped } from 'vue-flip-toolkit'
 
 export default Vue.extend({
   components: {
@@ -52,31 +52,30 @@ export default Vue.extend({
       settings: false,
       brightness: 0,
       options: {
-        AppStore: "App Store",
-        Loop: "Loop Configuration",
-        Connectivity: "Connectivity",
-        Awtrix: "Awtrix Settings",
+        AppStore: 'App Store',
+        Loop: 'Loop Configuration',
+        Connectivity: 'Connectivity',
+        Awtrix: 'Awtrix Settings',
       },
-    };
+    }
   },
 
   watch: {
-    brightness: function (val) {
-      fetch("/api/system/brightness/"+ val, {
-        method: "POST",
+    brightness: function (value) {
+      fetch(`/api/system/brightness/${value}`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      });
+      })
     },
   },
-});
+})
 </script>
 
 <style lang="stylus">
-.active-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+.active-menu
+  position: absolute
+  top: 0
+  left: 0
 </style>

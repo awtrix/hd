@@ -59,7 +59,7 @@ export default class ApplicationProcessor {
     }
 
     const ns = this.io.of(`/apps/${identifier.id}`)
-    const augmentedUserConfig = this.fillConfig(userConfig, config.awtrix.settings)
+    const augmentedUserConfig = this.fillConfig(userConfig, config.awtrix.settings || {})
     const app = new klass({ ...config, id: identifier.id, translations }, augmentedUserConfig, ns)
 
     this.applications.push(app)

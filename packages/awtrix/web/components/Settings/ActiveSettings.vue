@@ -13,7 +13,5 @@ import Loop from './Loop.vue'
 
 export default Vue.extend({
   components: { Connectivity, AppStore, Awtrix, Loop },
-
-
 })
 </script>

@@ -52,6 +52,10 @@ export default class Start extends Command {
     // TODO: Find out if hot reloading for backend is possible
     // TODO: Find out how to handle automatic reloading for assets
     // TODO: Find out how to use hot reloading for compiled frontend component
+
+    // TODO: Automatically generate empty translations directory, if it doesn't
+    // already exist. Show warning to user so they know to add it.
+    // TODO: Don't raise if the assets directory is missing.
   }
 
   startReloadingAwtrix (config: any) {
