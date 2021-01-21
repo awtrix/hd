@@ -4,7 +4,7 @@
   "awtrix": {
     "frontend": true,
     "backend": true,
-    "assets": true
+    "settings": {}
   },
   "dependencies": {
     "@awtrix/common": "^0.1.0"
