@@ -11,9 +11,10 @@
       />
     </div>
 
-    <Menu
-      class="w-full h-full absolute"
+    <CircularMenu
+      class="w-full h-full absolute text-white"
       :style="{ top: `${settings.offset}px` }"
+      @close="settings.offset = -480"
     />
   </div>
 </template>
@@ -21,7 +22,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Application from './Application.vue'
-import Menu from './Settings/Menu.vue'
+import CircularMenu from './Settings/CircularMenu.vue'
 import shortid from 'shortid'
 import Hammer from 'hammerjs'
 import { debounce } from 'lodash'
@@ -35,7 +36,7 @@ enum SwitchingReason {
 }
 
 export default Vue.extend({
-  components: { Application, Menu },
+  components: { Application, CircularMenu },
 
   data () {
     return {
@@ -92,7 +93,7 @@ export default Vue.extend({
     endPanning (input: HammerInput) {
       this.settings.offset = (input.deltaY > 240) ? 0 : -480
       this.settings.panStart = null
-    },
+    }
 
 /*
     bootAnimation (): LifecycleApplication {
