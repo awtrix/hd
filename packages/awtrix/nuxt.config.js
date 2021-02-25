@@ -71,6 +71,8 @@ module.exports = {
     '@nuxtjs/tailwindcss',
     // Doc: https://github.com/nuxt-community/style-resources-module
     '@nuxtjs/style-resources',
+    // Doc: https://typed-vuex.roe.dev/getting-started-nuxt
+    'nuxt-typed-vuex',
   ],
 
   tailwindcss: {

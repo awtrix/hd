@@ -39,9 +39,7 @@ export default Vue.extend({
 
   data () {
     return {
-      applications: [] as LifecycleApplication[],
       socket: undefined as typeof Socket | undefined,
-      activeApplicationID: null as string | null,
       settings: {
         offset: -480,
         panStart: null as number | null,
@@ -50,17 +48,27 @@ export default Vue.extend({
     }
   },
 
+  computed: {
+    applications (): LifecycleApplication[] {
+      return this.$accessor.apps.applications
+    },
+
+    activeApplicationID (): string | null {
+      return this.$accessor.apps.activeApplicationID
+    },
+  },
+
   async created () {
     this.socket = io(`http://${location.hostname}:3001`)
 
     this.socket.on('reload', () => { window.location.reload() })
 
     this.socket.on('applications', (apps: LifecycleApplication[]) => {
-      this.applications = apps
+      this.$accessor.apps.setApps(apps)
     })
 
     this.socket.on('activeApplicationID', (id: string) => {
-      this.activeApplicationID = id
+      this.$accessor.apps.setActiveApplication(id)
     })
   },
 
