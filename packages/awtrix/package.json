@@ -56,6 +56,7 @@
     "mkdirp": "^1.0.3",
     "node-fetch": "^2.6.0",
     "nuxt": "^2.13.0",
+    "nuxt-typed-vuex": "^0.1.22",
     "oclif": "^1.15.2",
     "on-change": "^2.1.4",
     "puppeteer": "^5.2.1",
