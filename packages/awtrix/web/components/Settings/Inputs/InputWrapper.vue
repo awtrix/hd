@@ -1,5 +1,9 @@
 <template>
-  <component :is="appComponent" v-on="$listeners" v-bind="$attrs" :options="options" />
+  <div>
+    <label>{{ name }}</label>
+    <p>Description</p>
+    <component :is="appComponent" v-on="$listeners" v-bind="$attrs" :options="options" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -9,6 +13,10 @@ import TextInput from './TextInput.vue'
 
 export default Vue.extend({
   props: {
+    name: {
+      type: String,
+      required: true,
+    },
     options: {
       type: Object,
       required: true,
