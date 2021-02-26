@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ name }}: <input type="text">
+    <input type="text">
   </div>
 </template>
 
@@ -9,10 +9,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
     options: {
       type: Object,
       required: true,

@@ -68,6 +68,7 @@ export default Vue.extend({
   justify-content: center
   font-size: 28px
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.4)
+  color: white
 
 .drop.smaller
   background: white

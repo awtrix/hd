@@ -1,19 +1,24 @@
 <template>
   <div>
     <div>Awtrix</div>
-    <div>
-      <custom-input v-for="(options, name) in settings" :key="name" :name="name" :options="options" />
+    <div class="flex">
+      <input-wrapper
+        v-for="(options, name) in settings"
+        :key="name"
+        :name="name"
+        :options="options"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { LifecycleApplication } from '@awtrix/common/dist/types/app'
-import CustomInput from './Inputs/Input.vue'
+import InputWrapper from './Inputs/InputWrapper.vue'
 import Vue from 'vue'
 
 export default Vue.extend({
-  components: { CustomInput },
+  components: { InputWrapper },
 
   computed: {
     activeApplication (): LifecycleApplication | undefined {
