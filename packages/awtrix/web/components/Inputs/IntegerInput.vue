@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text">
+    <input type="number" v-bind="$attrs" v-on="$listeners">
   </div>
 </template>
 

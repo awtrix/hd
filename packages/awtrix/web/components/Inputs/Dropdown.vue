@@ -1,6 +1,6 @@
 <template>
   <div>
-    <select>
+    <select v-bind="$attrs" v-on="$listeners">
       <option v-for="option in options.options" :key="option">{{ option }}</option>
     </select>
   </div>

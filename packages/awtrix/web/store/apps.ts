@@ -16,6 +16,16 @@ export const mutations = mutationTree(state, {
   setActiveApplication (state: RootState, application: string | null) {
     state.activeApplicationID = application
   },
+
+  setUserConfig (state: RootState, { id, config }) {
+    const apps = state.applications
+    const index = state.applications.findIndex(app => app.id == id)
+
+    const app = apps[index]
+    app.userConfig = config
+
+    apps.splice(index, 1, app)
+  },
 })
 
 export const getters = getterTree(state, {

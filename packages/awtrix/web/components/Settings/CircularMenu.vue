@@ -78,4 +78,7 @@ export default Vue.extend({
   margin-left: 16px
   margin-top: 10px
   font-size: 14px
+
+.active-menu-item
+  width: awtrix-width - 130px
 </style>
