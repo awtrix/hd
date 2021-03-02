@@ -13,6 +13,10 @@ export default Vue.extend({
   layout (): string {
     if (navigator.userAgent === 'AWTRIX HD') return 'default'
     return 'development'
-  }
+  },
+
+  created () {
+    this.$accessor.config.initializeSocket()
+  },
 })
 </script>

@@ -1,30 +1,36 @@
 
 <template>
-  <div>
-    <div class="p-2">
+  <div class="flex">
+    <div class="available">
       <h3>Available Apps</h3>
-      <Draggable class="app-list available"
+      <Draggable class="app-list"
         :list="available"
         :group="{ name: 'apps', pull: 'clone', put: false }"
         :sort="false"
         :clone="cloneApp"
       >
-        <div
-          v-for="app in available" :key="`${app.name}@${app.version}`"
-          class="app"
-        >
-          {{ app.name }}
-        </div>
+        <application-banner
+          v-for="app in available"
+          :key="`${app.name}@${app.version}`"
+          :app="app"
+        />
       </Draggable>
     </div>
 
-    <div class="p-2">
-      <h3>Apps in your Rotation</h3>
-      <Draggable class="app-list rotation" :list="rotation" group="apps" @change="rotationChange">
-        <div v-for="app in rotation" :key="app.id" class="app">
-          {{ app.name }}
-        </div>
-      </Draggable>
+    <div class="active">
+      <div class="loop">
+        <h3>Rotation Apps</h3>
+        <Draggable class="app-list rotation" :list="rotation" group="apps" @change="rotationChange">
+          <application-banner v-for="app in rotation" :key="app.id" :app="app" />
+        </Draggable>
+     </div>
+
+     <div class="background">
+        <h3>Background Apps</h3>
+        <Draggable class="app-list rotation" :list="rotation" group="apps" @change="rotationChange">
+          <application-banner v-for="app in rotation" :key="app.id" :app="app" />
+        </Draggable>
+      </div>
     </div>
   </div>
 </template>
@@ -34,9 +40,10 @@ import Vue from 'vue'
 import { RawApplication } from '@/types/Application'
 import Draggable, { MoveEvent } from 'vuedraggable'
 import shortid from 'shortid'
+import ApplicationBanner from './ApplicationBanner.vue'
 
 export default Vue.extend({
-  components: { Draggable },
+  components: { Draggable, ApplicationBanner },
 
   data () {
     return {
@@ -79,13 +86,11 @@ export default Vue.extend({
 </script>
 
 <style lang="stylus" scoped>
+.available
+  width: application-banner-size * 2 + 20px
+  height: awtrix-height
+
 .app-list
   display: flex
-
-  .app
-    width: 80px
-    height: 80px
-    padding: 10px;
-    margin-right: 10px
-    background: white
+  flex-wrap: wrap
 </style>

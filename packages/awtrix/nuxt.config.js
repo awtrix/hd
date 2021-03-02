@@ -54,7 +54,9 @@ module.exports = {
     ** Plugins to load before mounting the App
     ** https://nuxtjs.org/guide/plugins
     */
-  plugins: [],
+  plugins: [
+    '~/plugins/translations.ts',
+  ],
 
   /*
     ** Auto import components

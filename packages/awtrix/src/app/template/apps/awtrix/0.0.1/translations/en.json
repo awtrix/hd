@@ -1,3 +1,8 @@
 {
-  "abc": "Test String"
+  "abc": "Test String",
+  "settings.platform.title": "Platform",
+  "settings.platform.description": "The platform you play Overwatch on",
+  "settings.profileName.title": "Profilname",
+  "settings.region.title": "Region",
+  "settings.age.title": "Dein Alter"
 }

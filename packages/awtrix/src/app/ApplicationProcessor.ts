@@ -189,6 +189,18 @@ export default class ApplicationProcessor {
 
       client.emit('applications', this.applications.map(app => app.asLifecycleApplication()))
       client.emit('activeApplicationID', this.activeApplicationID)
+
+      client.on('updateUserConfig', (id: string, config: any) => {
+        const app = this.applications.find(app => app.config.id == id)
+
+        // TODO: This might not work when updating apps that haven't been
+        // instantiated yet. We're missing a game plan for that anyways,
+        // since apps need to be able to be dynamically added to the list.
+        app!.userConfig = config
+
+        // TODO: This will not yet work with background apps.
+        db.get(['apps', 'rotation']).find(['id', id]).set('config', config).write()
+      })
     })
 
     const apps = db.get(['apps', 'rotation']).value()
