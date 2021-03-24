@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { RawApplication } from '@/types/Application'
+import { RawApplication } from '@awtrix/common/dist/types/app'
 
 export default Vue.extend({
   props: {

@@ -17,7 +17,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import InputWrapper from './InputWrapper.vue'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 
 export default Vue.extend({
   name: 'ApplicationSettings',

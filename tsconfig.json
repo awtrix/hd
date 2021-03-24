@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./packages",
+    "paths": {
+      "@awtrix/dev": ["dev/src"],
+      "@awtrix/common": ["common/src"],
+      "@awtrix/app": ["awtrix/src"]
+    }
+  }
+}

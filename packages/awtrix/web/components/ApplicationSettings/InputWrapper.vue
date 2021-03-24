@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import Dropdown from '../Inputs/Dropdown.vue'
 import TextInput from '../Inputs/TextInput.vue'
 import IntegerInput from '../Inputs/IntegerInput.vue'

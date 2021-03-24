@@ -1,24 +1,16 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2015",
     "moduleResolution": "node",
-    "module": "CommonJS",
+    "declaration": true,
+    "importHelpers": true,
+    "baseUrl": ".",
+    "outDir": "./dist",
     "lib": [
       "esnext",
       "esnext.asynciterable",
       "dom"
     ],
-    "skipLibCheck": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "strict": true,
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./web/*"],
-      "@/*": ["./src/*"],
-    },
     "types": [
       "node",
       "@types/node",
@@ -28,8 +20,8 @@
   },
   "exclude": [
     "node_modules",
-    "tests",
     "dist",
+    "web",
     "src/app/template"
   ]
 }

@@ -1,6 +1,6 @@
 import Container from './Container'
 import { BackendApp as ApplicationBackend } from '@awtrix/common'
-import { ApplicationIdentifier } from '../types/Application'
+import { ApplicationIdentifier } from '@awtrix/common/dist/types/app'
 import { join, resolve } from 'path'
 import { debounce } from 'lodash'
 import chokidar from 'chokidar'

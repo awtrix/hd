@@ -1,5 +1,5 @@
 import { Plugin } from '@nuxt/types'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 
 const translationPlugin: Plugin = ({ app }, inject) => {
   const translate = (key: string, application: LifecycleApplication | undefined): string => {

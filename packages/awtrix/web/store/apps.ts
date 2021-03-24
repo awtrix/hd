@@ -1,5 +1,5 @@
 import { getAccessorType, mutationTree, getterTree } from 'typed-vuex'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 
 export const state = () => ({
   applications: [] as LifecycleApplication[],
