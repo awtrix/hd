@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '../types/Application'
+import { ApplicationConfig } from '@awtrix/common/dist/types/app'
 import { BackendApp } from '@awtrix/common'
 
 export default class ActiveApplicationBackend {

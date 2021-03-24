@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import io, { Socket } from 'socket.io-client'
 import { GeneratorType, FrontendApp } from '@awtrix/common'
 

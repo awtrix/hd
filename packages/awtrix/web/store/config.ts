@@ -1,6 +1,6 @@
 import { getAccessorType, mutationTree, actionTree } from 'typed-vuex'
 import io, { Socket } from 'socket.io-client'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 
 export const state = () => ({
   locale: 'en',

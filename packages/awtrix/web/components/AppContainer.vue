@@ -26,7 +26,7 @@ import CircularMenu from './Settings/CircularMenu.vue'
 import shortid from 'shortid'
 import Hammer from 'hammerjs'
 import { debounce } from 'lodash'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import { Socket } from 'socket.io-client'
 
 enum SwitchingReason {

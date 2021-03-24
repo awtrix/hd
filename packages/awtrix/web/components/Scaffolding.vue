@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { LifecycleApplication } from '@/types/Application'
+import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import { Socket } from 'socket.io-client'
 
 export default Vue.extend({
