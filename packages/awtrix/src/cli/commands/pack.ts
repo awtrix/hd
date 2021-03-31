@@ -1,5 +1,6 @@
-import { Command, flags } from '@oclif/command'
+import { Arguments, CommandModule } from 'yargs'
 import fs from 'fs'
+import os from 'os'
 import { ChildProcess, fork } from 'child_process'
 import path from 'path'
 // @ts-ignore
@@ -13,18 +14,28 @@ process.on('unhandledRejection', (reason, promise) => {
   console.log(promise)
 })
 
-export default class Start extends Command {
-  static description = 'starts an Awtrix HD server with only the app in the current folder configured'
+interface DevCommandArguments extends Arguments {
+  home?: string,
+  browser?: boolean,
+  production?: boolean,
+}
 
-  static flags = {
+export default {
+  command: 'dev',
+  describe: 'Start the Awtrix HD development server for the app in your current directory.',
+  builder: {
+  },
+  handler: async (flags: DevCommandArguments) => {
+    // ...
+  },
+} as CommandModule
 
-  }
-
+class Start implements CommandModule {
   childProcess?: ChildProcess
 
-  async run() {
+  async handler() {
     if (!fs.existsSync('package.json')) {
-      return this.error('Could not find a "package.json" in your current directory.')
+      // return this.error('Could not find a "package.json" in your current directory.')
     }
 
     const packageJson = fs.readFileSync('package.json', 'utf-8')
@@ -41,7 +52,7 @@ export default class Start extends Command {
 
       this.startReloadingAwtrix(config)
     } catch (error) {
-      this.error(error)
+      // this.error(error)
     }
 
     // 1. Start watcher that compiles sources (extract from pack.ts)

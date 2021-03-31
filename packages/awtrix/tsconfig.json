@@ -4,6 +4,8 @@
     "moduleResolution": "node",
     "declaration": true,
     "importHelpers": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "outDir": "./dist",
     "lib": [
@@ -14,14 +16,15 @@
     "types": [
       "node",
       "@types/node",
-      "@nuxt/types",
-      "@nuxtjs/axios"
+      "vite/client"
     ]
   },
   "exclude": [
+    "vite.config.ts",
     "node_modules",
     "dist",
     "web",
-    "src/app/template"
+    "web_old",
+    "src/templates"
   ]
 }

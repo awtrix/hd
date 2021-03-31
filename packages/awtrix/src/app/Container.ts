@@ -128,7 +128,7 @@ export default class Container {
 
       logger.info('Copying default template to awtrix home directory.')
 
-      const source = path.join(__dirname, 'template')
+      const source = path.join(__dirname, '../templates/core')
       const variables = { version: this.package.version }
       copyTemplateDir(source, this.homeDirectory, variables, (error: any) => {
         if (error) return reject(error)

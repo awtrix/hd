@@ -1,8 +1,8 @@
 {
-  "name": "@awtrix/dev",
+  "name": "@awtrix/cli",
   "version": "0.1.18",
   "bin": {
-    "awtrix-dev": "bin/run"
+    "awtrix": "bin/run"
   },
   "description": "The development utils used for Awtrix HD apps",
   "scripts": {
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/awtrix/awtrix-hd-dev.git"
+    "url": "git+ssh://git@github.com/awtrix/awtrix-hd.git"
   },
   "author": "Christopher Mühl <christopher@padarom.xyz>",
-  "license": "MIT",
+  "license": "CC-BY-4.0",
   "bugs": {
-    "url": "https://github.com/awtrix/awtrix-hd-dev/issues"
+    "url": "https://github.com/awtrix/awtrix-hd/issues"
   },
   "files": [
     "bin",
@@ -25,16 +25,9 @@
     "templates",
     "tsconfig.json"
   ],
-  "oclif": {
-    "commands": "./dist/commands",
-    "bin": "awtrix-dev",
-    "plugins": [
-      "@oclif/plugin-help"
-    ]
-  },
-  "homepage": "https://github.com/awtrix/awtrix-hd-dev#readme",
+  "homepage": "https://github.com/awtrix/awtrix-hd#readme",
   "dependencies": {
-    "@awtrix/app": "^0.1.11",
+    "@awtrix/core": "^0.1.11",
     "@oclif/command": "^1.8.0",
     "@oclif/plugin-help": "^3.2.0",
     "@types/node": "^14.14.7",

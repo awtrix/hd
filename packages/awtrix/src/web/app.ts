@@ -5,7 +5,7 @@ import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
 import logger from '../utils/logger'
-import createNuxtMiddleware from './createMiddleware'
+// import createNuxtMiddleware from './createMiddleware'
 import Container from '../app/Container'
 import controllers from './api'
 
@@ -43,8 +43,8 @@ export default class WebServer {
 
     // Then instantiate Nuxt so that we can also serve our frontend
     // through the same port
-    let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
-    this.app.use(middleware)
+    // let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
+    // this.app.use(middleware)
 
     // Finally, start listening
     const server = http.createServer(this.app.callback())

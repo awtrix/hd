@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "babel-plugin-transform-regenerator": "^6.26.0",

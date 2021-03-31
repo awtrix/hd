@@ -11,8 +11,6 @@ module.exports = {
     parser: '@typescript-eslint/parser'
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-recommended'
   ],

@@ -28,6 +28,6 @@ export default (config: any, target: any) => {
       console.log(err)
     })
 
-    resolve()
+    resolve(null)
   })
 }
