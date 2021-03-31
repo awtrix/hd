@@ -1,14 +1,10 @@
-// Nuxt Typed Vuex accessor types
-import { accessorType } from '~/store'
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $accessor: typeof accessorType
+declare namespace NodeJS {
+  interface GlobalAwtrixOptions {
+    rootPath: string,
+    mode: 'dev' | 'static',
   }
-}
 
-declare module '@nuxt/types' {
-  interface NuxtAppOptions {
-    $accessor: typeof accessorType
+  export interface Global {
+    awtrix: GlobalAwtrixOptions
   }
 }

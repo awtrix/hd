@@ -1,11 +1,12 @@
 import Container from './Container'
 import { BackendApp as ApplicationBackend } from '@awtrix/common'
-import { ApplicationIdentifier } from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
 import { join, resolve } from 'path'
 import { debounce } from 'lodash'
 import chokidar from 'chokidar'
 import logger from '../utils/logger'
 import onChange from 'on-change'
+import fs from 'fs-extra'
 
 enum SwitchingReason {
   Loop,
@@ -13,7 +14,7 @@ enum SwitchingReason {
   UnmaskableInterrupt,
 }
 
-type ApplicationInstanceIdentifier = ApplicationIdentifier & { id: string }
+type ApplicationInstanceIdentifier = Types.Application.ApplicationIdentifier & { id: string }
 
 export default class ApplicationProcessor {
   /**
@@ -50,8 +51,9 @@ export default class ApplicationProcessor {
     const translations = await this.container.manager.translations(identifier)
 
     let klass: typeof ApplicationBackend
-    if (config.awtrix.backend) {
-      let generator = require(join(this.container.manager.path(identifier), 'backend.js'))
+    const backendPath = join(this.container.manager.path(identifier), 'backend.js')
+    if (await fs.pathExists(backendPath)) {
+      let generator = require(backendPath)
       if (generator.default) generator = generator.default
       klass = generator(ApplicationBackend)
     } else {

@@ -12,6 +12,7 @@
     </div>
 
     <CircularMenu
+      v-show="false"
       class="w-full h-full absolute text-white"
       :style="{ top: `${settings.offset}px` }"
       @close="settings.offset = -480"
@@ -20,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import Application from './Application.vue'
 import CircularMenu from './Settings/CircularMenu.vue'
 import shortid from 'shortid'
@@ -35,7 +36,7 @@ enum SwitchingReason {
   UnmaskableInterrupt,
 }
 
-export default Vue.extend({
+export default defineComponent({
   components: { Application, CircularMenu },
 
   data () {

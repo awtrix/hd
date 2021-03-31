@@ -15,11 +15,11 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropType, defineComponent } from 'vue'
 import InputWrapper from './InputWrapper.vue'
 import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'ApplicationSettings',
 
   components: { InputWrapper },

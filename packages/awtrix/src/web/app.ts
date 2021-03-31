@@ -1,56 +1,85 @@
-import Koa from 'koa'
-import http from 'http'
-import bodyParser from 'koa-bodyparser'
-import mount from 'koa-mount'
-import serve from 'koa-static'
+import { createServer as createViteServer } from 'vite'
+import { default as connect, Server } from 'connect'
 import path from 'path'
 import logger from '../utils/logger'
-import createNuxtMiddleware from './createMiddleware'
+import { json as jsonBodyParser } from 'body-parser'
+import serveStatic from 'serve-static'
 import Container from '../app/Container'
+import Context from './context'
+import Koa from 'koa'
 import controllers from './api'
 
-export interface KoaContext {
-  container: Container,
-  database: NonNullable<typeof Container.prototype.database>,
-}
-
 export default class WebServer {
-  app: Koa<any, KoaContext>
+  app: Server
 
+  /**
+   *
+   * @param container
+   */
   constructor (protected container: Container) {
-    this.app = new Koa()
-    this.app.env = container.env
-    this.app.use(bodyParser({ strict: true }))
+    this.app = connect()
 
-    this.app.context.container = container
-    this.app.context.database = container.database!
+    // Set up the context for our API
+    const context = Context.getInstance()
+    context.database = container.database
+    context.container = container
   }
 
-  async start (): Promise<void> {
-    // Import and Set Nuxt.js options
-    const config = require('../../nuxt.config')
-
-    // First configure our own router for API requests
-    controllers.forEach((bindController) => {
-      bindController(this.app)
+  /**
+   * Configures a Vite Development Server with proxy functionality to our
+   * own routes and starts it.
+   */
+  async startVite () {
+    const vite = await createViteServer({
+      configFile: global.awtrix.rootPath + '/vite.config.ts',
+      clearScreen: false,
+      server: {
+        proxy: {
+          '/static': 'http://localhost:3001',
+          '/api': 'http://localhost:3001',
+        }
+      },
     })
+
+    vite.listen(3000)
+  }
+
+  /**
+   *
+   */
+  async start (): Promise<void> {
+    const staticMode = global.awtrix.mode == 'static'
+    if (staticMode) {
+      // In production we can work with static files, so we use
+      // a static handler for the compiled frontend
+      const staticHandler = serveStatic(global.awtrix.rootPath + '/dist/frontend')
+      this.app.use(staticHandler)
+    } else {
+      // In development mode we want to use regular Vite features, so we
+      // configure our Connect app to use the Vite middleware
+      await this.startVite()
+    }
+
+    // Set up some common middlewares
+    this.app.use(jsonBodyParser())
 
     // Then mount our apps' static files (assets + precompiled code) into the
     // /static/apps path
     const staticPath = path.join(this.container.homeDirectory, 'apps')
-    const staticMiddleware = serve(staticPath)
-    this.app.use(mount('/static/apps', staticMiddleware))
+    const staticHandler = serveStatic(staticPath)
+    this.app.use('/static/apps/', staticHandler)
 
-    // Then instantiate Nuxt so that we can also serve our frontend
-    // through the same port
-    let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
-    this.app.use(middleware)
+    // Configure our own router for API requests
+    const koa = new Koa()
+    controllers.forEach((bindController) => {
+      bindController(koa)
+    })
+
+    this.app.use(koa.callback())
 
     // Finally, start listening
-    const server = http.createServer(this.app.callback())
-    const port = parseInt(process.env.PORT || '3000')
-
-    server.listen(port, process.env.HOST || '0.0.0.0')
-    logger.info(`Webserver listening on http://localhost:${port}`)
+    const port = staticMode ? 3000 : 3001
+    await this.app.listen(port)
+    logger.info(`Webserver listening on http://localhost:3000`)
   }
 }

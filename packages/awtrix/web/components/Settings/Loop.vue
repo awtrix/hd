@@ -36,13 +36,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import { RawApplication } from '@awtrix/common/dist/types/app'
 import Draggable, { MoveEvent } from 'vuedraggable'
 import shortid from 'shortid'
 import ApplicationBanner from './ApplicationBanner.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: { Draggable, ApplicationBanner },
 
   data () {

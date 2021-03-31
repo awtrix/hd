@@ -1,14 +1,13 @@
-import { join, resolve } from 'path'
+import { dirname, join, resolve } from 'path'
 import { exec } from 'child_process'
 import axios from 'axios'
 import fs from 'fs-extra'
 import decompress from 'decompress'
-import mkdirp from 'mkdirp'
-import {
-  ApplicationIdentifier,
-  ApplicationConfig,
-  ApplicationTranslations
-} from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
+
+type ApplicationIdentifier = Types.Application.ApplicationIdentifier
+type ApplicationTranslations = Types.Application.ApplicationTranslations
+type ApplicationConfig = Types.Application.ApplicationConfig
 
 export default class ApplicationManager {
   constructor (protected homeDir: string) {}
@@ -48,7 +47,7 @@ export default class ApplicationManager {
   async download(app: ApplicationIdentifier) {
     // First, make sure the app path exists
     const appPath = this.path(app)
-    await mkdirp(appPath)
+    await fs.mkdirp(appPath)
 
     // Fetch the download URL from npm
     const url = await this.getDownloadUrl(app)

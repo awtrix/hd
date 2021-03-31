@@ -1,4 +1,4 @@
-import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
+import { PackageJson } from 'type-fest'
 
 export type ApplicationIdentifier = { name: string, version: string }
 
@@ -6,11 +6,13 @@ export type ApplicationTranslations = {
   [key: string]: { [key: string]: string }
 }
 
-export type ApplicationConfig = JSONSchemaForNPMPackageJsonFiles & {
+export type ApplicationConfig = PackageJson & {
   awtrix: {
-    backend?: boolean,
-    frontend?: boolean,
-    assets?: boolean,
+    build: {
+      backend?: boolean,
+      frontend?: boolean,
+      assets?: boolean,
+    }
     defaultDisplayLength?: number,
     settings: any, // TODO: Properly type the settings hash
   }

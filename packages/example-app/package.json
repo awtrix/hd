@@ -1,0 +1,14 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "awtrix": {
+    "build": {
+      "frontend": true,
+      "backend": true,
+      "assets": false
+    }
+  },
+  "dependencies": {
+    "@awtrix/common": "^0.1"
+  }
+}

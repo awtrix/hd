@@ -7,14 +7,14 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import Dropdown from '../Inputs/Dropdown.vue'
 import TextInput from '../Inputs/TextInput.vue'
 import IntegerInput from '../Inputs/IntegerInput.vue'
 import ColorInput from '../Inputs/ColorInput.vue'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     name: {
       type: String,
@@ -31,7 +31,7 @@ export default Vue.extend({
   },
 
   computed: {
-    appComponent () {
+    appComponent (): any {
       switch (this.options.type) {
         case 'dropdown':
           return Dropdown
@@ -44,7 +44,7 @@ export default Vue.extend({
       }
     },
 
-    descriptionKey () {
+    descriptionKey (): string {
       return `settings.${this.name}.description`
     },
   },

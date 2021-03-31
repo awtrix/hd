@@ -24,13 +24,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 import AppStore from './AppStore.vue'
 import Loop from './Loop.vue'
 import Awtrix from './Awtrix.vue'
 import Connectivity from './Connectivity.vue'
 
-export default Vue.extend({
+export default defineComponent({
   components: {
     AppStore,
     Loop,

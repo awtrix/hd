@@ -3,24 +3,19 @@
     <component :is="appComponent" :app="app" :visible="visible" :io="io"
       v-on="$listeners"
     />
+    <link rel="stylesheet" :href="styleUrl" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
-import { LifecycleApplication } from '@awtrix/common/dist/types/app'
+import { defineComponent, defineAsyncComponent, PropType } from 'vue'
 import io, { Socket } from 'socket.io-client'
-import { GeneratorType, FrontendApp } from '@awtrix/common'
+import { GeneratorType, FrontendApp, Types } from '@awtrix/common'
 
-// TODO: Figure out a better spot for this. Otherwise we need to use
-// "--inline-vue" when building apps
-// @ts-ignore
-window.Vue = Vue
-
-export default Vue.extend({
+export default defineComponent({
   props: {
     app: {
-      type: Object as PropType<LifecycleApplication>,
+      type: Object as PropType<Types.Application.LifecycleApplication>,
       required: true,
     },
     visible: {
@@ -39,7 +34,15 @@ export default Vue.extend({
     appComponent (): () => Promise<any> {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
-      return () => this.importComponent(this.app.name, this.app.version!)
+      return defineAsyncComponent(() => this.importComponent())
+    },
+
+    baseUrl (): string {
+      return `/static/apps/${this.app.name}/${this.app.version}`
+    },
+
+    styleUrl (): string {
+      return `${this.baseUrl}/style.css`
     },
   },
 
@@ -47,26 +50,28 @@ export default Vue.extend({
     app: {
       immediate: true,
       handler (app) {
-        this.io = io(`http://${location.hostname}:3001/apps/${app.id}`)
+        this.io = io(`http://${location.hostname}:3002/apps/${app.id}`)
       },
     },
   },
 
   methods: {
-    async importComponent (name: string, version: string): Promise<ReturnType<GeneratorType>> {
-      const componentKey = `AwtrixComponent.${name}`
-      const url = `/static/apps/${name}/${version}/AwtrixComponent.${name}.umd.js`
+    async importComponent (): Promise<ReturnType<GeneratorType>> {
+      const url = `${this.baseUrl}/${this.app.name}.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object
+      const libName = `${this.app.name}@${this.app.version.replace(/\./g, '-')}`
       const castedWindow = window as any
-      if (castedWindow[componentKey]) return castedWindow[componentKey]
+      if (castedWindow.AwtrixComponent && castedWindow.AwtrixComponent[libName]) {
+        return castedWindow.AwtrixComponent[libName]
+      }
 
       const generate: GeneratorType = await new Promise(async (resolve, reject) => {
         const script = document.createElement('script')
         script.async = true
         script.addEventListener('load', () => {
-          resolve(castedWindow[componentKey])
+          resolve(castedWindow.AwtrixComponent[libName])
         })
         script.addEventListener('error', () => {
           reject(new Error(`Error loading ${url}`))
@@ -84,11 +89,9 @@ export default Vue.extend({
       // the compiled one.
       // TODO: Object.assign doesn't work here, but find a better way than this!
       // @ts-ignore
-      generated.options.render = generate.options.render
+      generated.render = generate.render
       // @ts-ignore
-      generated.options.staticRenderFns = generate.options.staticRenderFns
-      // @ts-ignore
-      generated.options.__file = generate.options.__file
+      generated.__scopeId = generate.__scopeId
 
       return generated
     }

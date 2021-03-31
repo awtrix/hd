@@ -1,8 +1,8 @@
-import Vue, { PropType } from 'vue'
+import { PropType, defineComponent } from 'vue'
 import { LifecycleApplication } from './types/app'
 import { Socket } from 'socket.io-client'
 
-export default Vue.extend({
+export default defineComponent({
   props: {
     app: {
       type: Object as PropType<LifecycleApplication>,
@@ -26,14 +26,14 @@ export default Vue.extend({
   },
 
   // Define a default render function because we're not working with Vue SFC's here.
-  render (createElement) {
+  render (createElement: any) {
     return createElement('h2', 'Please read the documentation to see how to use this.')
   },
 
   watch: {
     visible: {
       immediate: true,
-      handler (nowVisible, previouslyVisible) {
+      handler (nowVisible: boolean, previouslyVisible: boolean) {
         if (nowVisible == previouslyVisible) return
 
         nowVisible ? this.becameVisible() : this.becameHidden()
