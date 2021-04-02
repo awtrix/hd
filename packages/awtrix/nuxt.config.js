@@ -30,15 +30,6 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://use.fontawesome.com/releases/v5.15.2/css/all.css',
-        integrity: 'sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu',
-        crossorigin: 'anonymous'
-      }
-    ]
   },
 
   srcDir: path.join(__dirname, 'web'),
@@ -92,7 +83,6 @@ module.exports = {
     ** Nuxt.js modules
     */
   modules: [
-    '@nuxtjs/axios',
   ],
 
   /*

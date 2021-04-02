@@ -7,5 +7,12 @@ export default defineConfig({
   build: {
     outDir: '../dist/web',
   },
+  css: {
+    preprocessorOptions: {
+      stylus: {
+        additionalData: `@import '@/stylus/vars/index'`
+      }
+    }
+  },
   plugins: [vue()],
 })
