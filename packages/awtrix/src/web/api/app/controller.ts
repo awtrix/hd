@@ -38,6 +38,7 @@ router.get('/api/apps/background', (ctx) => {
  */
 router.post('/api/apps/rotation', async (ctx) => {
   // TODO: Perform body validation
+  // @ts-ignore
   let app = await storeNewApp(ctx.database, 'rotation', ctx.request.body)
   ctx.body = app
 })

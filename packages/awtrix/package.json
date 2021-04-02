@@ -2,18 +2,17 @@
   "name": "@awtrix/app",
   "version": "0.1.11",
   "description": "awtrix",
-  "main": "dist/index.js",
   "bin": {
-    "awtrix": "bin/run"
+    "awtrix": "bin/run.prod"
   },
   "scripts": {
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
     "build:frontend": "vue-tsc --noEmit && vite build",
     "build:backend": "etsc",
     "build": "npm run build:frontend && npm run build:backend",
-    "awtrix": "node ./bin/run",
-    "start": "node ./bin/run start --production",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "awtrix": "esr ./bin/run.dev.ts start",
+    "start": "node ./bin/run.prod.js start --production"
   },
   "repository": {
     "type": "git",
@@ -35,8 +34,10 @@
     "@awtrix/common": "^0.1.2",
     "@mojs/core": "^0.288.2",
     "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.0",
+    "connect": "^3.7.0",
     "copy-template-dir": "^1.3",
     "dayjs": "^1.8.35",
     "decompress": "^4.2.1",
@@ -53,8 +54,10 @@
     "lowdb": "^1.0.0",
     "mkdirp": "^1.0.3",
     "node-fetch": "^2.6.0",
+    "nodemon": "^2.0.7",
     "on-change": "^2.1.4",
     "puppeteer": "^5.2.1",
+    "serve-static": "^1.14.1",
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "stylus": "^0.54.8",
@@ -98,6 +101,7 @@
     "@vitejs/plugin-vue": "^1.2.1",
     "@vue/compiler-sfc": "^3.0.10",
     "esbuild-node-tsc": "^1.3.0",
+    "esbuild-runner": "^1.3.2",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.3",

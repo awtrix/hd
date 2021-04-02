@@ -23,8 +23,9 @@
     "vite.config.ts",
     "node_modules",
     "dist",
+    "bin",
     "web",
     "web_old",
-    "src/templates"
+    "templates"
   ]
 }

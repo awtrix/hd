@@ -51,7 +51,7 @@ export default class Container {
    * Reads the package.json of the installed awtrix version.
    */
   readPackageJson (): JSONSchemaForNPMPackageJsonFiles {
-    const packageJsonPath = path.join(__dirname, '../../package.json')
+    const packageJsonPath = path.join(__dirname, '../package.json')
     return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
   }
 
@@ -112,7 +112,7 @@ export default class Container {
       }
     }
 
-    fs.writeFileSync(pidfile, process.pid)
+    fs.writeFileSync(pidfile, Buffer.from(process.pid.toString(), 'utf-8'))
     // TODO: Make sure to clean up the pidfile when the process exits!
   }
 

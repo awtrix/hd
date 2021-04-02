@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   root: './web',
   build: {
-    outDir: './dist/web',
+    outDir: '../dist/web',
   },
   plugins: [vue()],
 })

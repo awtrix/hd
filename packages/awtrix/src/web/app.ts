@@ -1,13 +1,14 @@
-import Koa from 'koa'
-import http from 'http'
-import bodyParser from 'koa-bodyparser'
-import mount from 'koa-mount'
-import serve from 'koa-static'
+import { ViteDevServer, createServer as createViteServer } from 'vite'
+import { default as connect, IncomingMessage, Server } from 'connect'
 import path from 'path'
 import logger from '../utils/logger'
-// import createNuxtMiddleware from './createMiddleware'
 import Container from '../app/Container'
-import controllers from './api'
+import { json as jsonBodyParser } from 'body-parser'
+import serveStatic from 'serve-static'
+import { ServerResponse } from 'http'
+import fs from 'fs'
+
+// import controllers from './api'
 
 export interface KoaContext {
   container: Container,
@@ -15,42 +16,73 @@ export interface KoaContext {
 }
 
 export default class WebServer {
-  app: Koa<any, KoaContext>
+  app: Server
+  context: any
 
   constructor (protected container: Container) {
-    this.app = new Koa()
-    this.app.env = container.env
-    this.app.use(bodyParser({ strict: true }))
+    this.app = connect()
 
-    this.app.context.container = container
-    this.app.context.database = container.database!
+    this.context = {
+      container,
+      database: container.database!
+    }
+  }
+
+  async configureVite (): Promise<void> {
+    const vite = await createViteServer({
+      configFile: path.join(__dirname, '../vite.config.ts'),
+      clearScreen: false,
+      server: { middlewareMode: true },
+    })
+
+    this.app.use(vite.middlewares)
+    this.app.use(async (req: IncomingMessage, res: ServerResponse) => {
+      const response = await vite.transformRequest(req.originalUrl!)
+      console.log(response)
+      return
+      const url = req.originalUrl
+
+      try {
+        let template = fs.readFileSync(path.resolve(__dirname, '../web/index.html'), 'utf-8')
+
+        template = await vite.transformIndexHtml(url!, template)
+
+        const { render } = await vite.ssrLoadModule('/s')
+
+      } catch (e) {
+        vite.ssrFixStacktrace(e)
+        console.error(e)
+        // res.stat(500).end(e.message)
+      }
+    })
   }
 
   async start (): Promise<void> {
-    // Import and Set Nuxt.js options
-    const config = require('../../nuxt.config')
+    // if dev
+    if (true) {
+      await this.configureVite()
+    } else {
+      const staticHandler = serveStatic(path.join(__dirname, '../dist/web'))
+      this.app.use(staticHandler)
+    }
 
     // First configure our own router for API requests
-    controllers.forEach((bindController) => {
-      bindController(this.app)
-    })
+    // controllers.forEach((bindController) => {
+    //  bindController(this.app)
+    // })
+
+    // Set up some common middlewares
+    this.app.use(jsonBodyParser())
 
     // Then mount our apps' static files (assets + precompiled code) into the
     // /static/apps path
     const staticPath = path.join(this.container.homeDirectory, 'apps')
-    const staticMiddleware = serve(staticPath)
-    this.app.use(mount('/static/apps', staticMiddleware))
-
-    // Then instantiate Nuxt so that we can also serve our frontend
-    // through the same port
-    // let { middleware, nuxt } = await createNuxtMiddleware(this.app, config)
-    // this.app.use(middleware)
+    const staticHandler = serveStatic(staticPath)
+    this.app.use('/static/apps/', staticHandler)
 
     // Finally, start listening
-    const server = http.createServer(this.app.callback())
     const port = parseInt(process.env.PORT || '3000')
-
-    server.listen(port, process.env.HOST || '0.0.0.0')
+    await this.app.listen(port)
     logger.info(`Webserver listening on http://localhost:${port}`)
   }
 }

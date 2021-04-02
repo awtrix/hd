@@ -1,6 +1,7 @@
 import { KoaContext } from '../app'
 import KoaRouter from 'koa-router'
 import Koa from 'koa'
+import { Connect } from 'vite'
 
 export type BindRouterFunction = <CustomS, CustomC>(arg: Koa<CustomS, CustomC>) => any
 
@@ -9,7 +10,9 @@ export default (opts?: KoaRouter.IRouterOptions) => {
 
   return {
     router,
-    bind: (app: Koa<any, KoaContext>) => app.use(router.routes())
+    // @ts-ignore
+    bind: (app: Connect.Server) => app.use(router.routes())
+    // @ts-ignore
                            .use(router.allowedMethods())
   }
 }
