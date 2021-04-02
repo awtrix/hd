@@ -1,78 +1,72 @@
-import { ViteDevServer, createServer as createViteServer } from 'vite'
-import { default as connect, IncomingMessage, Server } from 'connect'
+import { createServer as createViteServer } from 'vite'
+import { default as connect, Server } from 'connect'
 import path from 'path'
 import logger from '../utils/logger'
-import Container from '../app/Container'
 import { json as jsonBodyParser } from 'body-parser'
 import serveStatic from 'serve-static'
-import { ServerResponse } from 'http'
-import fs from 'fs'
+import Container from '../app/Container'
+import Context from './context'
 
 // import controllers from './api'
 
-export interface KoaContext {
-  container: Container,
-  database: NonNullable<typeof Container.prototype.database>,
-}
-
 export default class WebServer {
   app: Server
-  context: any
 
+  /**
+   *
+   * @param container
+   */
   constructor (protected container: Container) {
     this.app = connect()
 
-    this.context = {
-      container,
-      database: container.database!
-    }
+    // Set up the context for our API
+    const context = Context.getInstance()
+    context.database = container.database
+    context.container = container
   }
 
-  async configureVite (): Promise<void> {
+  /**
+   * Configures a Vite Development Server with proxy functionality to our
+   * own routes and starts it.
+   */
+  async startVite () {
     const vite = await createViteServer({
       configFile: path.join(__dirname, '../vite.config.ts'),
       clearScreen: false,
-      server: { middlewareMode: true },
+      server: {
+        proxy: {
+          '/static': 'http://localhost:3002',
+          '/api': 'http://localhost:3002',
+        }
+      },
     })
 
-    this.app.use(vite.middlewares)
-    this.app.use(async (req: IncomingMessage, res: ServerResponse) => {
-      const response = await vite.transformRequest(req.originalUrl!)
-      console.log(response)
-      return
-      const url = req.originalUrl
-
-      try {
-        let template = fs.readFileSync(path.resolve(__dirname, '../web/index.html'), 'utf-8')
-
-        template = await vite.transformIndexHtml(url!, template)
-
-        const { render } = await vite.ssrLoadModule('/s')
-
-      } catch (e) {
-        vite.ssrFixStacktrace(e)
-        console.error(e)
-        // res.stat(500).end(e.message)
-      }
-    })
+    vite.listen(3000)
   }
 
+  /**
+   *
+   */
   async start (): Promise<void> {
-    // if dev
-    if (true) {
-      await this.configureVite()
+    const dev = true
+    if (dev) {
+      // In development mode we want to use regular Vite features, so we
+      // configure our Connect app to use the Vite middleware
+      await this.startVite()
     } else {
+      // In production however we can work with static files, so we use
+      // a static handler for the compiled frontend
       const staticHandler = serveStatic(path.join(__dirname, '../dist/web'))
       this.app.use(staticHandler)
     }
 
-    // First configure our own router for API requests
+    // Set up some common middlewares
+    this.app.use(jsonBodyParser())
+
+    // Configure our own router for API requests
     // controllers.forEach((bindController) => {
     //  bindController(this.app)
     // })
-
-    // Set up some common middlewares
-    this.app.use(jsonBodyParser())
 
     // Then mount our apps' static files (assets + precompiled code) into the
     // /static/apps path
@@ -81,8 +75,8 @@ export default class WebServer {
     this.app.use('/static/apps/', staticHandler)
 
     // Finally, start listening
-    const port = parseInt(process.env.PORT || '3000')
+    const port = dev ? 3002 : 3000
     await this.app.listen(port)
-    logger.info(`Webserver listening on http://localhost:${port}`)
+    logger.info(`Webserver listening on http://localhost:3000`)
   }
 }

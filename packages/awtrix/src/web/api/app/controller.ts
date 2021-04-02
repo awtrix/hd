@@ -2,6 +2,7 @@ import createRouter from '../createRouter'
 import aggregateApp from './aggregateApp'
 import storeNewApp from './storeNewApp'
 import { spawn } from 'child_process'
+import Context from '../../context'
 
 const { router, bind } = createRouter()
 
@@ -10,7 +11,7 @@ const { router, bind } = createRouter()
  * from the app store.
  */
 router.get('/api/apps/available', (ctx) => {
-  let apps = ctx.database.get(['apps', 'available'], [])
+  let apps = Context.getInstance().database!.get(['apps', 'available'], [])
   ctx.body = apps.value()
 })
 
@@ -19,7 +20,7 @@ router.get('/api/apps/available', (ctx) => {
  * to run in the app rotation.
  */
 router.get('/api/apps/rotation', (ctx) => {
-  let apps = ctx.database.get(['apps', 'rotation']).map(aggregateApp)
+  let apps = Context.getInstance().database!.get(['apps', 'rotation']).map(aggregateApp)
   ctx.body = apps.value()
 })
 
@@ -28,7 +29,7 @@ router.get('/api/apps/rotation', (ctx) => {
  * to run in the background, but not the app rotation.
  */
 router.get('/api/apps/background', (ctx) => {
-  let apps = ctx.database.get(['apps', 'background']).map(aggregateApp)
+  let apps = Context.getInstance().database!.get(['apps', 'background']).map(aggregateApp)
   ctx.body = apps.value()
 })
 
@@ -39,7 +40,7 @@ router.get('/api/apps/background', (ctx) => {
 router.post('/api/apps/rotation', async (ctx) => {
   // TODO: Perform body validation
   // @ts-ignore
-  let app = await storeNewApp(ctx.database, 'rotation', ctx.request.body)
+  let app = await storeNewApp(Context.getInstance().database!, 'rotation', ctx.request.body)
   ctx.body = app
 })
 
@@ -49,7 +50,7 @@ router.post('/api/apps/rotation', async (ctx) => {
 router.post('/api/apps/background', async (ctx) => {
   const body = { name: 'people-in-space', version: '1.0', index: 1 }
 
-  let app = await storeNewApp(ctx.database, 'background', body)
+  let app = await storeNewApp(Context.getInstance().database!, 'background', body)
   ctx.body = app
 })
 
@@ -66,7 +67,7 @@ router.put('/api/apps/:id', (ctx, next) => {
  */
 router.delete('/api/apps/:id', async (ctx) => {
   // TODO: Find out if we want to return the deleted object.
-  await ctx.database
+  await Context.getInstance().database!
     .unset(['apps', 'rotation', ctx.params.id])
     .unset(['apps', 'background', ctx.params.id])
     .write()
