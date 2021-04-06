@@ -6,6 +6,7 @@ import importStylus from './import-stylus-variables'
 export default defineConfig({
   root: './web',
   build: {
+    target: 'esnext',
     outDir: '../dist/web',
   },
   plugins: [

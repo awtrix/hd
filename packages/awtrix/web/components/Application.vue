@@ -10,7 +10,9 @@
 import { defineComponent, PropType } from 'vue'
 import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import io, { Socket } from 'socket.io-client'
-import { GeneratorType, FrontendApp } from '@awtrix/common'
+import * as penis from '@awtrix/common'
+console.log(penis)
+// import { GeneratorType, FrontendApp } from '@awtrix/common'
 
 export default defineComponent({
   props: {

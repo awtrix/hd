@@ -12,10 +12,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { debounce } from 'lodash'
-// import AppContainer from './components/AppContainer.vue'
+import AppContainer from './components/AppContainer.vue'
 
 export default defineComponent({
-  // components: { AppContainer },
+  components: { AppContainer },
 
   data () {
     return {

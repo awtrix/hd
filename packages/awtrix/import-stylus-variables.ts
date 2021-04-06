@@ -8,8 +8,7 @@ export default function importStylus(): Plugin {
       if (/.stylus$/g.test(id)) {
         return {
           code: `
-            @import "${path.resolve(__dirname, 'assets/stylus/vars/index')}"
-
+            @import "${path.resolve(__dirname, 'web/assets/stylus/vars/index')}"
             ${code}
           `,
           map: null,
