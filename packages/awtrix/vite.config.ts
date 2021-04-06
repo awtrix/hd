@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import importStylus from './import-stylus-variables'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -7,12 +8,11 @@ export default defineConfig({
   build: {
     outDir: '../dist/web',
   },
-  css: {
-    preprocessorOptions: {
-      stylus: {
-        additionalData: `@import '@/stylus/vars/index'`
-      }
-    }
-  },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    {
+      ...importStylus(),
+      enforce: 'pre',
+    },
+  ],
 })

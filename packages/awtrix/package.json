@@ -60,6 +60,7 @@
     "vue-flip-toolkit": "^1.6.0",
     "vue-slider-component": "^3.2.5",
     "vuedraggable": "^2.24.1",
+    "vuex": "^4.0.0",
     "winston": "^3.3.3",
     "yargs": "^16.2.0",
     "yeoman-environment": "^3.2.0",
