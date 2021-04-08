@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/common",
-  "version": "0.1.3",
+  "version": "0.1.8",
   "description": "awtrix",
   "main": "dist/index.js",
   "scripts": {
@@ -9,17 +9,17 @@
   },
   "files": [
     "dist",
-    "tsconfig.json"
+    "tsconfig.app.json"
   ],
   "devDependencies": {
     "@schemastore/package": "0.0.6",
     "@types/lodash": "^4.14.165",
     "@types/socket.io": "^2.1.11",
     "@types/socket.io-client": "^1.4.34",
-    "typescript": "^4.2",
-    "vue": "^3.0.11"
+    "typescript": "^4.2"
   },
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "vue": "^3.0.11"
   }
 }
