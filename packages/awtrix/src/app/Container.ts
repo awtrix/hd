@@ -154,7 +154,7 @@ export default class Container {
 
       // Start the socket.io server
       const server = http.createServer()
-      server.listen(3001, '0.0.0.0')
+      server.listen(3002, '0.0.0.0')
       this.io = io.listen(server)
   }
 

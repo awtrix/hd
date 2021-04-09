@@ -35,8 +35,8 @@ export default class WebServer {
       clearScreen: false,
       server: {
         proxy: {
-          '/static': 'http://localhost:3002',
-          '/api': 'http://localhost:3002',
+          '/static': 'http://localhost:3001',
+          '/api': 'http://localhost:3001',
         }
       },
     })
@@ -75,7 +75,7 @@ export default class WebServer {
     this.app.use('/static/apps/', staticHandler)
 
     // Finally, start listening
-    const port = dev ? 3002 : 3000
+    const port = dev ? 3001 : 3000
     await this.app.listen(port)
     logger.info(`Webserver listening on http://localhost:3000`)
   }

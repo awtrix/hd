@@ -9,6 +9,6 @@ export default class Socket {
   }
 
   async start (): Promise<void> {
-    io.listen(3001)
+    io.listen(3002)
   }
 }

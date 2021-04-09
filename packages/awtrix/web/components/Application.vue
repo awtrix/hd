@@ -7,12 +7,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, defineAsyncComponent, PropType } from 'vue'
 import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import io, { Socket } from 'socket.io-client'
-import * as penis from '@awtrix/common'
-console.log(penis)
-// import { GeneratorType, FrontendApp } from '@awtrix/common'
+import { GeneratorType, FrontendApp } from '@awtrix/common'
 
 export default defineComponent({
   props: {
@@ -36,7 +34,9 @@ export default defineComponent({
     appComponent (): () => Promise<any> {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
-      return () => this.importComponent(this.app.name, this.app.version!)
+      return defineAsyncComponent(
+        () => this.importComponent(this.app.name, this.app.version!)
+      )
     },
   },
 
@@ -51,19 +51,21 @@ export default defineComponent({
 
   methods: {
     async importComponent (name: string, version: string): Promise<ReturnType<GeneratorType>> {
-      const componentKey = `AwtrixComponent.${name}`
       const url = `/static/apps/${name}/${version}/AwtrixComponent.${name}.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object
+      // TODO: Figure out versioning!
       const castedWindow = window as any
-      if (castedWindow[componentKey]) return castedWindow[componentKey]
+      if (castedWindow.AwtrixComponent && castedWindow.AwtrixComponent[name]) {
+        return castedWindow.AwtrixComponent[name]
+      }
 
       const generate: GeneratorType = await new Promise(async (resolve, reject) => {
         const script = document.createElement('script')
         script.async = true
         script.addEventListener('load', () => {
-          resolve(castedWindow[componentKey])
+          resolve(castedWindow.AwtrixComponent[name])
         })
         script.addEventListener('error', () => {
           reject(new Error(`Error loading ${url}`))
@@ -81,11 +83,7 @@ export default defineComponent({
       // the compiled one.
       // TODO: Object.assign doesn't work here, but find a better way than this!
       // @ts-ignore
-      generated.options.render = generate.options.render
-      // @ts-ignore
-      generated.options.staticRenderFns = generate.options.staticRenderFns
-      // @ts-ignore
-      generated.options.__file = generate.options.__file
+      generated.render = generate.render
 
       return generated
     }

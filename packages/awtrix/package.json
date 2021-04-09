@@ -3,7 +3,7 @@
   "version": "0.1.11",
   "description": "awtrix",
   "bin": {
-    "awtrix": "bin/run.prod"
+    "awtrix": "bin/run.prod.js"
   },
   "scripts": {
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
@@ -11,8 +11,8 @@
     "build:backend": "etsc",
     "build": "npm run build:frontend && npm run build:backend",
     "prepublishOnly": "npm run build",
-    "awtrix": "esr ./bin/run.dev.ts start",
-    "start": "node ./bin/run.prod.js start --production"
+    "awtrix": "esr ./bin/run.dev.ts",
+    "start": "esr ./bin/run.dev.ts start"
   },
   "repository": {
     "type": "git",

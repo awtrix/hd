@@ -7,8 +7,8 @@ declare module '*.vue' {
   export default component
 }
 
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
+declare module 'vue/types/vue' {
+  interface Vue {
     $accessor: typeof accessor,
     $t: typeof translate,
     $ht: typeof hasTranslation,

@@ -1,4 +1,5 @@
 import { Arguments, CommandModule } from 'yargs'
+import BuildService from '../services/buildService'
 import fs from 'fs'
 import os from 'os'
 import { ChildProcess, fork } from 'child_process'
@@ -21,12 +22,21 @@ interface DevCommandArguments extends Arguments {
 }
 
 export default {
-  command: 'dev',
+  command: 'pack',
   describe: 'Start the Awtrix HD development server for the app in your current directory.',
   builder: {
   },
   handler: async (flags: DevCommandArguments) => {
-    // ...
+    // For testing
+    process.chdir('../example-app')
+
+    const jsonPath = path.join(process.cwd(), 'package.json')
+    if (!fs.existsSync(jsonPath)) {
+      console.log('Could not find a "package.json" in your current directory.')
+    }
+
+    const service = new BuildService(jsonPath)
+    await service.run()
   },
 } as CommandModule
 

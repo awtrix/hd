@@ -12,6 +12,7 @@
     </div>
 
     <CircularMenu
+      v-show="false"
       class="w-full h-full absolute text-white"
       :style="{ top: `${settings.offset}px` }"
       @close="settings.offset = -480"

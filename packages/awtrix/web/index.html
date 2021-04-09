@@ -11,5 +11,12 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/main.ts"></script>
+
+    <!--
+      We need to use this method of including socket.io until
+      https://github.com/vitejs/vite/issues/2427
+      is resolved.
+    -->
+    <script src="http://localhost:3002/socket.io/socket.io.js"></script>
   </body>
 </html>

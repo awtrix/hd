@@ -1,7 +1,7 @@
 <template>
   <div class="layout--development">
     <div class="app-container" :style="{ transform: `scale(${scaleFactor})` }">
-      Abc
+      <AppContainer />
     </div>
 
     <div class="hint">Development Mode</div>
