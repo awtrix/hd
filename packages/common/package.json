@@ -12,14 +12,14 @@
     "tsconfig.app.json"
   ],
   "devDependencies": {
-    "@schemastore/package": "0.0.6",
     "@types/lodash": "^4.14.165",
     "@types/socket.io": "^2.1.11",
     "typescript": "^4.2"
   },
   "dependencies": {
+    "@types/socket.io-client": "^1.4.34",
     "lodash": "^4.17.20",
-    "vue": "^3.0.11",
-    "@types/socket.io-client": "^1.4.34"
+    "type-fest": "^1.0.2",
+    "vue": "^3.0.11"
   }
 }

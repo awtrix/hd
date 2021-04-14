@@ -51,21 +51,21 @@ export default defineComponent({
 
   methods: {
     async importComponent (name: string, version: string): Promise<ReturnType<GeneratorType>> {
-      const url = `/static/apps/${name}/${version}/AwtrixComponent.${name}.umd.js`
+      const url = `/static/apps/${name}/${version}/${name}.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object
-      // TODO: Figure out versioning!
+      const libName = `${name}@${version.replace(/\./g, '-')}`
       const castedWindow = window as any
-      if (castedWindow.AwtrixComponent && castedWindow.AwtrixComponent[name]) {
-        return castedWindow.AwtrixComponent[name]
+      if (castedWindow.AwtrixComponent && castedWindow.AwtrixComponent[libName]) {
+        return castedWindow.AwtrixComponent[libName]
       }
 
       const generate: GeneratorType = await new Promise(async (resolve, reject) => {
         const script = document.createElement('script')
         script.async = true
         script.addEventListener('load', () => {
-          resolve(castedWindow.AwtrixComponent[name])
+          resolve(castedWindow.AwtrixComponent[libName])
         })
         script.addEventListener('error', () => {
           reject(new Error(`Error loading ${url}`))
