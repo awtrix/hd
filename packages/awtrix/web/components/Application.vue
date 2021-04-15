@@ -8,14 +8,13 @@
 
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, PropType } from 'vue'
-import { LifecycleApplication } from '@awtrix/common/dist/types/app'
 import io, { Socket } from 'socket.io-client'
-import { GeneratorType, FrontendApp } from '@awtrix/common'
+import { GeneratorType, FrontendApp, Types } from '@awtrix/common'
 
 export default defineComponent({
   props: {
     app: {
-      type: Object as PropType<LifecycleApplication>,
+      type: Object as PropType<Types.Application.LifecycleApplication>,
       required: true,
     },
     visible: {

@@ -1,6 +1,6 @@
 import Container from './Container'
 import { BackendApp as ApplicationBackend } from '@awtrix/common'
-import { ApplicationIdentifier } from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
 import { join, resolve } from 'path'
 import { debounce } from 'lodash'
 import chokidar from 'chokidar'
@@ -14,7 +14,7 @@ enum SwitchingReason {
   UnmaskableInterrupt,
 }
 
-type ApplicationInstanceIdentifier = ApplicationIdentifier & { id: string }
+type ApplicationInstanceIdentifier = Types.Application.ApplicationIdentifier & { id: string }
 
 export default class ApplicationProcessor {
   /**

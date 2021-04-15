@@ -7,7 +7,7 @@ export default defineConfig({
   root: './web',
   build: {
     target: 'esnext',
-    outDir: '../dist/web',
+    outDir: '../dist/frontend',
   },
   plugins: [
     vue(),

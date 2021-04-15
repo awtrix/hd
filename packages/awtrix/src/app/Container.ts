@@ -1,12 +1,13 @@
 import fs from 'fs'
 import http from 'http'
 import io from 'socket.io'
-import path, { resolve } from 'path'
-import { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
+import path from 'path'
+import { PackageJson } from 'type-fest'
 import logger from '../utils/logger'
 import Webserver from '../web/app'
 import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
+import rootPath from 'app-root-path'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
 import ApplicationManager from './ApplicationManager'
@@ -16,7 +17,7 @@ export default class Container {
   /**
    * The package.json of the installed awtrix version.
    */
-  package: JSONSchemaForNPMPackageJsonFiles
+  package: PackageJson
 
   /**
    * The lowdb database from the user's home directory.
@@ -50,8 +51,8 @@ export default class Container {
   /**
    * Reads the package.json of the installed awtrix version.
    */
-  readPackageJson (): JSONSchemaForNPMPackageJsonFiles {
-    const packageJsonPath = path.join(__dirname, '../../package.json')
+  readPackageJson (): PackageJson {
+    const packageJsonPath = rootPath + '/package.json'
     return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
   }
 
@@ -128,7 +129,7 @@ export default class Container {
 
       logger.info('Copying default template to awtrix home directory.')
 
-      const source = path.join(__dirname, '../templates/core')
+      const source = rootPath + '/templates/core'
       const variables = { version: this.package.version }
       copyTemplateDir(source, this.homeDirectory, variables, (error: any) => {
         if (error) return reject(error)

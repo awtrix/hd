@@ -8,6 +8,7 @@ import Container from '../app/Container'
 import Context from './context'
 import Koa from 'koa'
 import controllers from './api'
+import rootPath from 'app-root-path'
 
 export default class WebServer {
   app: Server
@@ -31,7 +32,7 @@ export default class WebServer {
    */
   async startVite () {
     const vite = await createViteServer({
-      configFile: path.join(__dirname, '../../vite.config.ts'),
+      configFile: rootPath + '/vite.config.ts',
       clearScreen: false,
       server: {
         proxy: {
@@ -48,16 +49,16 @@ export default class WebServer {
    *
    */
   async start (): Promise<void> {
-    const dev = true
-    if (dev) {
+    const staticMode = process.env.AWTRIX_MODE == 'static'
+    if (staticMode) {
+      // In production we can work with static files, so we use
+      // a static handler for the compiled frontend
+      const staticHandler = serveStatic(rootPath + '/dist/frontend')
+      this.app.use(staticHandler)
+    } else {
       // In development mode we want to use regular Vite features, so we
       // configure our Connect app to use the Vite middleware
       await this.startVite()
-    } else {
-      // In production however we can work with static files, so we use
-      // a static handler for the compiled frontend
-      const staticHandler = serveStatic(path.join(__dirname, '../dist/web'))
-      this.app.use(staticHandler)
     }
 
     // Set up some common middlewares
@@ -78,7 +79,7 @@ export default class WebServer {
     this.app.use(koa.callback())
 
     // Finally, start listening
-    const port = dev ? 3001 : 3000
+    const port = staticMode ? 3000 : 3001
     await this.app.listen(port)
     logger.info(`Webserver listening on http://localhost:3000`)
   }

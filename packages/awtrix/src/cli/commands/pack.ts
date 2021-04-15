@@ -31,7 +31,7 @@ export default {
     },
     production: {
       type: 'boolean',
-      describe: '...',
+      describe: 'Whether to minify output files',
       default: process.env.NODE_ENV === 'production',
     },
     skipTarball: {

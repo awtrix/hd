@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
-require('../dist/src/cli').default(process.argv)
+process.env.AWTRIX_MODE = 'static'
+require('../dist/backend/cli').default(process.argv)

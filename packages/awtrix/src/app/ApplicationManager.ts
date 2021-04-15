@@ -3,11 +3,11 @@ import { exec } from 'child_process'
 import axios from 'axios'
 import fs from 'fs-extra'
 import decompress from 'decompress'
-import {
-  ApplicationIdentifier,
-  ApplicationConfig,
-  ApplicationTranslations
-} from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
+
+type ApplicationIdentifier = Types.Application.ApplicationIdentifier
+type ApplicationTranslations = Types.Application.ApplicationTranslations
+type ApplicationConfig = Types.Application.ApplicationConfig
 
 export default class ApplicationManager {
   constructor (protected homeDir: string) {}

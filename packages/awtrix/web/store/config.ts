@@ -1,6 +1,6 @@
 import { getAccessorType, mutationTree, actionTree } from 'typed-vuex'
 import { Socket } from 'socket.io-client'
-import { LifecycleApplication } from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
 import { accessor } from '.'
 
 export const state = () => ({
@@ -26,7 +26,7 @@ export const actions = actionTree({ state, mutations }, {
 
     socket.on('reload', () => { window.location.reload() })
 
-    socket.on('applications', (apps: LifecycleApplication[]) => {
+    socket.on('applications', (apps: Types.Application.LifecycleApplication[]) => {
       accessor.apps.setApps(apps)
     })
 

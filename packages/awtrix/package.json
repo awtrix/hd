@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
     "build:frontend": "vue-tsc --noEmit && vite build",
-    "build:backend": "etsc",
+    "build:backend": "tsc --noEmit && swc src -d dist/backend",
     "build": "npm run build:frontend && npm run build:backend",
     "prepublishOnly": "npm run build",
     "awtrix": "node -r esbuild-register ./bin/run.dev.ts",
@@ -31,8 +31,9 @@
     "*"
   ],
   "dependencies": {
-    "@awtrix/common": "^0.1.2",
+    "@awtrix/common": "^0.1.10",
     "@mojs/core": "^0.288.2",
+    "app-root-path": "^3.0.0",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
@@ -70,7 +71,9 @@
     "yeoman-generator": "^5.2.0"
   },
   "devDependencies": {
-    "@schemastore/package": "0.0.5",
+    "@swc/cli": "^0.1.36",
+    "@swc/core": "^1.2.52",
+    "@types/app-root-path": "^1.2.4",
     "@types/body-parser": "^1.19.0",
     "@types/connect": "^3.4.34",
     "@types/decompress": "^4.2.3",

@@ -2,10 +2,11 @@ import fs from 'fs-extra'
 import path from 'path'
 import { build as buildVue } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import esbuild from 'esbuild'
+import { build as esbuild } from 'esbuild'
 import Service from './service'
 import chokidar from 'chokidar'
 import { debounce } from 'lodash'
+import rootPath from 'app-root-path'
 
 interface WatchOptions {
   onChange: (file: string) => void,
@@ -92,11 +93,12 @@ export default class BuildService extends Service<BuildServiceConfig> {
 
     // We need to set the ESBUILD_BINARY_PATH so that `esbuild.build` can properly
     // spawn the correct binary.
-    process.env.ESBUILD_BINARY_PATH = path.resolve(__dirname, '../../../node_modules/esbuild/bin/esbuild')
+    process.env.ESBUILD_BINARY_PATH = rootPath + '/node_modules/esbuild/bin/esbuild'
 
     // TODO: Verify types with tsc
 
-    await esbuild.build({
+    await esbuild({
+      format: 'cjs',
       entryPoints: [path.join(this.path, 'backend.ts')],
       outfile: path.join(config.outDir, 'backend.js'),
     })
@@ -106,6 +108,7 @@ export default class BuildService extends Service<BuildServiceConfig> {
     const source = path.join(this.path, 'package.json')
     const dest = path.join(config.outDir, 'package.json')
 
+    // TODO: Also copy node_modules, as they would be required for dev mode
     // TODO: Figure out if we want to also copy the `package-lock.json`
     await fs.copy(source, dest)
   }

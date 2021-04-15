@@ -1,8 +1,8 @@
 import { getAccessorType, mutationTree, getterTree } from 'typed-vuex'
-import { LifecycleApplication } from '@awtrix/common/dist/types/app'
+import { Types } from '@awtrix/common'
 
 export const state = () => ({
-  applications: [] as LifecycleApplication[],
+  applications: [] as Types.Application.LifecycleApplication[],
   activeApplicationID: null as string | null,
 })
 
@@ -29,7 +29,7 @@ export const mutations = mutationTree(state, {
 })
 
 export const getters = getterTree(state, {
-  activeApplication (state: RootState): LifecycleApplication | undefined {
+  activeApplication (state: RootState): Types.Application.LifecycleApplication | undefined {
     return state.applications.find((app) => app.id == state.activeApplicationID)
   }
 })
