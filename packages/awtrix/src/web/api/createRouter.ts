@@ -1,4 +1,3 @@
-
 import KoaRouter from 'koa-router'
 import Koa from 'koa'
 import { Connect } from 'vite'
@@ -6,7 +5,7 @@ import { Connect } from 'vite'
 export type BindRouterFunction = <CustomS, CustomC>(arg: Koa<CustomS, CustomC>) => any
 
 export default (opts?: KoaRouter.IRouterOptions) => {
-  const router = new KoaRouter<any, KoaContext>(opts)
+  const router = new KoaRouter(opts)
 
   return {
     router,

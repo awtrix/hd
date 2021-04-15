@@ -6,8 +6,8 @@ import { json as jsonBodyParser } from 'body-parser'
 import serveStatic from 'serve-static'
 import Container from '../app/Container'
 import Context from './context'
-
-// import controllers from './api'
+import Koa from 'koa'
+import controllers from './api'
 
 export default class WebServer {
   app: Server
@@ -63,16 +63,19 @@ export default class WebServer {
     // Set up some common middlewares
     this.app.use(jsonBodyParser())
 
-    // Configure our own router for API requests
-    // controllers.forEach((bindController) => {
-    //  bindController(this.app)
-    // })
-
     // Then mount our apps' static files (assets + precompiled code) into the
     // /static/apps path
     const staticPath = path.join(this.container.homeDirectory, 'apps')
     const staticHandler = serveStatic(staticPath)
     this.app.use('/static/apps/', staticHandler)
+
+    // Configure our own router for API requests
+    const koa = new Koa()
+    controllers.forEach((bindController) => {
+      bindController(koa)
+    })
+
+    this.app.use(koa.callback())
 
     // Finally, start listening
     const port = dev ? 3001 : 3000

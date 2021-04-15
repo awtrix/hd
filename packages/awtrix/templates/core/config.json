@@ -7,8 +7,8 @@
   "apps": {
     "rotation": [{
       "id": "fn08_54",
-      "name": "awtrix",
-      "version": "0.0.1",
+      "name": "example",
+      "version": "0.1.0",
       "config": {
         "region": "us"
       }
