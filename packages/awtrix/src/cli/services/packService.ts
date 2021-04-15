@@ -14,9 +14,7 @@ export default class PackService extends Service<PackServiceConfig> {
     outFile: path.join(this.path, `${this.json.name}@${this.json.version}.tar.gz`),
   }
 
-  async run (config?: Partial<PackServiceConfig>) {
-    config = { ...this.defaultConfig, ...config }
-
+  async execute (config: PackServiceConfig) {
     const dirContent = await fs.readdir(config.sourceDir!)
     const archive = tar.create({
       gzip: true, cwd: config.sourceDir!,

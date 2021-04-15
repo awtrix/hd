@@ -1,4 +1,4 @@
-import { join, resolve } from 'path'
+import { dirname, join, resolve } from 'path'
 import { exec } from 'child_process'
 import axios from 'axios'
 import fs from 'fs-extra'

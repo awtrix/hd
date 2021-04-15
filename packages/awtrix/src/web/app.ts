@@ -31,7 +31,7 @@ export default class WebServer {
    */
   async startVite () {
     const vite = await createViteServer({
-      configFile: path.join(__dirname, '../vite.config.ts'),
+      configFile: path.join(__dirname, '../../vite.config.ts'),
       clearScreen: false,
       server: {
         proxy: {

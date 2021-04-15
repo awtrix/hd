@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { Types } from '@awtrix/common'
+import { merge } from 'lodash'
 
 export default abstract class Service<Config> {
   defaultConfig!: Config
@@ -12,5 +13,12 @@ export default abstract class Service<Config> {
     this.json = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'))
   }
 
-  abstract run (config?: Partial<Config>): Promise<any>
+  run (config: Partial<Config> = {}): Promise<any> {
+    let filledConfig = this.defaultConfig
+    merge(filledConfig, config)
+
+    return this.execute(filledConfig)
+  }
+
+  abstract execute (config: Config): Promise<any>
 }
