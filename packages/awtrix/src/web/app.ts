@@ -8,7 +8,6 @@ import Container from '../app/Container'
 import Context from './context'
 import Koa from 'koa'
 import controllers from './api'
-import rootPath from 'app-root-path'
 
 export default class WebServer {
   app: Server
@@ -32,7 +31,7 @@ export default class WebServer {
    */
   async startVite () {
     const vite = await createViteServer({
-      configFile: rootPath + '/vite.config.ts',
+      configFile: global.awtrix.rootPath + '/vite.config.ts',
       clearScreen: false,
       server: {
         proxy: {
@@ -49,11 +48,11 @@ export default class WebServer {
    *
    */
   async start (): Promise<void> {
-    const staticMode = process.env.AWTRIX_MODE == 'static'
+    const staticMode = global.awtrix.mode == 'static'
     if (staticMode) {
       // In production we can work with static files, so we use
       // a static handler for the compiled frontend
-      const staticHandler = serveStatic(rootPath + '/dist/frontend')
+      const staticHandler = serveStatic(global.awtrix.rootPath + '/dist/frontend')
       this.app.use(staticHandler)
     } else {
       // In development mode we want to use regular Vite features, so we

@@ -6,7 +6,6 @@ import { build as esbuild } from 'esbuild'
 import Service from './service'
 import chokidar from 'chokidar'
 import { debounce } from 'lodash'
-import rootPath from 'app-root-path'
 
 interface WatchOptions {
   onChange: (file: string) => void,
@@ -93,7 +92,7 @@ export default class BuildService extends Service<BuildServiceConfig> {
 
     // We need to set the ESBUILD_BINARY_PATH so that `esbuild.build` can properly
     // spawn the correct binary.
-    process.env.ESBUILD_BINARY_PATH = rootPath + '/node_modules/esbuild/bin/esbuild'
+    process.env.ESBUILD_BINARY_PATH = global.awtrix.rootPath + '/node_modules/esbuild/bin/esbuild'
 
     // TODO: Verify types with tsc
 

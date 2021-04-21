@@ -7,7 +7,6 @@ import logger from '../utils/logger'
 import Webserver from '../web/app'
 import createDatabase, { Database } from '../utils/database'
 import puppeteer from 'puppeteer'
-import rootPath from 'app-root-path'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
 import ApplicationManager from './ApplicationManager'
@@ -52,7 +51,7 @@ export default class Container {
    * Reads the package.json of the installed awtrix version.
    */
   readPackageJson (): PackageJson {
-    const packageJsonPath = rootPath + '/package.json'
+    const packageJsonPath = global.awtrix.rootPath + '/package.json'
     return JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
   }
 
@@ -129,7 +128,7 @@ export default class Container {
 
       logger.info('Copying default template to awtrix home directory.')
 
-      const source = rootPath + '/templates/core'
+      const source = global.awtrix.rootPath + '/templates/core'
       const variables = { version: this.package.version }
       copyTemplateDir(source, this.homeDirectory, variables, (error: any) => {
         if (error) return reject(error)

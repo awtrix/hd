@@ -1,4 +1,10 @@
 #!/usr/bin/env node
 
-process.env.AWTRIX_MODE = 'static'
+const path = require('path')
+
+global.awtrix = {
+  rootPath: path.dirname(path.resolve(__dirname)),
+  mode: 'static'
+}
+
 require('../dist/backend/cli').default(process.argv)

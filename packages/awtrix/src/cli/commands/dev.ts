@@ -5,7 +5,6 @@ import path from 'path'
 import Container from '../../app/Container'
 // @ts-ignore
 import copyTemplateDir from 'copy-template-dir'
-import rootPath from 'app-root-path'
 
 interface DevCommandArguments extends Arguments {
   workingDirectory?: string,
@@ -58,7 +57,7 @@ export default {
     // TODO: Don't override the .awtrix/package.json in case the user has already
     //   customized their app.
     const templateVariables = { name: build.json.name, version: build.json.version }
-    await copyTemplate(rootPath + '/templates/development', homeDir, templateVariables)
+    await copyTemplate(global.awtrix.rootPath + '/templates/development', homeDir, templateVariables)
 
     // build.run resolves after the first run. The watch mode is running on the
     // background, and not blocking the Promise from resolving.
