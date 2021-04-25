@@ -32,7 +32,8 @@ export default {
         // example app as the target to be built. Otherwise we use the
         // current working directory
         let target = process.cwd()
-        if (target.endsWith('/packages/awtrix')) {
+        console.log(target, )
+        if (target.endsWith(`${path.sep}packages${path.sep}awtrix`)) {
           target = path.join(process.cwd(), '../example-app')
         }
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     {{ app.name }}@{{ app.version }}
   </div>
 </template>
@@ -13,3 +13,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+#app {
+  background: red;
+}
+</style>

@@ -43,7 +43,7 @@ export default defineComponent({
     app: {
       immediate: true,
       handler (app) {
-        this.io = io(`http://${location.hostname}:3001/apps/${app.id}`)
+        this.io = io(`http://${location.hostname}:3002/apps/${app.id}`)
       },
     },
   },
@@ -83,6 +83,9 @@ export default defineComponent({
       // TODO: Object.assign doesn't work here, but find a better way than this!
       // @ts-ignore
       generated.render = generate.render
+      // @ts-ignore
+      generated.__scopeId = generate.__scopeID
+      // TODO: Add styles
 
       return generated
     }

@@ -4,7 +4,7 @@
   "awtrix": {
     "build": {
       "frontend": true,
-      "backend": true,
+      "backend": false,
       "assets": false
     }
   },
