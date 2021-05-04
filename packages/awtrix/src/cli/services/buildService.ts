@@ -91,8 +91,10 @@ export default class BuildService extends Service<BuildServiceConfig> {
     if (!this.json.awtrix.build.backend) return
 
     // We need to set the ESBUILD_BINARY_PATH so that `esbuild.build` can properly
-    // spawn the correct binary.
-    process.env.ESBUILD_BINARY_PATH = global.awtrix.rootPath + '/node_modules/esbuild/bin/esbuild'
+    // spawn the correct binary. This works differently on Windows though, so we
+    // need to account for that.
+    let binaryPath = process.platform == 'win32' ? 'esbuild.exe' : 'bin/esbuild'
+    process.env.ESBUILD_BINARY_PATH = path.join(global.awtrix.rootPath, 'node_modules/esbuild', binaryPath)
 
     // TODO: Verify types with tsc
 
