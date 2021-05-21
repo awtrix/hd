@@ -6,7 +6,7 @@ import { build as esbuild } from 'esbuild'
 import Service from './service'
 import chokidar from 'chokidar'
 import { debounce } from 'lodash'
-import importStylus from '../../../import-stylus-variables'
+// import importStylus from '../../../import-stylus-variables'
 
 interface WatchOptions {
   onChange: (file: string) => void,
@@ -70,12 +70,12 @@ export default class BuildService extends Service<BuildServiceConfig> {
       clearScreen: false,
       plugins: [
         vue(),
-        {
-          // TODO: Figure out if we can properly expose stylus variables to
-          //       app authors.
-          ...importStylus(),
-          enforce: 'pre',
-        },
+        // TODO: Figure out if we can properly expose stylus variables to
+        //       app authors.
+        // {
+        //   ...importStylus(),
+        //   enforce: 'pre',
+        // },
       ],
       build: {
         outDir: config.outDir,

@@ -1,6 +1,6 @@
 {
   "name": "@awtrix/app",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "awtrix",
   "bin": {
     "awtrix": "bin/run.prod.js"
