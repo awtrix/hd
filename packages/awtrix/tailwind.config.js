@@ -11,7 +11,7 @@ module.exports = {
   purge: {
     // We don't ever want to purge tailwind CSS classes because we can't know
     // ahead of time which classes are going to be used by our app developers.
-    // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
+    // Learn more at https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
     enabled: false,
   }
 }

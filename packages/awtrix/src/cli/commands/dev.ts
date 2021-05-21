@@ -32,7 +32,6 @@ export default {
         // example app as the target to be built. Otherwise we use the
         // current working directory
         let target = process.cwd()
-        console.log(target, )
         if (target.endsWith(`${path.sep}packages${path.sep}awtrix`)) {
           target = path.join(process.cwd(), '../example-app')
         }
@@ -66,6 +65,11 @@ export default {
       watch: { onChange (path) { '...' }},
       outDir: path.join(homeDir, `apps/${build.json.name}/${build.json.version}`)
     })
+
+    // TODO: It seems as if Tailwind doesn't work because the PostCSS config isn't
+    //       loaded when running the BuildService and the DevServer in our app container.
+    //       Therefore we use the static mode for now. This should be fixed though.
+    global.awtrix.mode = 'static'
 
     const container = new Container(homeDir, 'development', !flags.browser!, true)
     container.boot()
