@@ -14,8 +14,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-#app {
-  background: red;
-}
+<style scoped lang="stylus">
+#app
+  background: red
 </style>

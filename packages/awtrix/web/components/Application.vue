@@ -3,6 +3,7 @@
     <component :is="appComponent" :app="app" :visible="visible" :io="io"
       v-on="$listeners"
     />
+    <link rel="stylesheet" :href="styleUrl" />
   </div>
 </template>
 
@@ -33,9 +34,15 @@ export default defineComponent({
     appComponent (): () => Promise<any> {
       if (this.app.id == 'boot') return () => import('./BootAnimation.vue')
 
-      return defineAsyncComponent(
-        () => this.importComponent(this.app.name, this.app.version!)
-      )
+      return defineAsyncComponent(() => this.importComponent())
+    },
+
+    baseUrl (): string {
+      return `/static/apps/${this.app.name}/${this.app.version}`
+    },
+
+    styleUrl (): string {
+      return `${this.baseUrl}/style.css`
     },
   },
 
@@ -49,12 +56,12 @@ export default defineComponent({
   },
 
   methods: {
-    async importComponent (name: string, version: string): Promise<ReturnType<GeneratorType>> {
-      const url = `/static/apps/${name}/${version}/${name}.umd.js`
+    async importComponent (): Promise<ReturnType<GeneratorType>> {
+      const url = `${this.baseUrl}/${this.app.name}.umd.js`
 
       // This is to get around index errors when accessing unknown keys on
       // the global window object
-      const libName = `${name}@${version.replace(/\./g, '-')}`
+      const libName = `${this.app.name}@${this.app.version.replace(/\./g, '-')}`
       const castedWindow = window as any
       if (castedWindow.AwtrixComponent && castedWindow.AwtrixComponent[libName]) {
         return castedWindow.AwtrixComponent[libName]
@@ -84,8 +91,7 @@ export default defineComponent({
       // @ts-ignore
       generated.render = generate.render
       // @ts-ignore
-      generated.__scopeId = generate.__scopeID
-      // TODO: Add styles
+      generated.__scopeId = generate.__scopeId
 
       return generated
     }
