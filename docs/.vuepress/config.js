@@ -39,12 +39,12 @@ module.exports = {
         link: '/guide/',
       },
       {
-        text: 'Config',
-        link: '/config/'
+        text: 'Development',
+        link: '/development/'
       },
       {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
+        text: 'Shop',
+        link: 'https://blueforcer.de/shop/'
       }
     ],
     /*

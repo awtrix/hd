@@ -2,7 +2,7 @@ name: Build and deploy the documentation
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'docs/**'
 
