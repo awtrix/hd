@@ -6,6 +6,15 @@
       "frontend": true,
       "backend": true,
       "assets": false
+    },
+    "settings": {
+      "schnitzelGeschmack": {
+        "type": "dropdown",
+        "options": [
+          "döner",
+          "jägermeister"
+        ]
+      }
     }
   },
   "dependencies": {

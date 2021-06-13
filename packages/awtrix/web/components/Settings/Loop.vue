@@ -4,31 +4,33 @@
     <div class="available">
       <h3>Available Apps</h3>
       <Draggable class="app-list"
-        :list="available"
+        :list="available" item-key="id"
         :group="{ name: 'apps', pull: 'clone', put: false }"
         :sort="false"
         :clone="cloneApp"
       >
-        <application-banner
-          v-for="app in available"
-          :key="`${app.name}@${app.version}`"
-          :app="app"
-        />
+        <template #item="{app}">
+          <application-banner :app="app" />
+        </template>
       </Draggable>
     </div>
 
     <div class="active">
       <div class="loop">
         <h3>Rotation Apps</h3>
-        <Draggable class="app-list rotation" :list="rotation" group="apps" @change="rotationChange">
-          <application-banner v-for="app in rotation" :key="app.id" :app="app" />
+        <Draggable class="app-list rotation" :list="rotation" item-key="id" group="apps" @change="rotationChange">
+          <template #item="{app}">
+            <application-banner :app="app" />
+          </template>
         </Draggable>
      </div>
 
      <div class="background">
         <h3>Background Apps</h3>
-        <Draggable class="app-list rotation" :list="rotation" group="apps" @change="rotationChange">
-          <application-banner v-for="app in rotation" :key="app.id" :app="app" />
+        <Draggable class="app-list rotation" :list="rotation" item-key="id" group="apps" @change="rotationChange">
+          <template #item="{app}">
+            <application-banner :app="app" />
+          </template>
         </Draggable>
       </div>
     </div>

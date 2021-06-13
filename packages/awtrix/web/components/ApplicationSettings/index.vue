@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div class="flex overflow-x-scroll">
+  <div class="h-full bg-black overflow-x-scroll">
+    <button class="text-xl text-white ml-2 mt-1" @click="$emit('closeSettings')">
+      &lt; {{application.name}}
+    </button>
+    <div class="flex">
       <input-wrapper
         v-for="(options, name) in settings"
         :key="name"

@@ -8,14 +8,21 @@
         @ready="setReady(app, true)" @finished="setReady(app, false)"
         @lock="setLocked(app, true)" @unlock="setLocked(app, false)"
         @requestHidden="switchToNextApplication()" @destroy="destroy(app)"
+        @showSettings="openSettings(app)"
       />
     </div>
 
     <CircularMenu
-      v-show="false"
       class="w-full h-full absolute text-white"
       :style="{ top: `${settings.offset}px` }"
       @close="settings.offset = -480"
+    />
+
+    <ApplicationSettings
+      v-if="settingsVisible"
+      :app="activeApplication"
+      class="w-full h-full absolute top-0 left-0"
+      @closeSettings="closeSettings()"
     />
   </div>
 </template>
@@ -24,6 +31,7 @@
 import { defineComponent } from 'vue'
 import Application from './Application.vue'
 import CircularMenu from './Settings/CircularMenu.vue'
+import ApplicationSettings from './ApplicationSettings/index.vue'
 import shortid from 'shortid'
 import Hammer from 'hammerjs'
 import { debounce } from 'lodash'
@@ -37,10 +45,11 @@ enum SwitchingReason {
 }
 
 export default defineComponent({
-  components: { Application, CircularMenu },
+  components: { Application, CircularMenu, ApplicationSettings },
 
   data () {
     return {
+      settingsVisible: false,
       settings: {
         offset: -480,
         panStart: null as number | null,
@@ -91,6 +100,19 @@ export default defineComponent({
     endPanning (input: HammerInput) {
       this.settings.offset = (input.deltaY > 240) ? 0 : -480
       this.settings.panStart = null
+    },
+
+    openSettings (app: LifecycleApplication) {
+      if (app.id == this.activeApplicationID) {
+        // TODO: Reimplement lock + unlock + ready communication with server
+        // TODO: Lock app!
+        this.settingsVisible = true
+      }
+    },
+
+    closeSettings () {
+      console.log('waaa')
+      this.settingsVisible = false
     },
   },
 })

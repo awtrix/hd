@@ -1,9 +1,14 @@
 <template>
-  <div v-show="visible" class="w-full h-full">
+  <div v-show="visible" class="w-full h-full relative">
+    <link rel="stylesheet" :href="styleUrl" />
     <component :is="appComponent" :app="app" :visible="visible" :io="io"
       v-on="$listeners"
     />
-    <link rel="stylesheet" :href="styleUrl" />
+    <button
+      class="text-white absolute text-3xl right-3 top-4 cursor-pointerzs"
+      @click="$emit('showSettings')">
+      <i class="fa fa-cogs" />
+    </button>
   </div>
 </template>
 
